@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.TblBrushMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.TblBrush">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="keywords" property="keywords" />
+        <result column="amountRMB" property="amountRMB" />
+        <result column="amountRUB" property="amountRUB" />
+        <result column="shipway" property="shipway" />
+        <result column="commodityLink" property="commodityLink" />
+        <result column="commodityLinkImg" property="commodityLinkImg" />
+        <result column="evaluationInfo" property="evaluationInfo" />
+        <result column="evaluationImg" property="evaluationImg" />
+        <result column="clientName" property="clientName" />
+        <result column="clientPhone" property="clientPhone" />
+        <result column="brushName" property="brushName" />
+        <result column="brushAccount" property="brushAccount" />
+        <result column="burshSuccessImg" property="burshSuccessImg" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, keywords, amountRMB, amountRUB, shipway, commodityLink, commodityLinkImg, evaluationInfo, evaluationImg, clientName, clientPhone, brushName, brushAccount, burshSuccessImg
+    </sql>
+
+</mapper>

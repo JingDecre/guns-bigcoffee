@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.TblCategoriesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.TblCategories">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="pcode" property="pcode" />
+        <result column="pcodes" property="pcodes" />
+        <result column="name" property="name" />
+        <result column="icon" property="icon" />
+        <result column="num" property="num" />
+        <result column="levels" property="levels" />
+        <result column="tips" property="tips" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, pcode, pcodes, name, icon, num, levels, tips
+    </sql>
+
+    <select id="categoriesTreeList" resultType="com.stylefeng.guns.core.node.ZTreeNode">
+        SELECT
+        m1.id AS id,
+        (
+        CASE
+        WHEN (m2.id = 0 OR m2.id IS NULL) THEN
+        0
+        ELSE
+        m2.id
+        END
+        ) AS pId,
+        m1. NAME
+        AS NAME,
+        (
+        CASE
+        WHEN (m2.id = 0 OR m2.id IS NULL) THEN
+        'true'
+        ELSE
+        'false'
+        END
+        ) as isOpen
+        FROM
+        tbl_categories m1
+        LEFT join tbl_categories m2 ON m1.pcode = m2. CODE
+        ORDER BY
+        m1.id ASC
+    </select>
+
+</mapper>

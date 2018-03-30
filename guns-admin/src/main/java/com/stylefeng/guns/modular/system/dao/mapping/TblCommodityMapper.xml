@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.TblCommodityMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.TblCommodity">
+        <id column="id" property="id" />
+        <result column="esname" property="esname" />
+        <result column="cnname" property="cnname" />
+        <result column="categories_id" property="categoriesId" />
+        <result column="sku" property="sku" />
+        <result column="spu" property="spu" />
+        <result column="stock" property="stock" />
+        <result column="title" property="title" />
+        <result column="discount_price" property="discountPrice" />
+        <result column="origin_price" property="originPrice" />
+        <result column="color" property="color" />
+        <result column="product_size" property="productSize" />
+        <result column="weight" property="weight" />
+        <result column="package_size" property="packageSize" />
+        <result column="brands" property="brands" />
+        <result column="desc" property="desc" />
+        <result column="supplier_id" property="supplierId" />
+        <result column="supplier_cnname" property="supplierCnname" />
+        <result column="supplier_esname" property="supplierEsname" />
+        <result column="supplier_phone" property="supplierPhone" />
+        <result column="supplier_sku" property="supplierSku" />
+        <result column="purchase_price" property="purchasePrice" />
+        <result column="picture_id" property="pictureId" />
+        <result column="createtime" property="createtime" />
+        <result column="updatetime" property="updatetime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, esname, cnname, categories_id AS categoriesId, sku, spu, stock, title, discount_price AS discountPrice, origin_price AS originPrice, color, product_size AS productSize, weight, package_size AS packageSize, brands, desc, supplier_id AS supplierId, supplier_cnname AS supplierCnname, supplier_esname AS supplierEsname, supplier_phone AS supplierPhone, supplier_sku AS supplierSku, purchase_price AS purchasePrice, picture_id AS pictureId, createtime, updatetime
+    </sql>
+
+</mapper>
