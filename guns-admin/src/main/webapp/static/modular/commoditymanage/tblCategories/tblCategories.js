@@ -76,15 +76,21 @@ TblCategories.openTblCategoriesDetail = function () {
  */
 TblCategories.delete = function () {
     if (this.check()) {
-        var ajax = new $ax(Feng.ctxPath + "/tblCategories/delete", function (data) {
-            Feng.success("删除成功!");
-            TblCategories.table.refresh();
-        }, function (data) {
-            Feng.error("删除失败!" + data.responseJSON.message + "!");
-        });
-        ajax.set("tblCategoriesId",this.seItem.id);
-        ajax.start();
+        var operation = function () {
+            var ajax = new $ax(Feng.ctxPath + "/tblCategories/delete", function (data) {
+                Feng.success("删除成功!");
+                TblCategories.table.refresh();
+            }, function (data) {
+                Feng.error("删除失败!" + data.responseJSON.message + "!");
+            });
+            ajax.set("tblCategoriesId",this.seItem.id);
+            ajax.start();
+        }
+        Feng.confirm("是否刪除该分类?", operation);
+
     }
+
+
 };
 
 /**

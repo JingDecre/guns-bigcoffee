@@ -21,10 +21,6 @@
         <result column="brands" property="brands" />
         <result column="desc" property="desc" />
         <result column="supplier_id" property="supplierId" />
-        <result column="supplier_cnname" property="supplierCnname" />
-        <result column="supplier_esname" property="supplierEsname" />
-        <result column="supplier_phone" property="supplierPhone" />
-        <result column="supplier_sku" property="supplierSku" />
         <result column="purchase_price" property="purchasePrice" />
         <result column="picture_id" property="pictureId" />
         <result column="createtime" property="createtime" />
@@ -32,8 +28,26 @@
     </resultMap>
 
     <!-- 通用查询结果列 -->
+    <!--<sql id="Base_Column_List">
+        id, esname, cnname, categories_id AS categoriesId, sku, spu, stock, title, discount_price AS discountPrice, origin_price AS originPrice, color, product_size AS productSize, weight, package_size AS packageSize, brands, desc, supplier_id AS supplierId, purchase_price AS purchasePrice, picture_id AS pictureId, createtime, updatetime
+    </sql>-->
     <sql id="Base_Column_List">
-        id, esname, cnname, categories_id AS categoriesId, sku, spu, stock, title, discount_price AS discountPrice, origin_price AS originPrice, color, product_size AS productSize, weight, package_size AS packageSize, brands, desc, supplier_id AS supplierId, supplier_cnname AS supplierCnname, supplier_esname AS supplierEsname, supplier_phone AS supplierPhone, supplier_sku AS supplierSku, purchase_price AS purchasePrice, picture_id AS pictureId, createtime, updatetime
+        tcd.id AS id, tcd.esname AS esname, tcd.cnname AS cnname, tcd.categories_id AS categoriesId, tcg.name AS categoriesName, tcd.sku AS sku,
+        tcd.spu AS spu, tcd.stock AS stock, tcd.title AS title, tcd.discount_price AS discountPrice, origin_price AS originPrice, tcd.color AS color,
+        tcd.product_size AS productSize, weight, tcd.package_size AS packageSize, tcd.brands AS brands, tcd.desc AS `desc`, tcd.supplier_id AS supplierId,
+        tsp.cnname AS supplierCnName, tsp.esname AS supplierEsName, tsp.sku AS supplierSku, tsp.phone AS supplierPhone,
+        tcd.purchase_price AS purchasePrice, tcd.picture_id AS pictureId, tcd.createtime AS createtime, tcd.updatetime AS updatetime
     </sql>
+
+    <select id="selectCommodityList" resultType="map">
+        select
+        <include refid="Base_Column_List" />
+        from tbl_commodity tcd
+        LEFT JOIN tbl_categories tcg ON tcd.categories_id = tcg.id
+        LEFT JOIN  tbl_supplier tsp ON tcd.supplier_id = tsp.id
+        <if test="condition != null">
+            where cnname like CONCAT('%',#{condition},'%') OR esname like CONCAT('%',#{condition},'%')
+        </if>
+    </select>
 
 </mapper>

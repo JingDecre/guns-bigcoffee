@@ -1,41 +1,51 @@
 @layout("/common/_container.html"){
 <div class="ibox float-e-margins">
     <div class="ibox-content">
-        <div class="form-horizontal">
+        <div class="form-horizontal" id="categoriesInfoForm">
 
             <input type="hidden" id="id" value="${item.id}">
+            <input type="hidden" id="supplierIdValue" value="${item.supplierId}">
 
             <div class="row">
                 <div class="col-sm-6 b-r">
-                            <#input id="id" name="主键id" value="${item.id}" underline="true"/>
-                            <#input id="esname" name="货品英文" value="${item.esname}" underline="true"/>
-                            <#input id="cnname" name="货品中文" value="${item.cnname}" underline="true"/>
-                            <#input id="categoriesId" name="货品分类" value="${item.categoriesId}" underline="true"/>
-                            <#input id="sku" name="货品sku" value="${item.sku}" underline="true"/>
-                            <#input id="spu" name="货品spu" value="${item.spu}" underline="true"/>
-                            <#input id="stock" name="库存" value="${item.stock}" underline="true"/>
-                            <#input id="title" name="标题" value="${item.title}" underline="true"/>
-                            <#input id="discountPrice" name="折扣价格" value="${item.discountPrice}" underline="true"/>
-                            <#input id="originPrice" name="原价格" value="${item.originPrice}" underline="true"/>
-                            <#input id="color" name="颜色" value="${item.color}" underline="true"/>
-                            <#input id="productSize" name="产品尺寸" value="${item.productSize}" underline="true"/>
-                            <#input id="weight" name="重量" value="${item.weight}" />
+                    <#input id="esname" name="英文名称" value="${item.esname}" underline="false"/>
+                    <#input id="cnname" name="中文名称" value="${item.cnname}" underline="true"/>
+                    <#input id="categoriesName" name="货品分类" value="${categoriesName}" hidden="categoriesId"
+                        hiddenValue="${item.categoriesId}" readonly="readonly"
+                        clickFun="TblCommodityInfoDlg.showCategoriesSelectTree(); return false;"
+                        style="background-color: #ffffff !important;"/>
+                    <#input id="sku" name="货品sku" value="${item.sku}" underline="true"/>
+                    <#input id="spu" name="货品spu" value="${item.spu}" underline="false"/>
+                    <#input id="stock" name="库存" value="${item.stock}" underline="true"/>
+                    <#input id="title" name="标题" value="${item.title}" underline="false"/>
+                    <#input id="discountPrice" name="折扣价格" value="${item.discountPrice}" underline="true"/>
+                    <#input id="originPrice" name="原价格" value="${item.originPrice}" underline="false"/>
                 </div>
 
                 <div class="col-sm-6">
-                            <#input id="packageSize" name="包裹尺寸" value="${item.packageSize}" underline="true"/>
-                            <#input id="brands" name="品牌" value="${item.brands}" underline="true"/>
-                            <#input id="desc" name="描述" value="${item.desc}" underline="true"/>
-                            <#input id="supplierId" name="供应商" value="${item.supplierId}" underline="true"/>
-                            <#input id="supplierCnname" name="供应商中文名称" value="${item.supplierCnname}" underline="true"/>
-                            <#input id="supplierEsname" name="供应商外文名称" value="${item.supplierEsname}" underline="true"/>
-                            <#input id="supplierPhone" name="供应商联系方式" value="${item.supplierPhone}" underline="true"/>
-                            <#input id="supplierSku" name="供应商sku" value="${item.supplierSku}" underline="true"/>
-                            <#input id="purchasePrice" name="采购价" value="${item.purchasePrice}" underline="true"/>
-                            <#input id="pictureId" name="产品图片id" value="${item.pictureId}" underline="true"/>
-                            <#input id="createtime" name="商品添加时间" value="${item.createtime}" underline="true"/>
-                            <#input id="updatetime" name="商品更新时间" value="${item.updatetime}" />
+                    <#input id="productSize" name="产品尺寸" value="${item.productSize}" underline="false"/>
+                    <#input id="weight" name="重量" value="${item.weight}" underline="true"/>
+                    <#input id="packageSize" name="包裹尺寸" value="${item.packageSize}" underline="false"/>
+                    <#input id="brands" name="品牌" value="${item.brands}" underline="true"/>
+                    <#input id="color" name="颜色" value="${item.color}" />
+                    <#input id="desc" name="描述" value="${item.desc}" underline="true"/>
+                    <#select id="supplierId" name="供应商" underline="false">
+                        <option value="">请选择-----</option>
+                        @ for(supplier in supplierList){
+                        <option value="${supplier.id}">${supplier.name}</option>
+                        @}
+                    </#select>
+                    <#input id="purchasePrice" name="采购价" value="${item.purchasePrice}" underline="true"/>
+                    <!--<#input id="pictureId" name="产品图片id" value="${item.pictureId}" underline="true"/>
+                    <#input id="createtime" name="商品添加时间" value="${item.createtime}" underline="true"/>
+                    <#input id="updatetime" name="商品更新时间" value="${item.updatetime}" />-->
                 </div>
+            </div>
+
+            <!-- 这是分类下拉框 -->
+            <div id="categoriesContent" class="menuContent"
+                 style="display: none; position: absolute; z-index: 200;">
+                <ul id="categoriesTree" class="ztree tree-box" style="width: 250px !important;"></ul>
             </div>
 
             <div class="row btn-group-m-t">

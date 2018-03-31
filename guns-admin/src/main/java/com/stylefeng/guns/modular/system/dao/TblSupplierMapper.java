@@ -17,4 +17,10 @@ import java.util.Map;
  */
 public interface TblSupplierMapper extends BaseMapper<TblSupplier> {
 
+    /**
+     * 获取供应商id，名称列表
+     * @return
+     */
+    List<Map<String, Object>> selectIdAndNameList();
+
 }

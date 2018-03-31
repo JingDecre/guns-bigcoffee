@@ -78,15 +78,20 @@ TblSupplier.openTblSupplierDetail = function () {
  */
 TblSupplier.delete = function () {
     if (this.check()) {
-        var ajax = new $ax(Feng.ctxPath + "/tblSupplier/delete", function (data) {
-            Feng.success("删除成功!");
-            TblSupplier.table.refresh();
-        }, function (data) {
-            Feng.error("删除失败!" + data.responseJSON.message + "!");
-        });
-        ajax.set("tblSupplierId",this.seItem.id);
-        ajax.start();
+        var operation = function () {
+            var ajax = new $ax(Feng.ctxPath + "/tblSupplier/delete", function (data) {
+                Feng.success("删除成功!");
+                TblSupplier.table.refresh();
+            }, function (data) {
+                Feng.error("删除失败!" + data.responseJSON.message + "!");
+            });
+            ajax.set("tblSupplierId",this.seItem.id);
+            ajax.start();
+        }
+        Feng.confirm("是否刪除该供应商?", operation);
     }
+
+
 };
 
 /**

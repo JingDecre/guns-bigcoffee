@@ -16,7 +16,7 @@ import java.io.Serializable;
  * 货品管理表
  * </p>
  *
- * @author stylefeng123
+ * @author decre123
  * @since 2018-03-31
  */
 @TableName("tbl_commodity")
@@ -99,26 +99,6 @@ public class TblCommodity extends Model<TblCommodity> {
      */
     @TableField("supplier_id")
     private String supplierId;
-    /**
-     * 供应商中文名称
-     */
-    @TableField("supplier_cnname")
-    private String supplierCnname;
-    /**
-     * 供应商外文名称
-     */
-    @TableField("supplier_esname")
-    private String supplierEsname;
-    /**
-     * 供应商联系方式
-     */
-    @TableField("supplier_phone")
-    private String supplierPhone;
-    /**
-     * 供应商sku
-     */
-    @TableField("supplier_sku")
-    private String supplierSku;
     /**
      * 采购价
      */
@@ -275,38 +255,6 @@ public class TblCommodity extends Model<TblCommodity> {
         this.supplierId = supplierId;
     }
 
-    public String getSupplierCnname() {
-        return supplierCnname;
-    }
-
-    public void setSupplierCnname(String supplierCnname) {
-        this.supplierCnname = supplierCnname;
-    }
-
-    public String getSupplierEsname() {
-        return supplierEsname;
-    }
-
-    public void setSupplierEsname(String supplierEsname) {
-        this.supplierEsname = supplierEsname;
-    }
-
-    public String getSupplierPhone() {
-        return supplierPhone;
-    }
-
-    public void setSupplierPhone(String supplierPhone) {
-        this.supplierPhone = supplierPhone;
-    }
-
-    public String getSupplierSku() {
-        return supplierSku;
-    }
-
-    public void setSupplierSku(String supplierSku) {
-        this.supplierSku = supplierSku;
-    }
-
     public BigDecimal getPurchasePrice() {
         return purchasePrice;
     }
@@ -364,10 +312,6 @@ public class TblCommodity extends Model<TblCommodity> {
         ", brands=" + brands +
         ", desc=" + desc +
         ", supplierId=" + supplierId +
-        ", supplierCnname=" + supplierCnname +
-        ", supplierEsname=" + supplierEsname +
-        ", supplierPhone=" + supplierPhone +
-        ", supplierSku=" + supplierSku +
         ", purchasePrice=" + purchasePrice +
         ", pictureId=" + pictureId +
         ", createtime=" + createtime +

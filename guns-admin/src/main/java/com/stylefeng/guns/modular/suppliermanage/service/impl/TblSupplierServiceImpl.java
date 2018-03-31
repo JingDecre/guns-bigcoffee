@@ -6,6 +6,10 @@ import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 货品供应商管理表 服务实现类
@@ -17,4 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class TblSupplierServiceImpl extends ServiceImpl<TblSupplierMapper, TblSupplier> implements ITblSupplierService {
 
+    @Resource
+    TblSupplierMapper tblSupplierMapper;
+
+    @Override
+    public List<Map<String, Object>> selectIdAndNameList() {
+        return tblSupplierMapper.selectIdAndNameList();
+    }
 }

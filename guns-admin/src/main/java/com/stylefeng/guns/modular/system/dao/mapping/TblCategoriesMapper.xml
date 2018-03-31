@@ -40,7 +40,7 @@
         ELSE
         'false'
         END
-        ) as isOpen
+        ) AS isOpen
         FROM
         tbl_categories m1
         LEFT join tbl_categories m2 ON m1.pcode = m2. CODE

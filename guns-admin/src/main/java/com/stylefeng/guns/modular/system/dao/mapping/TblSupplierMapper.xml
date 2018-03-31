@@ -21,4 +21,8 @@
         id, suppliercode, cnname, esname, sku, contacts, phone, oicq, email, licenseid
     </sql>
 
+    <select id="selectIdAndNameList" resultType="map">
+        SELECT id AS id, CONCAT(cnname, '(', esname, ')') AS `name`
+        FROM tbl_supplier
+    </select>
 </mapper>

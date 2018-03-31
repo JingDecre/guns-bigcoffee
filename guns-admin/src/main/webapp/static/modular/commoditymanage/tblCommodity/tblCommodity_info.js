@@ -2,7 +2,53 @@
  * 初始化货品管理详情对话框
  */
 var TblCommodityInfoDlg = {
-    tblCommodityInfoData : {}
+    tblCommodityInfoData : {},
+    categoriesZtree: null,
+    validateFields: {
+        cnname: {
+            validators: {
+                notEmpty: {
+                    message: '中文名称不能为空'
+                }
+            }
+        },
+        sku: {
+            validators: {
+                notEmpty: {
+                    message: 'sku不能为空'
+                }
+            }
+        },
+        stock: {
+            validators: {
+                notEmpty: {
+                    message: '库存不能为空'
+                }
+            }
+        },
+        productSize: {
+            validators: {
+                notEmpty: {
+                    message: '产品尺寸不能为空'
+                }
+            }
+        },
+        weight: {
+            validators: {
+                notEmpty: {
+                    message: '产品重量不能为空'
+                }
+            }
+        },
+        supplierId: {
+            validators: {
+                notEmpty: {
+                    message: '供应商不能为空'
+                }
+            }
+        }
+
+    }
 };
 
 /**
@@ -62,15 +108,42 @@ TblCommodityInfoDlg.collectData = function() {
     .set('brands')
     .set('desc')
     .set('supplierId')
-    .set('supplierCnname')
-    .set('supplierEsname')
-    .set('supplierPhone')
-    .set('supplierSku')
     .set('purchasePrice')
-    .set('pictureId')
+    /*.set('pictureId')*/
     .set('createtime')
     .set('updatetime');
 }
+
+/**
+ * 点击货品分类input框时
+ *
+ * @param e
+ * @param treeId
+ * @param treeNode
+ * @returns
+ */
+TblCommodityInfoDlg.onClickCategories = function(e, treeId, treeNode) {
+    $("#categoriesName").attr("value", TblCommodityInfoDlg.categoriesZtree.getSelectedVal());
+    $("#categoriesId").attr("value", treeNode.id);
+}
+
+/**
+ * 显示分类选择的树
+ *
+ * @returns
+ */
+TblCommodityInfoDlg.showCategoriesSelectTree = function () {
+    Feng.showInputTree("categoriesName", "categoriesContent");
+}
+
+/**
+ * 验证数据是否为空
+ */
+TblCommodityInfoDlg.validate = function () {
+    $('#categoriesInfoForm').data("bootstrapValidator").resetForm();
+    $('#categoriesInfoForm').bootstrapValidator('validate');
+    return $("#categoriesInfoForm").data('bootstrapValidator').isValid();
+};
 
 /**
  * 提交添加
@@ -79,6 +152,10 @@ TblCommodityInfoDlg.addSubmit = function() {
 
     this.clearData();
     this.collectData();
+
+    if (!this.validate()) {
+        return;
+    }
 
     //提交信息
     var ajax = new $ax(Feng.ctxPath + "/tblCommodity/add", function(data){
@@ -100,6 +177,10 @@ TblCommodityInfoDlg.editSubmit = function() {
     this.clearData();
     this.collectData();
 
+    if (!this.validate()) {
+        return;
+    }
+
     //提交信息
     var ajax = new $ax(Feng.ctxPath + "/tblCommodity/update", function(data){
         Feng.success("修改成功!");
@@ -113,5 +194,14 @@ TblCommodityInfoDlg.editSubmit = function() {
 }
 
 $(function() {
-
+    Feng.initValidator("categoriesInfoForm", TblCommodityInfoDlg.validateFields);
+    var categoriesTree = new $ZTree("categoriesTree", "/tblCategories/selectCategoriesTreeList" );
+    categoriesTree.bindOnClick(TblCommodityInfoDlg.onClickCategories);
+    categoriesTree.init();
+    TblCommodityInfoDlg.categoriesZtree = categoriesTree;
+    if($("#supplierIdValue").val() == undefined){
+        $("#supplierId").val("");
+    }else{
+        $("#supplierId").val($("#supplierIdValue").val());
+    }
 });

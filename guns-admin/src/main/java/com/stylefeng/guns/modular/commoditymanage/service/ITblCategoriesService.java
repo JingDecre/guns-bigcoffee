@@ -24,7 +24,6 @@ public interface ITblCategoriesService extends IService<TblCategories> {
      */
     List<ZTreeNode> categoriesTreeList();
 
-
     /**
      * 删除货品分类
      *

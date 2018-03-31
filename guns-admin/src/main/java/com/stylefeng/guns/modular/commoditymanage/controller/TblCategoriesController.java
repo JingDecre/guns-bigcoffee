@@ -65,6 +65,10 @@ public class TblCategoriesController extends BaseController {
             throw new GunsException(BizExceptionEnum.REQUEST_NULL);
         }
         TblCategories tblCategories = tblCategoriesService.selectById(tblCategoriesId);
+        //获取父级分类名称
+        EntityWrapper<TblCategories> entityWrapper = new EntityWrapper<>();
+        Wrapper<TblCategories> wrapper = entityWrapper.eq("code", tblCategories.getPcode());
+        TblCategories fCategories = this.tblCategoriesService.selectOne(wrapper);
 
         TblCategories temp = new TblCategories();
         temp.setCode(tblCategories.getCode());
@@ -78,7 +82,8 @@ public class TblCategoriesController extends BaseController {
         }
 
         Map<String, Object> tblCategoriesMap = BeanKit.beanToMap(tblCategories);
-        tblCategoriesMap.put("pcodeName", ConstantFactory.me().getMenuNameByCode(temp.getCode()));
+
+        tblCategoriesMap.put("pcodeName", (ToolUtil.isEmpty(fCategories)) ? "顶级" : fCategories.getName());
         model.addAttribute("item",tblCategoriesMap);
         LogObjectHolder.me().set(tblCategories);
         return PREFIX + "tblCategories_edit.html";
