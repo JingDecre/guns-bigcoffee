@@ -6,6 +6,10 @@ import com.stylefeng.guns.modular.logisticsmanage.service.ITblLogisticsService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 物流管理 服务实现类
@@ -17,4 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class TblLogisticsServiceImpl extends ServiceImpl<TblLogisticsMapper, TblLogistics> implements ITblLogisticsService {
 
+    @Resource
+    TblLogisticsMapper tblLogisticsMapper;
+
+    @Override
+    public List<Map<String, Object>> selectIdAndCodeList() {
+        return tblLogisticsMapper.selectIdAndCodeList();
+    }
 }

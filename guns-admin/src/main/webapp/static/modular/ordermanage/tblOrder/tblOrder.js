@@ -14,9 +14,10 @@ var TblOrder = {
 TblOrder.initColumn = function () {
     return [
         {field: 'selectItem', radio: true},
-            {title: '主键id', field: 'id', visible: true, align: 'center', valign: 'middle'},
+            {title: 'id', field: 'id', visible: true, align: 'center', valign: 'middle'},
             {title: '订单号', field: 'code', visible: true, align: 'center', valign: 'middle'},
-            {title: '货品id', field: 'commodityId', visible: true, align: 'center', valign: 'middle'},
+            /*{title: '货品id', field: 'commodityIds', visible: true, align: 'center', valign: 'middle'},*/
+            {title: '订单货品详情', field: 'commodityDetails', visible: true, align: 'center', valign: 'middle'},
             {title: '数量', field: 'quantity', visible: true, align: 'center', valign: 'middle'},
             {title: '重量', field: 'weight', visible: true, align: 'center', valign: 'middle'},
             {title: '收件人姓名', field: 'recipientName', visible: true, align: 'center', valign: 'middle'},
@@ -28,7 +29,7 @@ TblOrder.initColumn = function () {
             {title: '详细地址', field: 'detailAddress', visible: true, align: 'center', valign: 'middle'},
             {title: '邮编', field: 'zipcode', visible: true, align: 'center', valign: 'middle'},
             {title: '收件人联系电话', field: 'recipientPhone', visible: true, align: 'center', valign: 'middle'},
-            {title: '物流单号', field: 'logisticsId', visible: true, align: 'center', valign: 'middle'}
+            {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'}
     ];
 };
 
@@ -90,7 +91,11 @@ TblOrder.delete = function () {
             Feng.error("删除失败!" + data.responseJSON.message + "!");
         });
         ajax.set("tblOrderId",this.seItem.id);
-        ajax.start();
+        var operation = function () {
+            ajax.start();
+        }
+        Feng.confirm("是否刪除该订单?", operation);
+
     }
 };
 

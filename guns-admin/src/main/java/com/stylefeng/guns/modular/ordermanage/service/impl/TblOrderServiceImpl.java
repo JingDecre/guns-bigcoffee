@@ -6,6 +6,10 @@ import com.stylefeng.guns.modular.ordermanage.service.ITblOrderService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 订单管理表 服务实现类
@@ -17,4 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class TblOrderServiceImpl extends ServiceImpl<TblOrderMapper, TblOrder> implements ITblOrderService {
 
+    @Resource
+    TblOrderMapper tblOrderMapper;
+
+    @Override
+    public List<Map<String, Object>> selectOrderList(String condition) {
+        return tblOrderMapper.selectOrderList(condition);
+    }
 }

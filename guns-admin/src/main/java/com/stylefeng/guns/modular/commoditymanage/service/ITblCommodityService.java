@@ -23,4 +23,11 @@ public interface ITblCommodityService extends IService<TblCommodity> {
      */
     List<Map<String, Object>> selectCommodityList(String condition);
 
+    /**
+     * 根据ids获取产品名称列表
+     * @param ids
+     * @return
+     */
+    List<String> selectNameByIds(String ids);
+
 }

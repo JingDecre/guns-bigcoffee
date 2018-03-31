@@ -24,4 +24,11 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
      */
     List<Map<String, Object>> selectCommodityList(@Param("condition") String condition);
 
+    /**
+     * 根据ids查询货品名称列表
+     * @param ids
+     * @return
+     */
+    List<String> selsectNameByIds(@Param("ids")String ids);
+
 }

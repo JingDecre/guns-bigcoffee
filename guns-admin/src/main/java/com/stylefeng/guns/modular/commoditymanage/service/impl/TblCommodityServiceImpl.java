@@ -28,4 +28,9 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
     public List<Map<String, Object>> selectCommodityList(String condition) {
         return tblCommodityMapper.selectCommodityList(condition);
     }
+
+    @Override
+    public List<String> selectNameByIds(String ids) {
+        return tblCommodityMapper.selsectNameByIds(ids);
+    }
 }

@@ -50,4 +50,16 @@
         </if>
     </select>
 
+    <select id="selsectNameByIds">
+        select (
+        CASE tc.cnname
+        WHEN (tc.cnname IS NULL)
+        THEN tc.esname
+        ELSE tc.cnname
+        END
+        ) AS commodityName
+        from tbl_commodity tc
+        where tc.id IN (#{ids})
+    </select>
+
 </mapper>

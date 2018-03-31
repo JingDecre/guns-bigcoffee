@@ -34,8 +34,13 @@ public class TblOrder extends Model<TblOrder> {
     /**
      * 货品id
      */
-    @TableField("commodity_id")
-    private String commodityId;
+    @TableField("commodity_ids")
+    private String commodityIds;
+    /**
+     * 订单货品详情
+     */
+    @TableField("commodity_details")
+    private String commodityDetails;
     /**
      * 数量
      */
@@ -107,12 +112,20 @@ public class TblOrder extends Model<TblOrder> {
         this.code = code;
     }
 
-    public String getCommodityId() {
-        return commodityId;
+    public String getCommodityIds() {
+        return commodityIds;
     }
 
-    public void setCommodityId(String commodityId) {
-        this.commodityId = commodityId;
+    public void setCommodityIds(String commodityIds) {
+        this.commodityIds = commodityIds;
+    }
+
+    public String getCommodityDetails() {
+        return commodityDetails;
+    }
+
+    public void setCommodityDetails(String commodityDetails) {
+        this.commodityDetails = commodityDetails;
     }
 
     public Integer getQuantity() {
@@ -221,7 +234,8 @@ public class TblOrder extends Model<TblOrder> {
         return "TblOrder{" +
         "id=" + id +
         ", code=" + code +
-        ", commodityId=" + commodityId +
+        ", commodityIds=" + commodityIds +
+        ", commodityDetails=" + commodityDetails +
         ", quantity=" + quantity +
         ", weight=" + weight +
         ", recipientName=" + recipientName +

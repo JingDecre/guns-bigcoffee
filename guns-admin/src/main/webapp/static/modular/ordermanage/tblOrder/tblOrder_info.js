@@ -2,7 +2,52 @@
  * 初始化订单管理详情对话框
  */
 var TblOrderInfoDlg = {
-    tblOrderInfoData : {}
+    tblOrderInfoData : {},
+    validateFields: {
+        /*cnname: {
+            validators: {
+                notEmpty: {
+                    message: '中文名称不能为空'
+                }
+            }
+        },
+        sku: {
+            validators: {
+                notEmpty: {
+                    message: 'sku不能为空'
+                }
+            }
+        },
+        stock: {
+            validators: {
+                notEmpty: {
+                    message: '库存不能为空'
+                }
+            }
+        },
+        productSize: {
+            validators: {
+                notEmpty: {
+                    message: '产品尺寸不能为空'
+                }
+            }
+        },
+        weight: {
+            validators: {
+                notEmpty: {
+                    message: '产品重量不能为空'
+                }
+            }
+        },
+        supplierId: {
+            validators: {
+                notEmpty: {
+                    message: '供应商不能为空'
+                }
+            }
+        }*/
+
+    }
 };
 
 /**
@@ -47,7 +92,8 @@ TblOrderInfoDlg.collectData = function() {
     this
     .set('id')
     .set('code')
-    .set('commodityId')
+    .set('commodityIds')
+    .set('commodityDetails')
     .set('quantity')
     .set('weight')
     .set('recipientName')
@@ -63,12 +109,25 @@ TblOrderInfoDlg.collectData = function() {
 }
 
 /**
+ * 验证数据是否为空
+ */
+TblOrderInfoDlg.validate = function () {
+    $('#orderInfoForm').data("bootstrapValidator").resetForm();
+    $('#orderInfoForm').bootstrapValidator('validate');
+    return $("#orderInfoForm").data('bootstrapValidator').isValid();
+};
+
+/**
  * 提交添加
  */
 TblOrderInfoDlg.addSubmit = function() {
 
     this.clearData();
     this.collectData();
+
+    if (!this.validate()) {
+        return;
+    }
 
     //提交信息
     var ajax = new $ax(Feng.ctxPath + "/tblOrder/add", function(data){
@@ -90,6 +149,10 @@ TblOrderInfoDlg.editSubmit = function() {
     this.clearData();
     this.collectData();
 
+    if (!this.validate()) {
+        return;
+    }
+
     //提交信息
     var ajax = new $ax(Feng.ctxPath + "/tblOrder/update", function(data){
         Feng.success("修改成功!");
@@ -103,5 +166,12 @@ TblOrderInfoDlg.editSubmit = function() {
 }
 
 $(function() {
+    Feng.initValidator("orderInfoForm", TblOrderInfoDlg.validateFields);
+    if($("#logisticsIdValue").val() == undefined){
+        $("#logisticsId").val("");
+    }else{
+        $("#logisticsId").attr("disabled", "disabled");
+        $("#logisticsId").val($("#logisticsIdValue").val());
+    }
 
 });
