@@ -1,0 +1,33 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal"  id="logisticsInfoForm">
+
+            <input type="hidden" id="id" value="${item.id}">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                    <#input id="code" name="物流单号" value="${item.code}" underline="true"/>
+                    <#input id="way" name="物流方式" value="${item.way}" underline="true"/>
+                    <#input id="unit" name="物流承接单位" value="${item.unit}" />
+                </div>
+
+                <div class="col-sm-6">
+                    <#input id="customerPhone" name="客服电话" value="${item.customerPhone}" underline="true"/>
+                    <#input id="trackingUrl" name="订单追踪网址" value="${item.trackingUrl}" underline="true"/>
+                    <#input id="position" name="物流当前位置" value="${item.position}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="TblLogisticsInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="TblLogisticsInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/logisticsmanage/tblLogistics/tblLogistics_info.js"></script>
+@}

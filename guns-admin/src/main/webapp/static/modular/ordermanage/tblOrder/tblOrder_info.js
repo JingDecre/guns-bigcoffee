@@ -47,22 +47,19 @@ TblOrderInfoDlg.collectData = function() {
     this
     .set('id')
     .set('code')
-    .set('commoditysku')
-    .set('commoditycnname')
-    .set('commodityid')
-    .set('commoditynum')
+    .set('commodityId')
+    .set('quantity')
     .set('weight')
-    .set('recipientname')
-    .set('transactiondate')
-    .set('streetaddress')
-    .set('city')
-    .set('state')
-    .set('zipcode')
+    .set('recipientName')
+    .set('transactionDate')
     .set('country')
-    .set('phone')
-    .set('logisticscode')
-    .set('logisticsway')
-    .set('trackingURL');
+    .set('province')
+    .set('city')
+    .set('county')
+    .set('detailAddress')
+    .set('zipcode')
+    .set('recipientPhone')
+    .set('logisticsId');
 }
 
 /**

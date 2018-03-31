@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.TblLogisticsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.TblLogistics">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="way" property="way" />
+        <result column="unit" property="unit" />
+        <result column="customer_phone" property="customerPhone" />
+        <result column="tracking_url" property="trackingUrl" />
+        <result column="position" property="position" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, way, unit, customer_phone AS customerPhone, tracking_url AS trackingUrl, position
+    </sql>
+
+</mapper>

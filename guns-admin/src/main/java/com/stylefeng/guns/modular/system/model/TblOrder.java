@@ -3,8 +3,8 @@ package com.stylefeng.guns.modular.system.model;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.enums.IdType;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
@@ -15,7 +15,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author decre123
- * @since 2018-03-29
+ * @since 2018-03-31
  */
 @TableName("tbl_order")
 public class TblOrder extends Model<TblOrder> {
@@ -32,21 +32,14 @@ public class TblOrder extends Model<TblOrder> {
      */
     private String code;
     /**
-     * 货品sku码
-     */
-    private String commoditysku;
-    /**
-     * 货品中文名称
-     */
-    private String commoditycnname;
-    /**
      * 货品id
      */
-    private String commodityid;
+    @TableField("commodity_id")
+    private String commodityId;
     /**
-     * 商品数量
+     * 数量
      */
-    private Integer commoditynum;
+    private Integer quantity;
     /**
      * 重量
      */
@@ -54,47 +47,48 @@ public class TblOrder extends Model<TblOrder> {
     /**
      * 收件人姓名
      */
-    private String recipientname;
+    @TableField("recipient_name")
+    private String recipientName;
     /**
-     * 订单日期
+     * 订单时间
      */
-    private Date transactiondate;
-    /**
-     * 街道地址
-     */
-    private String streetaddress;
-    /**
-     * 城市
-     */
-    private String city;
-    /**
-     * 州
-     */
-    private String state;
-    /**
-     * 邮编
-     */
-    private String zipcode;
+    @TableField("transaction_date")
+    private String transactionDate;
     /**
      * 国家
      */
     private String country;
     /**
-     * 联系电话
+     * 州 | 省
      */
-    private String phone;
+    private String province;
+    /**
+     * 城市
+     */
+    private String city;
+    /**
+     * 县 | 区 | 市
+     */
+    private String county;
+    /**
+     * 详细地址
+     */
+    @TableField("detail_address")
+    private String detailAddress;
+    /**
+     * 邮编
+     */
+    private String zipcode;
+    /**
+     * 收件人联系电话
+     */
+    @TableField("recipient_phone")
+    private String recipientPhone;
     /**
      * 物流单号
      */
-    private String logisticscode;
-    /**
-     * 物流方式
-     */
-    private String logisticsway;
-    /**
-     * 追踪网址
-     */
-    private String trackingURL;
+    @TableField("logistics_id")
+    private String logisticsId;
 
 
     public Long getId() {
@@ -113,36 +107,20 @@ public class TblOrder extends Model<TblOrder> {
         this.code = code;
     }
 
-    public String getCommoditysku() {
-        return commoditysku;
+    public String getCommodityId() {
+        return commodityId;
     }
 
-    public void setCommoditysku(String commoditysku) {
-        this.commoditysku = commoditysku;
+    public void setCommodityId(String commodityId) {
+        this.commodityId = commodityId;
     }
 
-    public String getCommoditycnname() {
-        return commoditycnname;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setCommoditycnname(String commoditycnname) {
-        this.commoditycnname = commoditycnname;
-    }
-
-    public String getCommodityid() {
-        return commodityid;
-    }
-
-    public void setCommodityid(String commodityid) {
-        this.commodityid = commodityid;
-    }
-
-    public Integer getCommoditynum() {
-        return commoditynum;
-    }
-
-    public void setCommoditynum(Integer commoditynum) {
-        this.commoditynum = commoditynum;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Double getWeight() {
@@ -153,52 +131,20 @@ public class TblOrder extends Model<TblOrder> {
         this.weight = weight;
     }
 
-    public String getRecipientname() {
-        return recipientname;
+    public String getRecipientName() {
+        return recipientName;
     }
 
-    public void setRecipientname(String recipientname) {
-        this.recipientname = recipientname;
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
     }
 
-    public Date getTransactiondate() {
-        return transactiondate;
+    public String getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setTransactiondate(Date transactiondate) {
-        this.transactiondate = transactiondate;
-    }
-
-    public String getStreetaddress() {
-        return streetaddress;
-    }
-
-    public void setStreetaddress(String streetaddress) {
-        this.streetaddress = streetaddress;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setTransactionDate(String transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public String getCountry() {
@@ -209,36 +155,60 @@ public class TblOrder extends Model<TblOrder> {
         this.country = country;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getProvince() {
+        return province;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
-    public String getLogisticscode() {
-        return logisticscode;
+    public String getCity() {
+        return city;
     }
 
-    public void setLogisticscode(String logisticscode) {
-        this.logisticscode = logisticscode;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getLogisticsway() {
-        return logisticsway;
+    public String getCounty() {
+        return county;
     }
 
-    public void setLogisticsway(String logisticsway) {
-        this.logisticsway = logisticsway;
+    public void setCounty(String county) {
+        this.county = county;
     }
 
-    public String getTrackingURL() {
-        return trackingURL;
+    public String getDetailAddress() {
+        return detailAddress;
     }
 
-    public void setTrackingURL(String trackingURL) {
-        this.trackingURL = trackingURL;
+    public void setDetailAddress(String detailAddress) {
+        this.detailAddress = detailAddress;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getRecipientPhone() {
+        return recipientPhone;
+    }
+
+    public void setRecipientPhone(String recipientPhone) {
+        this.recipientPhone = recipientPhone;
+    }
+
+    public String getLogisticsId() {
+        return logisticsId;
+    }
+
+    public void setLogisticsId(String logisticsId) {
+        this.logisticsId = logisticsId;
     }
 
     @Override
@@ -251,22 +221,19 @@ public class TblOrder extends Model<TblOrder> {
         return "TblOrder{" +
         "id=" + id +
         ", code=" + code +
-        ", commoditysku=" + commoditysku +
-        ", commoditycnname=" + commoditycnname +
-        ", commodityid=" + commodityid +
-        ", commoditynum=" + commoditynum +
+        ", commodityId=" + commodityId +
+        ", quantity=" + quantity +
         ", weight=" + weight +
-        ", recipientname=" + recipientname +
-        ", transactiondate=" + transactiondate +
-        ", streetaddress=" + streetaddress +
-        ", city=" + city +
-        ", state=" + state +
-        ", zipcode=" + zipcode +
+        ", recipientName=" + recipientName +
+        ", transactionDate=" + transactionDate +
         ", country=" + country +
-        ", phone=" + phone +
-        ", logisticscode=" + logisticscode +
-        ", logisticsway=" + logisticsway +
-        ", trackingURL=" + trackingURL +
+        ", province=" + province +
+        ", city=" + city +
+        ", county=" + county +
+        ", detailAddress=" + detailAddress +
+        ", zipcode=" + zipcode +
+        ", recipientPhone=" + recipientPhone +
+        ", logisticsId=" + logisticsId +
         "}";
     }
 }

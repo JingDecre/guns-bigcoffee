@@ -16,22 +16,19 @@ TblOrder.initColumn = function () {
         {field: 'selectItem', radio: true},
             {title: '主键id', field: 'id', visible: true, align: 'center', valign: 'middle'},
             {title: '订单号', field: 'code', visible: true, align: 'center', valign: 'middle'},
-            {title: '货品sku码', field: 'commoditysku', visible: true, align: 'center', valign: 'middle'},
-            {title: '货品中文名称', field: 'commoditycnname', visible: true, align: 'center', valign: 'middle'},
-            {title: '货品id', field: 'commodityid', visible: true, align: 'center', valign: 'middle'},
-            {title: '商品数量', field: 'commoditynum', visible: true, align: 'center', valign: 'middle'},
+            {title: '货品id', field: 'commodityId', visible: true, align: 'center', valign: 'middle'},
+            {title: '数量', field: 'quantity', visible: true, align: 'center', valign: 'middle'},
             {title: '重量', field: 'weight', visible: true, align: 'center', valign: 'middle'},
-            {title: '收件人姓名', field: 'recipientname', visible: true, align: 'center', valign: 'middle'},
-            {title: '订单日期', field: 'transactiondate', visible: true, align: 'center', valign: 'middle'},
-            {title: '街道地址', field: 'streetaddress', visible: true, align: 'center', valign: 'middle'},
-            {title: '城市', field: 'city', visible: true, align: 'center', valign: 'middle'},
-            {title: '州', field: 'state', visible: true, align: 'center', valign: 'middle'},
-            {title: '邮编', field: 'zipcode', visible: true, align: 'center', valign: 'middle'},
+            {title: '收件人姓名', field: 'recipientName', visible: true, align: 'center', valign: 'middle'},
+            {title: '订单时间', field: 'transactionDate', visible: true, align: 'center', valign: 'middle'},
             {title: '国家', field: 'country', visible: true, align: 'center', valign: 'middle'},
-            {title: '联系电话', field: 'phone', visible: true, align: 'center', valign: 'middle'},
-            {title: '物流单号', field: 'logisticscode', visible: true, align: 'center', valign: 'middle'},
-            {title: '物流方式', field: 'logisticsway', visible: true, align: 'center', valign: 'middle'},
-            {title: '追踪网址', field: 'trackingURL', visible: true, align: 'center', valign: 'middle'}
+            {title: '州 | 省', field: 'province', visible: true, align: 'center', valign: 'middle'},
+            {title: '城市', field: 'city', visible: true, align: 'center', valign: 'middle'},
+            {title: '县 | 区 | 市', field: 'county', visible: true, align: 'center', valign: 'middle'},
+            {title: '详细地址', field: 'detailAddress', visible: true, align: 'center', valign: 'middle'},
+            {title: '邮编', field: 'zipcode', visible: true, align: 'center', valign: 'middle'},
+            {title: '收件人联系电话', field: 'recipientPhone', visible: true, align: 'center', valign: 'middle'},
+            {title: '物流单号', field: 'logisticsId', visible: true, align: 'center', valign: 'middle'}
     ];
 };
 

@@ -6,27 +6,24 @@
     <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.TblOrder">
         <id column="id" property="id" />
         <result column="code" property="code" />
-        <result column="commoditysku" property="commoditysku" />
-        <result column="commoditycnname" property="commoditycnname" />
-        <result column="commodityid" property="commodityid" />
-        <result column="commoditynum" property="commoditynum" />
+        <result column="commodity_id" property="commodityId" />
+        <result column="quantity" property="quantity" />
         <result column="weight" property="weight" />
-        <result column="recipientname" property="recipientname" />
-        <result column="transactiondate" property="transactiondate" />
-        <result column="streetaddress" property="streetaddress" />
-        <result column="city" property="city" />
-        <result column="state" property="state" />
-        <result column="zipcode" property="zipcode" />
+        <result column="recipient_name" property="recipientName" />
+        <result column="transaction_date" property="transactionDate" />
         <result column="country" property="country" />
-        <result column="phone" property="phone" />
-        <result column="logisticscode" property="logisticscode" />
-        <result column="logisticsway" property="logisticsway" />
-        <result column="trackingURL" property="trackingURL" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="county" property="county" />
+        <result column="detail_address" property="detailAddress" />
+        <result column="zipcode" property="zipcode" />
+        <result column="recipient_phone" property="recipientPhone" />
+        <result column="logistics_id" property="logisticsId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, code, commoditysku, commoditycnname, commodityid, commoditynum, weight, recipientname, transactiondate, streetaddress, city, state, zipcode, country, phone, logisticscode, logisticsway, trackingURL
+        id, code, commodity_id AS commodityId, quantity, weight, recipient_name AS recipientName, transaction_date AS transactionDate, country, province, city, county, detail_address AS detailAddress, zipcode, recipient_phone AS recipientPhone, logistics_id AS logisticsId
     </sql>
 
 </mapper>
