@@ -91,14 +91,14 @@ TblCommodity.openTblCommodityDetail = function () {
  */
 TblCommodity.delete = function () {
     if (this.check()) {
+        var ajax = new $ax(Feng.ctxPath + "/tblCommodity/delete", function (data) {
+            Feng.success("删除成功!");
+            TblCommodity.table.refresh();
+        }, function (data) {
+            Feng.error("删除失败!" + data.responseJSON.message + "!");
+        });
+        ajax.set("tblCommodityId",this.seItem.id);
         var operation = function () {
-            var ajax = new $ax(Feng.ctxPath + "/tblCommodity/delete", function (data) {
-                Feng.success("删除成功!");
-                TblCommodity.table.refresh();
-            }, function (data) {
-                Feng.error("删除失败!" + data.responseJSON.message + "!");
-            });
-            ajax.set("tblCommodityId",this.seItem.id);
             ajax.start();
         }
         Feng.confirm("是否刪除该货品?", operation);

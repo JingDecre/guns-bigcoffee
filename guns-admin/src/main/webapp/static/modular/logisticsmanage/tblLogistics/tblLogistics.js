@@ -75,14 +75,14 @@ TblLogistics.openTblLogisticsDetail = function () {
  */
 TblLogistics.delete = function () {
     if (this.check()) {
+        var ajax = new $ax(Feng.ctxPath + "/tblLogistics/delete", function (data) {
+            Feng.success("删除成功!");
+            TblLogistics.table.refresh();
+        }, function (data) {
+            Feng.error("删除失败!" + data.responseJSON.message + "!");
+        });
+        ajax.set("tblLogisticsId",this.seItem.id);
         var operation = function () {
-            var ajax = new $ax(Feng.ctxPath + "/tblLogistics/delete", function (data) {
-                Feng.success("删除成功!");
-                TblLogistics.table.refresh();
-            }, function (data) {
-                Feng.error("删除失败!" + data.responseJSON.message + "!");
-            });
-            ajax.set("tblLogisticsId",this.seItem.id);
             ajax.start();
         }
         Feng.confirm("是否刪除该单号?", operation);

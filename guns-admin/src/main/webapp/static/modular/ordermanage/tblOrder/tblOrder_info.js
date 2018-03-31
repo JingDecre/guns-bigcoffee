@@ -4,48 +4,93 @@
 var TblOrderInfoDlg = {
     tblOrderInfoData : {},
     validateFields: {
-        /*cnname: {
+        code: {
             validators: {
                 notEmpty: {
-                    message: '中文名称不能为空'
+                    message: '订单号不能为空'
+                },
+                regexp:{
+                    regexp: /(^[A-Za-z0-9]+$)/,
+                    message: '单号为英文或数字!'
+                }
+
+            }
+        },
+        commodityDetails: {
+            validators: {
+                notEmpty: {
+                    message: '订单详情不能为空'
                 }
             }
         },
-        sku: {
+        quantity: {
             validators: {
                 notEmpty: {
-                    message: 'sku不能为空'
-                }
-            }
-        },
-        stock: {
-            validators: {
-                notEmpty: {
-                    message: '库存不能为空'
-                }
-            }
-        },
-        productSize: {
-            validators: {
-                notEmpty: {
-                    message: '产品尺寸不能为空'
+                    message: '数量不能为空'
+                },
+                regexp:{
+                    regexp: /^(0|[1-9][0-9]*)$/,
+                    message: '数量应为自然数数!'
                 }
             }
         },
         weight: {
             validators: {
                 notEmpty: {
-                    message: '产品重量不能为空'
+                    message: '重量不能为空'
+                },
+                regexp:{
+                    regexp: /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/,
+                    message: '重量应为正数且最多两位小数!'
                 }
             }
         },
-        supplierId: {
+        recipientName: {
             validators: {
                 notEmpty: {
-                    message: '供应商不能为空'
+                    message: '收件人不能为空'
                 }
             }
-        }*/
+        },
+        recipientPhone: {
+            validators: {
+                notEmpty: {
+                    message: '收件人联系电话不能为空'
+                },
+                regexp:{
+                    regexp: /(^(13[0-9]|14[0-9]|15[0-9]|166|17[0-9]|18[0-9]|19[8|9])\d{8}$)/,
+                    message: '手机号码格式不正确!'
+                }
+            }
+        },
+        country: {
+            validators: {
+                notEmpty: {
+                    message: '国家不能为空'
+                }
+            }
+        },
+        province: {
+            validators: {
+                notEmpty: {
+                    message: '省/州不能为空'
+                }
+            }
+        },
+        city: {
+            validators: {
+                notEmpty: {
+                    message: '城市名不能为空'
+                }
+            }
+        },
+        detailAddress: {
+            validators: {
+                notEmpty: {
+                    message: '详细地址不能为空'
+                }
+            }
+        }
 
     }
 };

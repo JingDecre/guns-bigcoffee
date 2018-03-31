@@ -23,13 +23,10 @@ var TblCommodityInfoDlg = {
             validators: {
                 notEmpty: {
                     message: '库存不能为空'
-                }
-            }
-        },
-        productSize: {
-            validators: {
-                notEmpty: {
-                    message: '产品尺寸不能为空'
+                },
+                regexp:{
+                    regexp: /(^(0|[1-9][0-9]*)$)/,
+                    message: '库存应为自然数数!'
                 }
             }
         },
@@ -37,6 +34,34 @@ var TblCommodityInfoDlg = {
             validators: {
                 notEmpty: {
                     message: '产品重量不能为空'
+                },
+                regexp:{
+                    regexp: /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/,
+                    message: '重量应为正数且最多两位小数!'
+                }
+            }
+        },
+        discountPrice: {
+            validators: {
+                regexp:{
+                    regexp: /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/,
+                    message: '价格应为正数且最多两位小数!'
+                }
+            }
+        },
+        originPrice: {
+            validators: {
+                regexp:{
+                    regexp: /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/,
+                    message: '价格应为正数且最多两位小数!'
+                }
+            }
+        },
+        purchasePrice: {
+            validators: {
+                regexp:{
+                    regexp: /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/,
+                    message: '价格应为正数且最多两位小数!'
                 }
             }
         },

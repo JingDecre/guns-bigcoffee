@@ -9,6 +9,11 @@ var TblCategoriesInfoDlg = {
             validators: {
                 notEmpty: {
                     message: '分类名称不能为空'
+                },
+                stringLength: {
+                    min: 2,
+                    max: 30,
+                    message: '分类名称不能小于2位或超过30位'
                 }
             }
         },
@@ -16,6 +21,14 @@ var TblCategoriesInfoDlg = {
             validators: {
                 notEmpty: {
                     message: '分类编号不能为空'
+                },
+                digits:{
+                    message: '该值只能包含数字'
+                },
+                stringLength: {
+                    min: 1,
+                    max: 25,
+                    message: '分类名称不能小于1位或超过25位'
                 }
             }
         },
@@ -31,12 +44,18 @@ var TblCategoriesInfoDlg = {
                 notEmpty: {
                     message: '分类层级不能为空'
                 }
+            },
+            digits:{
+                message: '该值只能包含数字'
             }
         },
         num: {
             validators: {
                 notEmpty: {
                     message: '序号不能为空'
+                },
+                digits:{
+                    message: '该值只能包含数字'
                 }
             }
         }

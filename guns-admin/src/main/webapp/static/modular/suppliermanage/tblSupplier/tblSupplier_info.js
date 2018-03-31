@@ -25,10 +25,30 @@ var TblSupplierInfoDlg = {
                 }
             }
         },
+        oicq: {
+            validators: {
+                regexp:{
+                    regexp: /([1-9][0-9]{4,})/,
+                    message: 'QQ号码格式不正确!'
+                }
+            }
+        },
+        email: {
+            validators: {
+                regexp:{
+                    regexp: /(^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$)/,
+                    message: '邮箱格式不正确!'
+                }
+            }
+        },
         phone: {
             validators: {
                 notEmpty: {
                     message: '电话不能为空'
+                },
+                regexp:{
+                    regexp: /(^(13[0-9]|14[0-9]|15[0-9]|166|17[0-9]|18[0-9]|19[8|9])\d{8}$)/,
+                    message: '手机号码格式不正确!'
                 }
             }
         }
