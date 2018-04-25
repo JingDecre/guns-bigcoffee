@@ -16,6 +16,7 @@ TblOrder.initColumn = function () {
         {field: 'selectItem', radio: true},
             {title: 'id', field: 'id', visible: true, align: 'center', valign: 'middle'},
             {title: '订单号', field: 'code', visible: true, align: 'center', valign: 'middle'},
+            {title: 'sku码', field: 'sku', visible: true, align: 'center', valign: 'middle'},
             /*{title: '货品id', field: 'commodityIds', visible: true, align: 'center', valign: 'middle'},*/
             {title: '订单货品详情', field: 'commodityDetails', visible: true, align: 'center', valign: 'middle'},
             {title: '数量', field: 'quantity', visible: true, align: 'center', valign: 'middle'},
@@ -30,6 +31,30 @@ TblOrder.initColumn = function () {
             {title: '邮编', field: 'zipcode', visible: true, align: 'center', valign: 'middle'},
             {title: '收件人联系电话', field: 'recipientPhone', visible: true, align: 'center', valign: 'middle'},
             {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'}
+    ];
+};
+
+/**
+ * 表格导入导出的列名
+ */
+TblOrder.poiColumn = function () {
+    return [
+        {title: '订单号', field: 'code'},
+        {title: 'sku码', field: 'sku'},
+        /*{title: '货品id', field: 'commodityIds'},*/
+        {title: '订单货品详情', field: 'commodityDetails'},
+        {title: '数量', field: 'quantity'},
+        {title: '重量', field: 'weight'},
+        {title: '收件人姓名', field: 'recipientName'},
+        {title: '订单时间', field: 'transactionDate'},
+        {title: '国家', field: 'country'},
+        {title: '州 | 省', field: 'province'},
+        {title: '城市', field: 'city'},
+        {title: '县 | 区 | 市', field: 'county'},
+        {title: '详细地址', field: 'detailAddress'},
+        {title: '邮编', field: 'zipcode'},
+        {title: '收件人联系电话', field: 'recipientPhone'},
+        {title: '物流单号', field: 'logisticsCode'}
     ];
 };
 

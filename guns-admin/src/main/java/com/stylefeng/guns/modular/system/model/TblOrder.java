@@ -32,6 +32,10 @@ public class TblOrder extends Model<TblOrder> {
      */
     private String code;
     /**
+     * 订单sku
+     */
+    private String sku;
+    /**
      * 货品id
      */
     @TableField("commodity_ids")
@@ -110,6 +114,14 @@ public class TblOrder extends Model<TblOrder> {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 
     public String getCommodityIds() {

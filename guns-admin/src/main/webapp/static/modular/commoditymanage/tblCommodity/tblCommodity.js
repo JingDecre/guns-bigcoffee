@@ -41,6 +41,36 @@ TblCommodity.initColumn = function () {
 };
 
 /**
+ * 初始化表格的列
+ */
+TblCommodity.poiColumn = function () {
+    return [
+        {"title": "货品sku", "field": "sku"},
+        {"title": "英文名称", "field": "esname"},
+        {"title": "中文名称", "field": "cnname"},
+        {"title": "分类", "field": "categoriesName"},
+        {"title": "货品spu", "field": "spu"},
+        {"title": "库存", "field": "stock"},
+        {"title": "标题", "field": "title"},
+        {"title": "折扣价格", "field": "discountPrice"},
+        {"title": "原价格", "field": "originPrice"},
+        {"title": "颜色", "field": "color"},
+        {"title": "产品尺寸", "field": "productSize"},
+        {"title": "重量(kg)", "field": "weight"},
+        {"title": "包裹尺寸", "field": "packageSize"},
+        {"title": "品牌", "field": "brands"},
+        {"title": "描述", "field": "desc"},
+        {"title": "所属供应商(CN)", "field": "supplierCnName"},
+        {"title": "所属供应商(ES)", "field": "supplierEsName"},
+        {"title": "供应商电话", "field": "supplierPhone"},
+        {"title": "采购价", "field": "purchasePrice"},
+        /*{"title": "产品图片id", "field": "pictureId"},
+        {"title": "商品添加时间", "field": "createtime"},*/
+        {"title": "商品更新时间", "field": "updatetime"}
+    ];
+};
+
+/**
  * 检查是否选中
  */
 TblCommodity.check = function () {
@@ -104,6 +134,38 @@ TblCommodity.delete = function () {
         Feng.confirm("是否刪除该货品?", operation);
     }
 
+};
+/**
+ * 导入货品管理列表
+ */
+TblCommodity.import = function () {
+    var ajax = new $ax(Feng.ctxPath + "/tblCommodity/import", function (data) {
+        Feng.success("导入成功!");
+        TblCommodity.table.refresh();
+    }, function (data) {
+        Feng.error("导入失败!" + data.responseJSON.message + "!");
+    });
+    ajax.setData(JSON.stringify(TblCommodity.poiColumn()));
+    var operation = function () {
+        ajax.start();
+    };
+    Feng.confirm("是否导入?", operation);
+};
+/**
+ * 导出货品管理列表
+ */
+TblCommodity.export = function () {
+    var ajax = new $ax(Feng.ctxPath + "/tblCommodity/export", function (data) {
+        Feng.success("导出成功!");
+        TblCommodity.table.refresh();
+    }, function (data) {
+        Feng.error("导出失败!" + data.responseJSON.message + "!");
+    });
+    ajax.setData(JSON.stringify(TblCommodity.poiColumn()));
+    var operation = function () {
+        ajax.start();
+    };
+    Feng.confirm("是否导出?", operation);
 };
 
 /**

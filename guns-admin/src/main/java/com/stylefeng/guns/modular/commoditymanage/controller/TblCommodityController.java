@@ -6,13 +6,10 @@ import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
 import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
 import com.stylefeng.guns.modular.system.warpper.CommodityWarpper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.stylefeng.guns.core.log.LogObjectHolder;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 
@@ -125,5 +122,23 @@ public class TblCommodityController extends BaseController {
     @ResponseBody
     public Object detail(@PathVariable("tblCommodityId") Integer tblCommodityId) {
         return tblCommodityService.selectById(tblCommodityId);
+    }
+
+    /**
+     * 导入货品
+     */
+    @RequestMapping(value = "/import", method= RequestMethod.POST)
+    @ResponseBody
+    public Object importPoi(@RequestBody List<Map> columns) {
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * 导出货品
+     */
+    @RequestMapping(value = "/export", method= RequestMethod.POST)
+    @ResponseBody
+    public Object exportPoi(@RequestBody List<Map> columns) {
+        return SUCCESS_TIP;
     }
 }

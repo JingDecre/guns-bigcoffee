@@ -5,6 +5,7 @@
 		this.data = {};
 		this.dataType = "json";
 		this.async = false;
+        this.contentType = "application/json";
 		this.success = success;
 		this.error = error;
 	};
@@ -23,6 +24,7 @@
 		        type: this.type,
 		        url: this.url,
 		        dataType: this.dataType,
+				contentType: this.contentType,
 		        async: this.async,
 		        data: this.data,
 				beforeSend: function(data) {

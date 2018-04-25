@@ -10,7 +10,6 @@ import com.stylefeng.guns.modular.system.dao.TblCategoriesMapper;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

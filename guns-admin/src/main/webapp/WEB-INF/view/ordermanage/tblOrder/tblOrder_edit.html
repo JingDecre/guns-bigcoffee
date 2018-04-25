@@ -7,18 +7,19 @@
             <input type="hidden" id="logisticsIdValue" value="${item.logisticsId}">
             <div class="row">
                 <div class="col-sm-6 b-r">
-                    <#input id="code" name="订单号" value="${item.code}" underline="true"  disabled="disabled"/>
+                    <#input id="code" name="订单号" value="${item.code}" underline="false"  disabled="disabled"/>
                     <!--<#input id="commodityIds" name="货品id" value="${item.commodityIds}" underline="true"/>-->
                     <#input id="commodityDetails" name="订单货品详情" value="${item.commodityDetails}" underline="true"/>
-                    <#input id="quantity" name="数量" value="${item.quantity}" underline="true"/>
+                    <#input id="quantity" name="数量" value="${item.quantity}" underline="false"/>
                     <#input id="weight" name="重量(kg)" value="${item.weight}" underline="true"/>
-                    <#input id="recipientName" name="收件人姓名" value="${item.recipientName}" underline="true"/>
+                    <#input id="recipientName" name="收件人姓名" value="${item.recipientName}" underline="false"/>
                     <#input id="transactionDate" name="订单日期" value="${item.transactionDate}" disabled="disabled"
                         clickFun="laydate({istime: false, format: 'YYYY-MM-DD'})" underline="true"/>
                     <#input id="recipientPhone" name="收件人联系电话" value="${item.recipientPhone}"/>
                 </div>
 
                 <div class="col-sm-6">
+                    <#input id="sku" name="sku码" value="${item.sku}" underline="false"/>
                     <#input id="country" name="国家" value="${item.country}" underline="true"/>
                     <#input id="province" name="州/省" value="${item.province}" underline="true"/>
                     <#input id="city" name="城市" value="${item.city}" underline="true"/>

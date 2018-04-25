@@ -137,6 +137,7 @@ TblOrderInfoDlg.collectData = function() {
     this
     .set('id')
     .set('code')
+    .set('sku')
     .set('commodityIds')
     .set('commodityDetails')
     .set('quantity')
