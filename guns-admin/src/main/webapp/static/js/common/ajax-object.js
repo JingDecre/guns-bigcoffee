@@ -5,7 +5,6 @@
 		this.data = {};
 		this.dataType = "json";
 		this.async = false;
-        this.contentType = "application/json";
 		this.success = success;
 		this.error = error;
 	};
@@ -13,7 +12,7 @@
 	$ax.prototype = {
 		start : function () {	
 			var me = this;
-			
+
 			if (this.url.indexOf("?") == -1) {
 				this.url = this.url + "?jstime=" + new Date().getTime();
 			} else {
@@ -24,7 +23,6 @@
 		        type: this.type,
 		        url: this.url,
 		        dataType: this.dataType,
-				contentType: this.contentType,
 		        async: this.async,
 		        data: this.data,
 				beforeSend: function(data) {

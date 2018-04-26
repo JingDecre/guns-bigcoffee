@@ -9,10 +9,19 @@
                 <div class="row row-lg">
                     <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-sm-3">
-                                <#NameCon id="condition" name="名称" />
+                            <div class="col-lg-2 col-sm-12">
+                                <#NameCon id="name" name="名称" placeholder="英文名称/中文名称"/>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-lg-2 col-sm-12">
+                                <#NameCon id="categoriesName" name="分类" placeholder="分类名称"/>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <#TimeCon id="beginTime" name="更新开始日期" isTime="false" pattern="YYYY-MM-DD"/>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <#TimeCon id="endTime" name="更新结束日期" isTime="false" pattern="YYYY-MM-DD"/>
+                            </div>
+                            <div class="col-lg-2 col-sm-3">
                                 <#button name="搜索" icon="fa-search" clickFun="TblCommodity.search()"/>
                             </div>
                         </div>

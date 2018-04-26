@@ -77,8 +77,8 @@ public class TblCommodityController extends BaseController {
      */
     @RequestMapping(value = "/list")
     @ResponseBody
-    public Object list(String condition) {
-        List<Map<String, Object>> list = tblCommodityService.selectCommodityList(condition);
+    public Object list(@RequestParam(required = false) String name, @RequestParam(required = false) String categoriesName, @RequestParam(required = false) String beginTime, @RequestParam(required = false) String endTime) {
+        List<Map<String, Object>> list = tblCommodityService.selectCommodityList(name, categoriesName, beginTime, endTime);
         return super.warpObject(new CommodityWarpper(list));
     }
 

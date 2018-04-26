@@ -4,6 +4,7 @@ import com.stylefeng.guns.modular.system.model.TblCommodity;
 import com.stylefeng.guns.modular.system.dao.TblCommodityMapper;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,8 +26,8 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
     TblCommodityMapper tblCommodityMapper;
 
     @Override
-    public List<Map<String, Object>> selectCommodityList(String condition) {
-        return tblCommodityMapper.selectCommodityList(condition);
+    public List<Map<String, Object>> selectCommodityList(String name, String categoriesName,  String beginTime, String endTime) {
+        return tblCommodityMapper.selectCommodityList(name, categoriesName, beginTime, endTime);
     }
 
     @Override

@@ -139,15 +139,25 @@ TblCommodity.delete = function () {
  * 导入货品管理列表
  */
 TblCommodity.import = function () {
-    var ajax = new $ax(Feng.ctxPath + "/tblCommodity/import", function (data) {
-        Feng.success("导入成功!");
-        TblCommodity.table.refresh();
-    }, function (data) {
-        Feng.error("导入失败!" + data.responseJSON.message + "!");
-    });
-    ajax.setData(JSON.stringify(TblCommodity.poiColumn()));
     var operation = function () {
-        ajax.start();
+        $.ajax({
+            type: "post",
+            url: Feng.ctxPath + "/tblCommodity/import",
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            data: JSON.stringify(TblCommodity.poiColumn()),
+            beforeSend: function(data) {
+
+            },
+            success: function(data) {
+                Feng.success("导出成功!");
+                TblCommodity.table.refresh();
+            },
+            error: function(data) {
+                Feng.error("导出失败!" + data.responseJSON.message + "!");
+            }
+        });
     };
     Feng.confirm("是否导入?", operation);
 };
@@ -155,16 +165,27 @@ TblCommodity.import = function () {
  * 导出货品管理列表
  */
 TblCommodity.export = function () {
-    var ajax = new $ax(Feng.ctxPath + "/tblCommodity/export", function (data) {
-        Feng.success("导出成功!");
-        TblCommodity.table.refresh();
-    }, function (data) {
-        Feng.error("导出失败!" + data.responseJSON.message + "!");
-    });
-    ajax.setData(JSON.stringify(TblCommodity.poiColumn()));
     var operation = function () {
-        ajax.start();
+        $.ajax({
+            type: "post",
+            url: Feng.ctxPath + "/tblCommodity/export",
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            data: JSON.stringify(TblCommodity.poiColumn()),
+            beforeSend: function(data) {
+
+            },
+            success: function(data) {
+                Feng.success("导出成功!");
+                TblCommodity.table.refresh();
+            },
+            error: function(data) {
+                Feng.error("导出失败!" + data.responseJSON.message + "!");
+            }
+        });
     };
+
     Feng.confirm("是否导出?", operation);
 };
 
@@ -173,7 +194,10 @@ TblCommodity.export = function () {
  */
 TblCommodity.search = function () {
     var queryData = {};
-    queryData['condition'] = $("#condition").val();
+    queryData['name'] = $("#name").val();
+    queryData['categoriesName'] = $("#categoriesName").val();
+    queryData['beginTime'] = $("#beginTime").val();
+    queryData['endTime'] = $("#endTime").val();
     TblCommodity.table.refresh({query: queryData});
 };
 
