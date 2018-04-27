@@ -73,6 +73,14 @@ public class TblCommodityController extends BaseController {
     }
 
     /**
+     * 跳转到添加货品管理导出
+     */
+    @RequestMapping("/tblCommodity_export")
+    public String tblCommodityImport() {
+        return PREFIX + "tblCommodity_export.html";
+    }
+
+    /**
      * 获取货品管理列表
      */
     @RequestMapping(value = "/list")

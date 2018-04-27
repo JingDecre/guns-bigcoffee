@@ -216,7 +216,32 @@ TblCommodityInfoDlg.editSubmit = function() {
     });
     ajax.set(this.tblCommodityInfoData);
     ajax.start();
-}
+};
+
+TblCommodityInfoDlg.exportSubmit = function () {
+    var operation = function () {
+        $.ajax({
+            type: "post",
+            url: Feng.ctxPath + "/tblCommodity/export",
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            data: JSON.stringify(TblCommodity.poiColumn()),
+            beforeSend: function(data) {
+
+            },
+            success: function(data) {
+                Feng.success("导出成功!");
+                TblCommodity.table.refresh();
+            },
+            error: function(data) {
+                Feng.error("导出失败!" + data.responseJSON.message + "!");
+            }
+        });
+    };
+
+    Feng.confirm("是否导出?", operation);
+};
 
 $(function() {
     Feng.initValidator("categoriesInfoForm", TblCommodityInfoDlg.validateFields);

@@ -165,7 +165,16 @@ TblCommodity.import = function () {
  * 导出货品管理列表
  */
 TblCommodity.export = function () {
-    var operation = function () {
+    var index = layer.open({
+        type: 2,
+        title: '货品导出',
+        area: ['500px', '420px'], //宽高
+        fix: false, //不固定
+        maxmin: true,
+        content: Feng.ctxPath + '/tblCommodity/tblCommodity_export'
+    });
+    this.layerIndex = index;
+    /*var operation = function () {
         $.ajax({
             type: "post",
             url: Feng.ctxPath + "/tblCommodity/export",
@@ -186,7 +195,7 @@ TblCommodity.export = function () {
         });
     };
 
-    Feng.confirm("是否导出?", operation);
+    Feng.confirm("是否导出?", operation);*/
 };
 
 /**
