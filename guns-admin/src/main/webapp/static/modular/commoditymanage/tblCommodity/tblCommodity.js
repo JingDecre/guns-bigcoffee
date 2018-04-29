@@ -44,30 +44,30 @@ TblCommodity.initColumn = function () {
  * 初始化表格的列
  */
 TblCommodity.poiColumn = function () {
-    return [
-        {"title": "货品sku", "field": "sku"},
-        {"title": "英文名称", "field": "esname"},
-        {"title": "中文名称", "field": "cnname"},
-        {"title": "分类", "field": "categoriesName"},
-        {"title": "货品spu", "field": "spu"},
-        {"title": "库存", "field": "stock"},
-        {"title": "标题", "field": "title"},
-        {"title": "折扣价格", "field": "discountPrice"},
-        {"title": "原价格", "field": "originPrice"},
-        {"title": "颜色", "field": "color"},
-        {"title": "产品尺寸", "field": "productSize"},
-        {"title": "重量(kg)", "field": "weight"},
-        {"title": "包裹尺寸", "field": "packageSize"},
-        {"title": "品牌", "field": "brands"},
-        {"title": "描述", "field": "desc"},
-        {"title": "所属供应商(CN)", "field": "supplierCnName"},
-        {"title": "所属供应商(ES)", "field": "supplierEsName"},
-        {"title": "供应商电话", "field": "supplierPhone"},
-        {"title": "采购价", "field": "purchasePrice"},
-        /*{"title": "产品图片id", "field": "pictureId"},
-        {"title": "商品添加时间", "field": "createtime"},*/
-        {"title": "商品更新时间", "field": "updatetime"}
-    ];
+    var obj = {};
+    obj.sku = "货品sku";
+    obj.esname = "英文名称";
+    obj.cnname = "中文名称";
+    obj.categoriesName = "分类";
+    obj.spu = "货品spu";
+    obj.stock = "库存";
+    obj.title = "标题";
+    obj.discountPrice = "折扣价格";
+    obj.originPrice = "原价格";
+    obj.color = "颜色";
+    obj.productSize = "产品尺寸";
+    obj.weight = "重量(kg)";
+    obj.packageSize = "包裹尺寸";
+    obj.brands = "描述";
+    obj.desc = "描述";
+    obj.supplierCnName = "所属供应商(CN)";
+    obj.supplierEsName = "所属供应商(ES)";
+    obj.supplierPhone = "供应商电话";
+    obj.purchasePrice = "采购价";
+    /*obj.pictureId = "产品图片id";
+    obj.createtime = "商品添加时间";*/
+    obj.updatetime = "商品更新时间";
+    return JSON.stringify(obj);
 };
 
 /**
@@ -198,16 +198,23 @@ TblCommodity.export = function () {
     Feng.confirm("是否导出?", operation);*/
 };
 
+TblCommodity.queryData = {
+    name: '',
+    categoriesName: '',
+    beginTime:  '',
+    endTime:  ''
+};
+
+
 /**
  * 查询货品管理列表
  */
 TblCommodity.search = function () {
-    var queryData = {};
-    queryData['name'] = $("#name").val();
-    queryData['categoriesName'] = $("#categoriesName").val();
-    queryData['beginTime'] = $("#beginTime").val();
-    queryData['endTime'] = $("#endTime").val();
-    TblCommodity.table.refresh({query: queryData});
+    TblCommodity.queryData['name'] = $("#name").val();
+    TblCommodity.queryData['categoriesName'] = $("#categoriesName").val();
+    TblCommodity.queryData['beginTime'] = $("#beginTime").val();
+    TblCommodity.queryData['endTime'] = $("#endTime").val();
+    TblCommodity.table.refresh({query: TblCommodity.queryData});
 };
 
 $(function () {

@@ -1,10 +1,16 @@
 package com.stylefeng.guns.modular.commoditymanage.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.stylefeng.guns.core.base.controller.BaseController;
+import com.stylefeng.guns.core.base.tips.ErrorTip;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
 import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
 import com.stylefeng.guns.modular.system.warpper.CommodityWarpper;
+import com.stylefeng.guns.util.PoiUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -13,7 +19,12 @@ import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +40,10 @@ import java.util.Map;
 public class TblCommodityController extends BaseController {
 
     private String PREFIX = "/commoditymanage/tblCommodity/";
+
+    Logger logger = LoggerFactory.getLogger(TblCommodityController.class);
+
+    private HSSFWorkbook wb = new HSSFWorkbook();
 
     @Autowired
     private ITblCommodityService tblCommodityService;
@@ -67,7 +82,7 @@ public class TblCommodityController extends BaseController {
         String categoriesName = tblCategoriesService.selectById(tblCommodity.getCategoriesId()).getName();
         model.addAttribute("categoriesName", categoriesName);
         model.addAttribute("supplierList", supplierList);
-        model.addAttribute("item",tblCommodity);
+        model.addAttribute("item", tblCommodity);
         LogObjectHolder.me().set(tblCommodity);
         return PREFIX + "tblCommodity_edit.html";
     }
@@ -135,7 +150,7 @@ public class TblCommodityController extends BaseController {
     /**
      * 导入货品
      */
-    @RequestMapping(value = "/import", method= RequestMethod.POST)
+    @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public Object importPoi(@RequestBody List<Map> columns) {
         return SUCCESS_TIP;
@@ -144,9 +159,47 @@ public class TblCommodityController extends BaseController {
     /**
      * 导出货品
      */
-    @RequestMapping(value = "/export", method= RequestMethod.POST)
+    @RequestMapping(value = "/export")
     @ResponseBody
-    public Object exportPoi(@RequestBody List<Map> columns) {
-        return SUCCESS_TIP;
+    public void exportPoi(HttpServletRequest request, HttpServletResponse response) {
+        OutputStream os = null;
+        try {
+            os = response.getOutputStream();
+            response.setContentType("application/download");
+            String tableName = "货品列表_";
+            response.addHeader("Content-Disposition", "attachment;fileName=" + new String(tableName.getBytes(),"iso-8859-1") + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + ".xls");
+            wb.write(os);
+            os.close();
+            wb = null;
+        } catch (Exception e) {
+            /* logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);*/
+            logger.error("导出: {} 失败！", "货品列表");
+            logger.error("Bad things: {}", e.getMessage());
+            e.getStackTrace();
+        }
+    }
+
+    /**
+     * 生成导出表格
+     */
+    @RequestMapping(value = "/generateExcel", method = RequestMethod.POST)
+    @ResponseBody
+    public void generateExcel(@RequestBody Map param) {
+        if (ToolUtil.isNotEmpty(param)) {
+            //查询参数
+            Map conditionMap = JSONObject.parseObject(param.get("condition").toString());
+            //导出列名
+            Map columnMap = JSONObject.parseObject(param.get("columnName").toString());
+            List<Map<String, Object>> list = tblCommodityService.selectCommodityList(conditionMap.get("name").toString(), conditionMap.get("categoriesName").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), ToolUtil.isEmpty(conditionMap.get("rowNum")) ? 0 : Integer.valueOf(conditionMap.get("rowNum").toString()));
+            try {
+                wb = PoiUtils.exportExcel(columnMap, list);
+            } catch (Exception e) {
+                /* logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);*/
+                logger.error("生成: {} 失败！", "货品列表表格");
+                logger.error("Bad things: {}", e.getMessage());
+                e.getStackTrace();
+            }
+        }
+
     }
 }

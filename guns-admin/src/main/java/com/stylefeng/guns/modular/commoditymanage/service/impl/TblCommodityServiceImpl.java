@@ -27,7 +27,12 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
 
     @Override
     public List<Map<String, Object>> selectCommodityList(String name, String categoriesName,  String beginTime, String endTime) {
-        return tblCommodityMapper.selectCommodityList(name, categoriesName, beginTime, endTime);
+        return tblCommodityMapper.selectCommodityList(name, categoriesName, beginTime, endTime, 0);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectCommodityList(String name, String categoriesName, String beginTime, String endTime, Integer rowNum) {
+        return tblCommodityMapper.selectCommodityList(name, categoriesName, beginTime, endTime, rowNum);
     }
 
     @Override

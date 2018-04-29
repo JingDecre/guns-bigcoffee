@@ -218,26 +218,34 @@ TblCommodityInfoDlg.editSubmit = function() {
     ajax.start();
 };
 
+/**
+ * 导出
+ */
 TblCommodityInfoDlg.exportSubmit = function () {
     var operation = function () {
+        var queryData = TblCommodity.queryData;
+        queryData['rowNum'] = $("#rowNum").val();
+        var param = {condition: JSON.stringify(queryData), columnName: TblCommodity.poiColumn()};
         $.ajax({
             type: "post",
-            url: Feng.ctxPath + "/tblCommodity/export",
+            url: Feng.ctxPath + "/tblCommodity/generateExcel",
             dataType: "json",
             contentType: "application/json",
             async: false,
-            data: JSON.stringify(TblCommodity.poiColumn()),
+            data: JSON.stringify(param),
             beforeSend: function(data) {
 
             },
             success: function(data) {
-                Feng.success("导出成功!");
-                TblCommodity.table.refresh();
+
             },
             error: function(data) {
-                Feng.error("导出失败!" + data.responseJSON.message + "!");
+                Feng.error("导出失败!");
             }
         });
+        window.open(Feng.ctxPath + "/tblCommodity/export", "_blank");
+        Feng.success("导出成功!");
+        TblCommodityInfoDlg.close();
     };
 
     Feng.confirm("是否导出?", operation);

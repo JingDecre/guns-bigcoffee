@@ -23,11 +23,11 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
      * @param categoriesName
      * @param beginTime
      * @param endTime
+     * @param rowNum
      * @return
      */
 
-    List<Map<String, Object>> selectCommodityList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
-
+    List<Map<String, Object>> selectCommodityList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("rowNum") Integer rowNum);
     /**
      * 根据ids查询货品名称列表
      * @param ids

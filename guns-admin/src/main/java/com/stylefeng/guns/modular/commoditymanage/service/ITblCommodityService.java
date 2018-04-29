@@ -28,6 +28,19 @@ public interface ITblCommodityService extends IService<TblCommodity> {
 
     List<Map<String, Object>> selectCommodityList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
+
+    /**
+     * 根据名称获取产品列表
+     * @param name
+     * @param categoriesName
+     * @param beginTime
+     * @param endTime
+     * @param rowNum
+     * @return
+     */
+
+    List<Map<String, Object>> selectCommodityList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("rowNum") Integer rowNum);
+
     /**
      * 根据ids获取产品名称列表
      * @param ids

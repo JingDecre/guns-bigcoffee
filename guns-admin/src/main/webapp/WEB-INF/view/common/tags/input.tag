@@ -26,12 +26,22 @@
                @if(isNotEmpty(clickFun)){
                     onclick="${clickFun}"
                @}
+               @if(isNotEmpty(keyupFun)){
+                    onkeyup="${keyupFun}"
+               @}
                @if(isNotEmpty(style)){
                     style="${style}"
                @}
                @if(isNotEmpty(disabled)){
                     disabled="${disabled}"
                @}
+               @if(isNotEmpty(placeholder)){
+                    placeholder="${placeholder}"
+               @}
+               @if(isNotEmpty(directory)){
+                    webkitdirectory directory
+               @}
+
         >
         @if(isNotEmpty(hidden)){
             <input class="form-control" type="hidden" id="${hidden}" value="${hiddenValue!}">

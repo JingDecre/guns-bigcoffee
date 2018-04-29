@@ -4,7 +4,7 @@
         <div class="form-horizontal" id="categoriesInfoForm">
             <div class="row">
                 <div class="col-sm-12">
-                    <#input id="columnNum" name="导出行数" underline="false"/>
+                    <#input id="rowNum" name="导出行数" keyupFun="this.value=this.value.replace(/[^1-9]/g,'')" placeholder="0或没值时查询全部" underline="false"/>
                 </div>
             </div>
         </div>
