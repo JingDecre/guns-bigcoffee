@@ -106,6 +106,6 @@ TblBrush.search = function () {
 $(function () {
     var defaultColunms = TblBrush.initColumn();
     var table = new BSTable(TblBrush.id, "/tblBrush/list", defaultColunms);
-    table.setPaginationType("client");
+    table.setPaginationType("server");
     TblBrush.table = table.init();
 });

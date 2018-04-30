@@ -12,9 +12,9 @@ import java.util.Map;
  * @version 1.0.0
  * @date 2018/3/31 0031 10:46
  */
-public class OrderWarpper extends BaseControllerWarpper {
+public class HouseWarpper extends BaseControllerWarpper {
 
-    public OrderWarpper(Object list) {
+    public HouseWarpper(Object list) {
         super(list);
     }
 

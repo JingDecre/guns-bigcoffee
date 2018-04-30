@@ -1,5 +1,6 @@
 package com.stylefeng.guns.modular.ordermanage.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.modular.system.model.TblOrder;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -18,9 +19,11 @@ public interface ITblOrderService extends IService<TblOrder> {
 
     /**
      * 根据订单号获取产品列表
+     *
+     * @param page
      * @param condition
      * @return
      */
-    List<Map<String, Object>> selectOrderList(String condition);
+    List<Map<String, Object>> selectOrderList(Page<TblOrder> page, String condition);
 
 }

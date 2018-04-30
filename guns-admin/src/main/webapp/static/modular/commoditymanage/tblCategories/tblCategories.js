@@ -105,6 +105,6 @@ TblCategories.search = function () {
 $(function () {
     var defaultColunms = TblCategories.initColumn();
     var table = new BSTable(TblCategories.id, "/tblCategories/list", defaultColunms);
-    table.setPaginationType("client");
+    table.setPaginationType("server");
     TblCategories.table = table.init();
 });

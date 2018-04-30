@@ -187,6 +187,6 @@ TblCommodity.search = function () {
 $(function () {
     var defaultColunms = TblCommodity.initColumn();
     var table = new BSTable(TblCommodity.id, "/tblCommodity/list", defaultColunms);
-    table.setPaginationType("client");
+    table.setPaginationType("server");
     TblCommodity.table = table.init();
 });

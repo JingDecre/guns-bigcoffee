@@ -1,6 +1,7 @@
 package com.stylefeng.guns.modular.system.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
 import org.apache.ibatis.annotations.Param;
@@ -20,15 +21,14 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
 
     /**
      * 根据条件查询货品列表
+     * @param page
      * @param name
      * @param categoriesName
      * @param beginTime
      * @param endTime
-     * @param rowNum
      * @return
      */
-
-    List<Map<String, Object>> selectCommodityList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("rowNum") Integer rowNum);
+    List<Map<String, Object>> selectCommodityList(@Param("page") Page<TblCommodity> page, @Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /**
      * 根据条件查询所需导出的表数据

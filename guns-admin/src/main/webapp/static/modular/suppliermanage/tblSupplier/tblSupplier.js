@@ -106,6 +106,6 @@ TblSupplier.search = function () {
 $(function () {
     var defaultColunms = TblSupplier.initColumn();
     var table = new BSTable(TblSupplier.id, "/tblSupplier/list", defaultColunms);
-    table.setPaginationType("client");
+    table.setPaginationType("server");
     TblSupplier.table = table.init();
 });

@@ -2,18 +2,23 @@ package com.stylefeng.guns.modular.logisticsmanage.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.core.base.controller.BaseController;
+import com.stylefeng.guns.core.common.constant.factory.PageFactory;
+import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.util.ToolUtil;
+import com.stylefeng.guns.modular.logisticsmanage.service.ITblLogisticsService;
+import com.stylefeng.guns.modular.system.model.TblLogistics;
+import com.stylefeng.guns.modular.system.warpper.CategoriesWarpper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.stylefeng.guns.core.log.LogObjectHolder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.stylefeng.guns.modular.system.model.TblLogistics;
-import com.stylefeng.guns.modular.logisticsmanage.service.ITblLogisticsService;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 物流管理控制器
@@ -63,13 +68,16 @@ public class TblLogisticsController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(String condition) {
+        //判断condition 是否有值
+        Page<TblLogistics> page = new PageFactory<TblLogistics>().defaultPage();
         if (ToolUtil.isEmpty(condition)) {
-            return tblLogisticsService.selectList(null);
+            page.setRecords((List<TblLogistics>) new CategoriesWarpper(tblLogisticsService.selectMaps(null)).warp());
         } else {
             EntityWrapper<TblLogistics> entityWrapper = new EntityWrapper<>();
-            Wrapper<TblLogistics> wrapper = entityWrapper.like("code", condition);
-            return this.tblLogisticsService.selectList(wrapper);
+            Wrapper<TblLogistics> wrapper = entityWrapper.like("name", condition);
+            page.setRecords((List<TblLogistics>) new CategoriesWarpper(this.tblLogisticsService.selectMaps(wrapper)).warp());
         }
+        return super.packForBT(page);
     }
 
     /**

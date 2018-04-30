@@ -136,6 +136,6 @@ TblOrder.search = function () {
 $(function () {
     var defaultColunms = TblOrder.initColumn();
     var table = new BSTable(TblOrder.id, "/tblOrder/list", defaultColunms);
-    table.setPaginationType("client");
+    table.setPaginationType("server");
     TblOrder.table = table.init();
 });

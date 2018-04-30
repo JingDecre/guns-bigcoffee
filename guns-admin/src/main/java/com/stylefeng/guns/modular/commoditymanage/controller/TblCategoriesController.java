@@ -2,24 +2,26 @@ package com.stylefeng.guns.modular.commoditymanage.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.core.base.controller.BaseController;
 import com.stylefeng.guns.core.common.constant.factory.ConstantFactory;
+import com.stylefeng.guns.core.common.constant.factory.PageFactory;
 import com.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.core.exception.GunsException;
+import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.node.ZTreeNode;
 import com.stylefeng.guns.core.support.BeanKit;
 import com.stylefeng.guns.core.util.ToolUtil;
-import com.stylefeng.guns.modular.system.model.TblSupplier;
+import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
+import com.stylefeng.guns.modular.system.model.TblCategories;
+import com.stylefeng.guns.modular.system.warpper.CategoriesWarpper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.stylefeng.guns.core.log.LogObjectHolder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.stylefeng.guns.modular.system.model.TblCategories;
-import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -95,13 +97,15 @@ public class TblCategoriesController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(@RequestParam(required = false) String condition) {
+        Page<TblCategories> page = new PageFactory<TblCategories>().defaultPage();
         if (ToolUtil.isEmpty(condition)) {
-            return tblCategoriesService.selectList(null);
+            page.setRecords((List<TblCategories>) new CategoriesWarpper(tblCategoriesService.selectMaps(null)).warp());
         } else {
             EntityWrapper<TblCategories> entityWrapper = new EntityWrapper<>();
             Wrapper<TblCategories> wrapper = entityWrapper.like("name", condition);
-            return this.tblCategoriesService.selectList(wrapper);
+            page.setRecords((List<TblCategories>) new CategoriesWarpper(this.tblCategoriesService.selectMaps(wrapper)).warp());
         }
+        return super.packForBT(page);
     }
 
     /**

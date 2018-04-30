@@ -1,5 +1,6 @@
 package com.stylefeng.guns.modular.system.dao;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.modular.system.model.TblOrder;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,9 +20,10 @@ public interface TblOrderMapper extends BaseMapper<TblOrder> {
 
     /**
      * 根据条件查询货品列表
+     *
      * @param condition
      * @return
      */
-    List<Map<String, Object>> selectOrderList(@Param("condition") String condition);
+    List<Map<String, Object>> selectOrderList(@Param("page") Page<TblOrder> page, @Param("condition") String condition);
 
 }

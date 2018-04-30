@@ -238,6 +238,7 @@ TblCommodityInfoDlg.importSubmit = function () {
         contentType : false,  //必须false才会自动加上正确的Content-Type
         success : function(result) {
             Feng.success("导入成功!");
+            window.parent.TblCommodity.table.refresh();
             TblCommodityInfoDlg.close();
         },
         error : function(result) {

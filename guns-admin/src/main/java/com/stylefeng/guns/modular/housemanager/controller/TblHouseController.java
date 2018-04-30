@@ -2,18 +2,23 @@ package com.stylefeng.guns.modular.housemanager.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.core.base.controller.BaseController;
+import com.stylefeng.guns.core.common.constant.factory.PageFactory;
+import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.util.ToolUtil;
+import com.stylefeng.guns.modular.housemanager.service.ITblHouseService;
+import com.stylefeng.guns.modular.system.model.TblHouse;
+import com.stylefeng.guns.modular.system.warpper.CategoriesWarpper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.stylefeng.guns.core.log.LogObjectHolder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.stylefeng.guns.modular.system.model.TblHouse;
-import com.stylefeng.guns.modular.housemanager.service.ITblHouseService;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 房屋管理控制器
@@ -64,14 +69,15 @@ public class TblHouseController extends BaseController {
     @ResponseBody
     public Object list(String condition) {
         //判断condition 是否有值
+        Page<TblHouse> page = new PageFactory<TblHouse>().defaultPage();
         if (ToolUtil.isEmpty(condition)) {
-            return tblHouseService.selectList(null);
+            page.setRecords((List<TblHouse>) new CategoriesWarpper(tblHouseService.selectMaps(null)).warp());
         } else {
             EntityWrapper<TblHouse> entityWrapper = new EntityWrapper<>();
-            Wrapper<TblHouse> wrapper = entityWrapper.like("house_user", condition);
-            return tblHouseService.selectList(wrapper);
+            Wrapper<TblHouse> wrapper = entityWrapper.like("name", condition);
+            page.setRecords((List<TblHouse>) new CategoriesWarpper(this.tblHouseService.selectMaps(wrapper)).warp());
         }
-
+        return super.packForBT(page);
     }
 
     /**

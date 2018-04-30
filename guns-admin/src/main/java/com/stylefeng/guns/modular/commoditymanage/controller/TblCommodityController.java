@@ -1,9 +1,11 @@
 package com.stylefeng.guns.modular.commoditymanage.controller;
 
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.stylefeng.guns.core.base.controller.BaseController;
+import com.stylefeng.guns.core.common.constant.factory.PageFactory;
 import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
@@ -115,8 +117,10 @@ public class TblCommodityController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(@RequestParam(required = false) String name, @RequestParam(required = false) String categoriesName, @RequestParam(required = false) String beginTime, @RequestParam(required = false) String endTime) {
-        List<Map<String, Object>> list = tblCommodityService.selectCommodityList(name, categoriesName, beginTime, endTime);
-        return super.warpObject(new CommodityWarpper(list));
+        Page<TblCommodity> page = new PageFactory<TblCommodity>().defaultPage();
+        List<Map<String, Object>> list = tblCommodityService.selectCommodityList(page, name, categoriesName, beginTime, endTime);
+        page.setRecords((List<TblCommodity>) new CommodityWarpper(list).warp());
+        return super.packForBT(page);
     }
 
     /**

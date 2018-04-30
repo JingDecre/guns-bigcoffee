@@ -2,18 +2,23 @@ package com.stylefeng.guns.modular.suppliermanage.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.core.base.controller.BaseController;
+import com.stylefeng.guns.core.common.constant.factory.PageFactory;
+import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.util.ToolUtil;
+import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
+import com.stylefeng.guns.modular.system.model.TblSupplier;
+import com.stylefeng.guns.modular.system.warpper.CategoriesWarpper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.stylefeng.guns.core.log.LogObjectHolder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.stylefeng.guns.modular.system.model.TblSupplier;
-import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 供应商控制器
@@ -52,7 +57,7 @@ public class TblSupplierController extends BaseController {
     @RequestMapping("/tblSupplier_update/{tblSupplierId}")
     public String tblSupplierUpdate(@PathVariable Long tblSupplierId, Model model) {
         TblSupplier tblSupplier = tblSupplierService.selectById(tblSupplierId);
-        model.addAttribute("item",tblSupplier);
+        model.addAttribute("item", tblSupplier);
         LogObjectHolder.me().set(tblSupplier);
         return PREFIX + "tblSupplier_edit.html";
     }
@@ -63,13 +68,16 @@ public class TblSupplierController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(@RequestParam(required = false) String name) {
+        //判断condition 是否有值
+        Page<TblSupplier> page = new PageFactory<TblSupplier>().defaultPage();
         if (ToolUtil.isEmpty(name)) {
-            return tblSupplierService.selectList(null);
+            page.setRecords((List<TblSupplier>) new CategoriesWarpper(tblSupplierService.selectMaps(null)).warp());
         } else {
             EntityWrapper<TblSupplier> entityWrapper = new EntityWrapper<>();
-            Wrapper<TblSupplier> wrapper = entityWrapper.like("cnname", name).or().like("esname", name);
-            return tblSupplierService.selectList(wrapper);
+            Wrapper<TblSupplier> wrapper = entityWrapper.like("name", name);
+            page.setRecords((List<TblSupplier>) new CategoriesWarpper(this.tblSupplierService.selectMaps(wrapper)).warp());
         }
+        return super.packForBT(page);
     }
 
     /**

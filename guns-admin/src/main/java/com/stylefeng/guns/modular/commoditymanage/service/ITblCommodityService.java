@@ -1,5 +1,6 @@
 package com.stylefeng.guns.modular.commoditymanage.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
@@ -19,7 +20,8 @@ import java.util.Map;
 public interface ITblCommodityService extends IService<TblCommodity> {
 
     /**
-     * 根据名称获取产品列表
+     * 根据条件获取产品列表
+     * @param page
      * @param name
      * @param categoriesName
      * @param beginTime
@@ -27,20 +29,7 @@ public interface ITblCommodityService extends IService<TblCommodity> {
      * @return
      */
 
-    List<Map<String, Object>> selectCommodityList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
-
-
-    /**
-     * 根据名称获取产品列表
-     * @param name
-     * @param categoriesName
-     * @param beginTime
-     * @param endTime
-     * @param rowNum
-     * @return
-     */
-
-    List<Map<String, Object>> selectCommodityList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("rowNum") Integer rowNum);
+    List<Map<String, Object>> selectCommodityList(Page<TblCommodity> page, @Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /**
      * 获取货品导出数据集合

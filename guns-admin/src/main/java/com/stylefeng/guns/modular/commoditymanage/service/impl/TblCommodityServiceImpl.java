@@ -1,5 +1,6 @@
 package com.stylefeng.guns.modular.commoditymanage.service.impl;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
@@ -30,13 +31,8 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
     TblCommodityMapper tblCommodityMapper;
 
     @Override
-    public List<Map<String, Object>> selectCommodityList(String name, String categoriesName, String beginTime, String endTime) {
-        return tblCommodityMapper.selectCommodityList(name, categoriesName, beginTime, endTime, 0);
-    }
-
-    @Override
-    public List<Map<String, Object>> selectCommodityList(String name, String categoriesName, String beginTime, String endTime, Integer rowNum) {
-        return tblCommodityMapper.selectCommodityList(name, categoriesName, beginTime, endTime, rowNum);
+    public List<Map<String, Object>> selectCommodityList(Page<TblCommodity> page, String name, String categoriesName, String beginTime, String endTime) {
+        return tblCommodityMapper.selectCommodityList(page, name, categoriesName, beginTime, endTime);
     }
 
     @Override

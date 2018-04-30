@@ -96,6 +96,6 @@ TblHouse.search = function () {
 $(function () {
     var defaultColunms = TblHouse.initColumn();
     var table = new BSTable(TblHouse.id, "/tblHouse/list", defaultColunms);
-    table.setPaginationType("client");
+    table.setPaginationType("server");
     TblHouse.table = table.init();
 });

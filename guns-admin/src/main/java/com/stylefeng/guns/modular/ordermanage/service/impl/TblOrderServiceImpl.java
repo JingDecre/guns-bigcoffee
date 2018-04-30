@@ -1,9 +1,10 @@
 package com.stylefeng.guns.modular.ordermanage.service.impl;
 
-import com.stylefeng.guns.modular.system.model.TblOrder;
-import com.stylefeng.guns.modular.system.dao.TblOrderMapper;
-import com.stylefeng.guns.modular.ordermanage.service.ITblOrderService;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.stylefeng.guns.modular.ordermanage.service.ITblOrderService;
+import com.stylefeng.guns.modular.system.dao.TblOrderMapper;
+import com.stylefeng.guns.modular.system.model.TblOrder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +26,7 @@ public class TblOrderServiceImpl extends ServiceImpl<TblOrderMapper, TblOrder> i
     TblOrderMapper tblOrderMapper;
 
     @Override
-    public List<Map<String, Object>> selectOrderList(String condition) {
-        return tblOrderMapper.selectOrderList(condition);
+    public List<Map<String, Object>> selectOrderList(Page<TblOrder> page, String condition) {
+        return tblOrderMapper.selectOrderList(page, condition);
     }
 }

@@ -101,6 +101,6 @@ TblLogistics.search = function () {
 $(function () {
     var defaultColunms = TblLogistics.initColumn();
     var table = new BSTable(TblLogistics.id, "/tblLogistics/list", defaultColunms);
-    table.setPaginationType("client");
+    table.setPaginationType("server");
     TblLogistics.table = table.init();
 });

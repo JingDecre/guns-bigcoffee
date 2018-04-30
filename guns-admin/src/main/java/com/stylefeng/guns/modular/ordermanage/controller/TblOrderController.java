@@ -1,18 +1,20 @@
 package com.stylefeng.guns.modular.ordermanage.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.core.base.controller.BaseController;
+import com.stylefeng.guns.core.common.constant.factory.PageFactory;
+import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.modular.logisticsmanage.service.ITblLogisticsService;
-import com.stylefeng.guns.modular.system.warpper.OrderWarpper;
+import com.stylefeng.guns.modular.ordermanage.service.ITblOrderService;
+import com.stylefeng.guns.modular.system.model.TblOrder;
+import com.stylefeng.guns.modular.system.warpper.CategoriesWarpper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.stylefeng.guns.core.log.LogObjectHolder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.stylefeng.guns.modular.system.model.TblOrder;
-import com.stylefeng.guns.modular.ordermanage.service.ITblOrderService;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
@@ -50,7 +52,7 @@ public class TblOrderController extends BaseController {
     public String tblOrderAdd(Model model) {
         // 物流单下拉选项
         List<Map<String, Object>> logisticsMapList = tblLogisticsService.selectIdAndCodeList();
-        model.addAttribute("logisticsList",logisticsMapList);
+        model.addAttribute("logisticsList", logisticsMapList);
         return PREFIX + "tblOrder_add.html";
     }
 
@@ -62,9 +64,9 @@ public class TblOrderController extends BaseController {
         TblOrder tblOrder = tblOrderService.selectById(tblOrderId);
         // 物流单下拉选项
         List<Map<String, Object>> logisticsMapList = tblLogisticsService.selectIdAndCodeList();
-        model.addAttribute("logisticsList",logisticsMapList);
+        model.addAttribute("logisticsList", logisticsMapList);
 
-        model.addAttribute("item",tblOrder);
+        model.addAttribute("item", tblOrder);
         LogObjectHolder.me().set(tblOrder);
         return PREFIX + "tblOrder_edit.html";
     }
@@ -75,8 +77,10 @@ public class TblOrderController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(String condition) {
-        List<Map<String, Object>> list = this.tblOrderService.selectOrderList(condition);
-        return super.warpObject(new OrderWarpper(list));
+        Page<TblOrder> page = new PageFactory<TblOrder>().defaultPage();
+        List<Map<String, Object>> list = this.tblOrderService.selectOrderList(page, condition);
+        page.setRecords((List<TblOrder>) new CategoriesWarpper(list).warp());
+        return super.packForBT(page);
     }
 
     /**
