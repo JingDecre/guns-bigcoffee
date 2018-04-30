@@ -1,10 +1,9 @@
 package com.stylefeng.guns.modular.commoditymanage.service;
 
+import com.baomidou.mybatisplus.service.IService;
 import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
-import com.baomidou.mybatisplus.service.IService;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -59,13 +58,5 @@ public interface ITblCommodityService extends IService<TblCommodity> {
      * @return
      */
     List<String> selectNameByIds(String ids);
-
-    /**
-     * 将导入的数据存库
-     * @param mf
-     * @param columnMapList
-     * @throws Exception
-     */
-    void saveImportExcel(MultipartFile mf, List<Map<String, String>> columnMapList) throws Exception ;
 
 }

@@ -164,21 +164,47 @@ public class TblCommodityController extends BaseController {
     /**
      * 导入货品
      */
-   /* @RequestMapping(value = "/import", method = RequestMethod.POST)
-    @ResponseBody
-    public void importPoi(@RequestBody List<Map<String, String>> columnMapList) {
-        //导出列名
-
-    }
-*/
-
-    /**
-     * 导入货品
-     */
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public void importPoi(@RequestParam(value = "file", required = true) MultipartFile file, HttpServletRequest request) {
         List<TblCommodityVo> list = PoiUtils.importExcel(file, 1, 1, TblCommodityVo.class);
+        List<TblCommodity> insertList = new ArrayList<>();
+        //获取外键id
+        Map<String, String> categoriesMap = tblCategoriesService.getCategoriesIdAndName();
+        Map<String, String> supplierMap = tblSupplierService.getNameAndIdMap();
+        //组装存库数据
+        list.forEach(item -> {
+            TblCommodity tblCommodity = new TblCommodity();
+            tblCommodity.setSku(item.getSku());
+            tblCommodity.setEsname(item.getEsname());
+            tblCommodity.setCnname(item.getCnname());
+            if (ToolUtil.isNotEmpty(categoriesMap.get(item.getCategoriesName()))) {
+                tblCommodity.setCategoriesId(categoriesMap.get(item.getCategoriesName()));
+            } else {
+                tblCommodity.setCategoriesId("1");
+            }
+            tblCommodity.setSpu(item.getSpu());
+            tblCommodity.setStock(item.getStock().toString());
+            tblCommodity.setTitle(item.getTitle());
+            tblCommodity.setDiscountPrice(item.getDiscountPrice());
+            tblCommodity.setOriginPrice(item.getOriginPrice());
+            tblCommodity.setColor(item.getColor());
+            tblCommodity.setProductSize(item.getProductSize());
+            tblCommodity.setWeight(item.getWeight());
+            tblCommodity.setPackageSize(item.getPackageSize());
+            tblCommodity.setBrands(item.getBrands());
+            tblCommodity.setDesc(item.getDesc());
+            if (ToolUtil.isNotEmpty(supplierMap.get(item.getSupplierCnName()))) {
+                tblCommodity.setSupplierId(supplierMap.get(item.getSupplierCnName()));
+            } else {
+                tblCommodity.setSupplierId("1");
+            }
+            tblCommodity.setPurchasePrice(item.getPurchasePrice());
+            tblCommodity.setCreatetime(new Date());
+            tblCommodity.setUpdatetime(new Date());
+            insertList.add(tblCommodity);
+        });
+        tblCommodityService.insertBatch(insertList);
         logger.info("导入成功！");
     }
 
