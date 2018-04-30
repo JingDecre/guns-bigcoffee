@@ -78,6 +78,10 @@ TblSupplier.openTblSupplierDetail = function () {
  */
 TblSupplier.delete = function () {
     if (this.check()) {
+        if (this.seItem.id == 1 || this.seItem.id == '1') {
+            Feng.error("初始化数据禁止删除!");
+            return false;
+        }
         var ajax = new $ax(Feng.ctxPath + "/tblSupplier/delete", function (data) {
             Feng.success("删除成功!");
             TblSupplier.table.refresh();

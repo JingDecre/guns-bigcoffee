@@ -76,6 +76,10 @@ TblCategories.openTblCategoriesDetail = function () {
  */
 TblCategories.delete = function () {
     if (this.check()) {
+        if (this.seItem.id == 1 || this.seItem.id == '1') {
+            Feng.error("初始化数据禁止删除!");
+            return false;
+        }
         var ajax = new $ax(Feng.ctxPath + "/tblCategories/delete", function (data) {
             Feng.success("删除成功!");
             TblCategories.table.refresh();
