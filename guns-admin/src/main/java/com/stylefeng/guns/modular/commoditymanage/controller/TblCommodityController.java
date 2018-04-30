@@ -1,31 +1,32 @@
 package com.stylefeng.guns.modular.commoditymanage.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.stylefeng.guns.core.base.controller.BaseController;
-import com.stylefeng.guns.core.base.tips.ErrorTip;
+import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
+import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
+import com.stylefeng.guns.modular.system.model.TblCommodity;
 import com.stylefeng.guns.modular.system.warpper.CommodityWarpper;
 import com.stylefeng.guns.util.PoiUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.stylefeng.guns.core.log.LogObjectHolder;
-import com.stylefeng.guns.modular.system.model.TblCommodity;
-import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,10 @@ public class TblCommodityController extends BaseController {
     Logger logger = LoggerFactory.getLogger(TblCommodityController.class);
 
     private HSSFWorkbook wb = new HSSFWorkbook();
+
+    private MultipartFile mf = null;
+
+    static Gson gson = new Gson();
 
     @Autowired
     private ITblCommodityService tblCommodityService;
@@ -90,8 +95,16 @@ public class TblCommodityController extends BaseController {
     /**
      * 跳转到添加货品管理导出
      */
-    @RequestMapping("/tblCommodity_export")
+    @RequestMapping("/tblCommodity_import")
     public String tblCommodityImport() {
+        return PREFIX + "tblCommodity_import.html";
+    }
+
+    /**
+     * 跳转到添加货品管理导出
+     */
+    @RequestMapping("/tblCommodity_export")
+    public String tblCommodityExport() {
         return PREFIX + "tblCommodity_export.html";
     }
 
@@ -152,8 +165,27 @@ public class TblCommodityController extends BaseController {
      */
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
-    public Object importPoi(@RequestBody List<Map> columns) {
-        return SUCCESS_TIP;
+    public void importPoi(@RequestBody Map columnName, HttpServletRequest request, HttpServletResponse response) {
+        Map columnMap = new HashMap();
+        columnName.forEach((key, value) -> {
+            columnMap.put(value, key);
+        });
+        try {
+            tblCommodityService.saveImportExcel(mf, columnMap);
+        } catch (Exception e) {
+            logger.error("导入：{} 失败！", mf.getOriginalFilename());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 导入货品
+     */
+    @RequestMapping(value = "/uploadExcel", method = RequestMethod.POST)
+    @ResponseBody
+    public void uploadExcel(@RequestParam(value = "file", required = true) MultipartFile file) {
+        mf = file;
+        logger.info("列表上传成功！");
     }
 
     /**
@@ -163,14 +195,15 @@ public class TblCommodityController extends BaseController {
     @ResponseBody
     public void exportPoi(HttpServletRequest request, HttpServletResponse response) {
         OutputStream os = null;
+        HSSFWorkbook tempWb = wb;
+        wb = null;
         try {
             os = response.getOutputStream();
             response.setContentType("application/download");
             String tableName = "货品列表_";
-            response.addHeader("Content-Disposition", "attachment;fileName=" + new String(tableName.getBytes(),"iso-8859-1") + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + ".xls");
-            wb.write(os);
+            response.addHeader("Content-Disposition", "attachment;fileName=" + new String(tableName.getBytes(), "iso-8859-1") + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + ".xls");
+            tempWb.write(os);
             os.close();
-            wb = null;
         } catch (Exception e) {
             /* logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);*/
             logger.error("导出: {} 失败！", "货品列表");
@@ -184,15 +217,17 @@ public class TblCommodityController extends BaseController {
      */
     @RequestMapping(value = "/generateExcel", method = RequestMethod.POST)
     @ResponseBody
-    public void generateExcel(@RequestBody Map param) {
+    public void generateExcel(@RequestBody Map<String, String> param) {
         if (ToolUtil.isNotEmpty(param)) {
             //查询参数
-            Map conditionMap = JSONObject.parseObject(param.get("condition").toString());
+            Map conditionMap = gson.fromJson(param.get("condition"), new TypeToken<Map>() {
+            }.getType());
             //导出列名
-            Map columnMap = JSONObject.parseObject(param.get("columnName").toString());
+            List<Map<String, String>> columnMapList = gson.fromJson(param.get("columnName"), new TypeToken<List<Map<String, String>>>() {
+            }.getType());
             List<Map<String, Object>> list = tblCommodityService.selectCommodityList(conditionMap.get("name").toString(), conditionMap.get("categoriesName").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), ToolUtil.isEmpty(conditionMap.get("rowNum")) ? 0 : Integer.valueOf(conditionMap.get("rowNum").toString()));
             try {
-                wb = PoiUtils.exportExcel(columnMap, list);
+                wb = PoiUtils.exportExcel(columnMapList, list);
             } catch (Exception e) {
                 /* logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);*/
                 logger.error("生成: {} 失败！", "货品列表表格");

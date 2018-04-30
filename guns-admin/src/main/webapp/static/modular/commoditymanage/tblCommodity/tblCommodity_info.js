@@ -219,6 +219,48 @@ TblCommodityInfoDlg.editSubmit = function() {
 };
 
 /**
+ * 导入
+ */
+TblCommodityInfoDlg.importSubmit = function () {
+
+    var formData = new FormData();
+    var node = document.getElementById("excelUp");
+    if (node.files && node.files[0]) {
+        formData.append('file', node.files[0]);
+    }
+    // 上传excel
+    $.ajax({
+        async: false,//要求同步 不是不需看你的需求
+        url : Feng.ctxPath + "/tblCommodity/uploadExcel",
+        type : 'POST',
+        data : formData,
+        processData : false,  //必须false才会避开jQuery对 formdata 的默认处理
+        contentType : false,  //必须false才会自动加上正确的Content-Type
+        success : function(result) {
+
+        },
+        error : function(result) {
+            Feng.error("导入失败!");
+        }
+    });
+    //将数据存入数据库
+    $.ajax({
+        type: "post",
+        url: Feng.ctxPath + "/tblCommodity/import",
+        dataType: "json",
+        contentType: "application/json",
+        async: false,
+        data: TblCommodity.poiColumn(),
+        success : function(result) {
+            Feng.success("导入成功!");
+        },
+        error : function(result) {
+            Feng.error("导入失败!");
+        }
+    });
+};
+
+/**
  * 导出
  */
 TblCommodityInfoDlg.exportSubmit = function () {
@@ -226,6 +268,7 @@ TblCommodityInfoDlg.exportSubmit = function () {
         var queryData = TblCommodity.queryData;
         queryData['rowNum'] = $("#rowNum").val();
         var param = {condition: JSON.stringify(queryData), columnName: TblCommodity.poiColumn()};
+        //生成表格
         $.ajax({
             type: "post",
             url: Feng.ctxPath + "/tblCommodity/generateExcel",
@@ -243,6 +286,7 @@ TblCommodityInfoDlg.exportSubmit = function () {
                 Feng.error("导出失败!");
             }
         });
+        //下载后台生成的表格
         window.open(Feng.ctxPath + "/tblCommodity/export", "_blank");
         Feng.success("导出成功!");
         TblCommodityInfoDlg.close();
@@ -262,4 +306,8 @@ $(function() {
     }else{
         $("#supplierId").val($("#supplierIdValue").val());
     }
+
+    // 初始化导入表格上传
+    var fileUp = new $FileUpload("excelUp");
+    fileUp.init();
 });

@@ -44,30 +44,31 @@ TblCommodity.initColumn = function () {
  * 初始化表格的列
  */
 TblCommodity.poiColumn = function () {
-    var obj = {};
-    obj.sku = "货品sku";
-    obj.esname = "英文名称";
-    obj.cnname = "中文名称";
-    obj.categoriesName = "分类";
-    obj.spu = "货品spu";
-    obj.stock = "库存";
-    obj.title = "标题";
-    obj.discountPrice = "折扣价格";
-    obj.originPrice = "原价格";
-    obj.color = "颜色";
-    obj.productSize = "产品尺寸";
-    obj.weight = "重量(kg)";
-    obj.packageSize = "包裹尺寸";
-    obj.brands = "描述";
-    obj.desc = "描述";
-    obj.supplierCnName = "所属供应商(CN)";
-    obj.supplierEsName = "所属供应商(ES)";
-    obj.supplierPhone = "供应商电话";
-    obj.purchasePrice = "采购价";
-    /*obj.pictureId = "产品图片id";
-    obj.createtime = "商品添加时间";*/
-    obj.updatetime = "商品更新时间";
-    return JSON.stringify(obj);
+    var arr = [
+        {"title": "货品sku", "key": "sku", "sortNo": "1"},
+        {"title": "英文名称", "key": "esname", "sortNo": "2"},
+        {"title": "中文名称", "key": "cnname", "sortNo": "3"},
+        {"title": "分类", "key": "categoriesName", "sortNo": "4"},
+        {"title": "货品spu", "key": "spu", "sortNo": "5"},
+        {"title": "库存", "key": "stock", "sortNo": "6"},
+        {"title": "标题", "key": "title", "sortNo": "7"},
+        {"title": "折扣价格", "key": "discountPrice", "sortNo": "8"},
+        {"title": "原价格", "key": "originPrice", "sortNo": "9"},
+        {"title": "颜色", "key": "color", "sortNo": "10"},
+        {"title": "产品尺寸", "key": "productSize", "sortNo": "11"},
+        {"title": "重量(kg)", "key": "weight", "sortNo": "12"},
+        {"title": "包裹尺寸", "key": "packageSize", "sortNo": "13"},
+        {"title": "品牌", "key": "brands", "sortNo": "14"},
+        {"title": "描述", "key": "desc", "sortNo": "15"},
+        {"title": "所属供应商(CN)", "key": "supplierCnName", "sortNo": "16"},
+        {"title": "所属供应商(ES)", "key": "supplierEsName", "sortNo": "17"},
+        {"title": "供应商电话", "key": "supplierPhone", "sortNo": "18"},
+        {"title": "采购价", "key": "purchasePrice", "sortNo": "19"},
+        /*{"title": "产品图片id", "key": "pictureId"},
+        {"title": "商品添加时间", "key": "createtime", "dataType": "dateTime"},*/
+        {"title": "商品更新时间", "key": "updatetime", "sortNo": "20", "dataType": "dateTime"}
+    ];
+    return JSON.stringify(arr);
 };
 
 /**
@@ -139,27 +140,15 @@ TblCommodity.delete = function () {
  * 导入货品管理列表
  */
 TblCommodity.import = function () {
-    var operation = function () {
-        $.ajax({
-            type: "post",
-            url: Feng.ctxPath + "/tblCommodity/import",
-            dataType: "json",
-            contentType: "application/json",
-            async: false,
-            data: JSON.stringify(TblCommodity.poiColumn()),
-            beforeSend: function(data) {
-
-            },
-            success: function(data) {
-                Feng.success("导出成功!");
-                TblCommodity.table.refresh();
-            },
-            error: function(data) {
-                Feng.error("导出失败!" + data.responseJSON.message + "!");
-            }
-        });
-    };
-    Feng.confirm("是否导入?", operation);
+    var index = layer.open({
+        type: 2,
+        title: '货品导入',
+        area: ['500px', '420px'], //宽高
+        fix: false, //不固定
+        maxmin: true,
+        content: Feng.ctxPath + '/tblCommodity/tblCommodity_import'
+    });
+    this.layerIndex = index;
 };
 /**
  * 导出货品管理列表
@@ -174,28 +163,6 @@ TblCommodity.export = function () {
         content: Feng.ctxPath + '/tblCommodity/tblCommodity_export'
     });
     this.layerIndex = index;
-    /*var operation = function () {
-        $.ajax({
-            type: "post",
-            url: Feng.ctxPath + "/tblCommodity/export",
-            dataType: "json",
-            contentType: "application/json",
-            async: false,
-            data: JSON.stringify(TblCommodity.poiColumn()),
-            beforeSend: function(data) {
-
-            },
-            success: function(data) {
-                Feng.success("导出成功!");
-                TblCommodity.table.refresh();
-            },
-            error: function(data) {
-                Feng.error("导出失败!" + data.responseJSON.message + "!");
-            }
-        });
-    };
-
-    Feng.confirm("是否导出?", operation);*/
 };
 
 TblCommodity.queryData = {

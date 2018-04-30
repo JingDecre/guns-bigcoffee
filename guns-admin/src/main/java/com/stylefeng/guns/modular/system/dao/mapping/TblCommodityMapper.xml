@@ -36,7 +36,7 @@
         tcd.spu AS spu, tcd.stock AS stock, tcd.title AS title, tcd.discount_price AS discountPrice, origin_price AS originPrice, tcd.color AS color,
         tcd.product_size AS productSize, weight, tcd.package_size AS packageSize, tcd.brands AS brands, tcd.desc AS `desc`, tcd.supplier_id AS supplierId,
         tsp.cnname AS supplierCnName, tsp.esname AS supplierEsName, tsp.sku AS supplierSku, tsp.phone AS supplierPhone,
-        tcd.purchase_price AS purchasePrice, tcd.picture_id AS pictureId, tcd.createtime AS createtime, tcd.updatetime AS updatetime
+        tcd.purchase_price AS purchasePrice, tcd.picture_id AS pictureId, DATE_FORMAT(tcd.createtime,'%Y-%m-%d %H:%i:%s') AS createtime, DATE_FORMAT(tcd.updatetime,'%Y-%m-%d %H:%i:%s') AS updatetime
     </sql>
 
     <select id="selectCommodityList" resultType="map">
