@@ -34,7 +34,7 @@ public class TblOrderVo implements Serializable {
     @Excel(name = "收件人姓名")
     private String recipientName;
 
-    @Excel(name = "订单时间", exportFormat = "yyyy-MM-dd HH:mm:ss", importFormat = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "订单时间", databaseFormat = "yyyy-MM-dd HH:mm:ss", exportFormat = "yyyy-MM-dd HH:mm:ss", importFormat = "yyyy-MM-dd HH:mm:ss")
     private Date transactionDate;
 
     @Excel(name = "国家")

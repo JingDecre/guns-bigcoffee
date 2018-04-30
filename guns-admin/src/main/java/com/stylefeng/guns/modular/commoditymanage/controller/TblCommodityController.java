@@ -208,7 +208,9 @@ public class TblCommodityController extends BaseController {
             tblCommodity.setUpdatetime(new Date());
             insertList.add(tblCommodity);
         });
-        tblCommodityService.insertBatch(insertList);
+        if (insertList.size() > 0) {
+            tblCommodityService.insertBatch(insertList);
+        }
         logger.info("导入成功！");
     }
 

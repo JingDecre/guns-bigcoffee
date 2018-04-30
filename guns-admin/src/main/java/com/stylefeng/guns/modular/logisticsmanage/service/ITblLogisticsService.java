@@ -22,4 +22,10 @@ public interface ITblLogisticsService extends IService<TblLogistics> {
      */
     List<Map<String, Object>> selectIdAndCodeList();
 
+    /**
+     * 获取订单号,id的集合
+     * @return
+     */
+    Map<String, String> selectCodeAndIdMap();
+
 }

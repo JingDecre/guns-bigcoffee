@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,5 +28,15 @@ public class TblLogisticsServiceImpl extends ServiceImpl<TblLogisticsMapper, Tbl
     @Override
     public List<Map<String, Object>> selectIdAndCodeList() {
         return tblLogisticsMapper.selectIdAndCodeList();
+    }
+
+    @Override
+    public Map<String, String> selectCodeAndIdMap() {
+        List<Map<String, Object>> mapList = tblLogisticsMapper.selectIdAndCodeList();
+        Map<String, String> result = new HashMap<String, String>();
+        mapList.forEach(item->{
+            result.put(item.get("code").toString(), item.get("id").toString());
+        });
+        return result;
     }
 }

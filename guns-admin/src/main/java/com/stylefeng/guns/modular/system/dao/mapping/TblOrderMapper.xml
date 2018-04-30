@@ -26,7 +26,7 @@
     <sql id="Base_Column_List">
         tod.id AS id, tod.code AS code, tod.sku AS sku, tod.commodity_ids AS commodityIds, tod.commodity_details AS commodityDetails,
         tod.quantity AS quantity, tod.weight AS weight, tod.recipient_name AS recipientName, tod.transaction_date AS transactionDate,
-        tod.country AS contry, tod.province AS province, tod.city AS city, tod.county AS county, tod.detail_address AS detailAddress, tod.zipcode As zipcode, tod.recipient_phone AS recipientPhone,
+        tod.country AS country, tod.province AS province, tod.city AS city, tod.county AS county, tod.detail_address AS detailAddress, tod.zipcode As zipcode, tod.recipient_phone AS recipientPhone,
         tod.logistics_id AS logisticsId, tl.code AS logisticsCode
     </sql>
 
@@ -34,7 +34,7 @@
     <sql id="Export_Column_List">
         tod.code AS code, tod.sku AS sku, tod.commodity_details AS commodityDetails,
         tod.quantity AS quantity, tod.weight AS weight, tod.recipient_name AS recipientName, tod.transaction_date AS transactionDate,
-        tod.country AS contry, tod.province AS province, tod.city AS city, tod.county AS county, tod.detail_address AS detailAddress, tod.zipcode As zipcode, tod.recipient_phone AS recipientPhone,
+        tod.country AS country, tod.province AS province, tod.city AS city, tod.county AS county, tod.detail_address AS detailAddress, tod.zipcode As zipcode, tod.recipient_phone AS recipientPhone,
         tl.code AS logisticsCode
     </sql>
 

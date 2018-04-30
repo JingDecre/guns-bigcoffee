@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class TblOrderController extends BaseController {
     private String PREFIX = "/ordermanage/tblOrder/";
 
     Logger logger = LoggerFactory.getLogger(TblOrderController.class);
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private Workbook workbook = new HSSFWorkbook();
 
@@ -164,13 +167,34 @@ public class TblOrderController extends BaseController {
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public void importPoi(@RequestParam(value = "file", required = true) MultipartFile file, HttpServletRequest request) {
-        List<TblOrder> list = PoiUtils.importExcel(file, 1, 1, TblOrderVo.class);
+        List<TblOrderVo> list = PoiUtils.importExcel(file, 1, 1, TblOrderVo.class);
         List<TblOrder> insertList = new ArrayList<>();
+        Map<String, String> logisticsMap = tblLogisticsService.selectCodeAndIdMap();
         //组装存库数据
         list.forEach(item -> {
-
+            TblOrder order = new TblOrder();
+            order.setCode(item.getCode());
+            order.setSku(item.getSku());
+            order.setCommodityDetails(item.getCommodityDetails());
+            order.setQuantity(item.getQuantity());
+            order.setWeight(item.getWeight());
+            order.setTransactionDate(sdf.format(item.getTransactionDate()));
+            order.setCountry(item.getCountry());
+            order.setProvince(item.getProvince());
+            order.setCity(item.getCity());
+            order.setCounty(item.getCounty());
+            order.setDetailAddress(item.getDetailAddress());
+            order.setZipcode(item.getZipcode());
+            order.setRecipientName(item.getRecipientName());
+            order.setRecipientPhone(item.getRecipientPhone());
+            if (ToolUtil.isNotEmpty(logisticsMap.get(item.getLogisticsCode()))) {
+                order.setLogisticsId(item.getLogisticsCode());
+            }
+            insertList.add(order);
         });
-        tblOrderService.insertBatch(insertList);
+        if(insertList.size() > 0){
+            tblOrderService.insertBatch(insertList);
+        }
         logger.info("导入成功！");
     }
 
