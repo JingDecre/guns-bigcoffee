@@ -48,4 +48,9 @@
         m1.id ASC
     </select>
 
+    <select id="getIdAndNameList" resultType="map">
+        SELECT  m1.id AS id, m1.name AS title
+        FROM tbl_categories m1
+    </select>
+
 </mapper>

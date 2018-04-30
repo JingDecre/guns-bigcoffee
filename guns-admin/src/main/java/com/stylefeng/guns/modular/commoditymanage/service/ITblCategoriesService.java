@@ -5,6 +5,7 @@ import com.stylefeng.guns.modular.system.model.TblCategories;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -37,5 +38,11 @@ public interface ITblCategoriesService extends IService<TblCategories> {
      * @param categoriesId
      */
     void delCategoriesContainSubCategories(Long categoriesId);
+
+    /**
+     * 获取货品分类的id和name
+     * @return
+     */
+    Map<String, String> getCategoriesIdAndName();
 
 }

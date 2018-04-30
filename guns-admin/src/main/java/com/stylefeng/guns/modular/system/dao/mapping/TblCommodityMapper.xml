@@ -38,7 +38,14 @@
         tsp.cnname AS supplierCnName, tsp.esname AS supplierEsName, tsp.sku AS supplierSku, tsp.phone AS supplierPhone,
         tcd.purchase_price AS purchasePrice, tcd.picture_id AS pictureId, DATE_FORMAT(tcd.createtime,'%Y-%m-%d %H:%i:%s') AS createtime, DATE_FORMAT(tcd.updatetime,'%Y-%m-%d %H:%i:%s') AS updatetime
     </sql>
-
+    <!-- 导出查询结果列 -->
+    <sql id="Export_Column_List">
+        tcd.sku AS sku, tcd.esname AS esname, tcd.cnname AS cnname, tcg.name AS categoriesName,
+        tcd.spu AS spu, tcd.stock AS stock, tcd.title AS title, tcd.discount_price AS discountPrice, origin_price AS originPrice, tcd.color AS color,
+        tcd.product_size AS productSize, tcd.weight As weight, tcd.package_size AS packageSize, tcd.brands AS brands, tcd.desc AS `desc`,
+        tsp.cnname AS supplierCnName, tsp.esname AS supplierEsName, tsp.phone AS supplierPhone,
+        tcd.purchase_price AS purchasePrice, tcd.createtime AS createtime, tcd.updatetime AS updatetime
+    </sql>
     <select id="selectCommodityList" resultType="map">
         select
         <include refid="Base_Column_List" />
@@ -70,6 +77,27 @@
         ) AS commodityName
         from tbl_commodity tc
         where tc.id IN (#{ids})
+    </select>
+
+    <select id="selectCommodityVoList" resultType="com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo">
+        select
+        <include refid="Export_Column_List" />
+        from tbl_commodity tcd
+        LEFT JOIN tbl_categories tcg ON tcd.categories_id = tcg.id
+        LEFT JOIN  tbl_supplier tsp ON tcd.supplier_id = tsp.id
+        WHERE 1 = 1
+        <if test="name != null">
+            AND tcd.cnname  LIKE CONCAT('%',#{name},'%') OR tcd.esname LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="categoriesName != null">
+            AND tcg.name LIKE  CONCAT('%',#{categoriesName},'%')
+        </if>
+        <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
+            and (tcd.updatetime between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        <if test="rowNum != null and rowNum != 0">
+            limit 0, #{rowNum}
+        </if>
     </select>
 
 </mapper>

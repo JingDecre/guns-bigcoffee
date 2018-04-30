@@ -17,9 +17,17 @@ import java.util.Map;
 public interface ITblSupplierService extends IService<TblSupplier> {
 
     /**
-     * 获取分类id，名称列表
+     * 获取供应商id，名称列表
+     *
      * @return
      */
     List<Map<String, Object>> selectIdAndNameList();
+
+    /**
+     * 获取供应商中文名称，id集合
+     *
+     * @return
+     */
+    Map<String, String> getNameAndIdMap();
 
 }

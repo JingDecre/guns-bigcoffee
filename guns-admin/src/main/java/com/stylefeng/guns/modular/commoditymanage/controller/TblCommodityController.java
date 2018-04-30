@@ -1,5 +1,6 @@
 package com.stylefeng.guns.modular.commoditymanage.controller;
 
+import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.stylefeng.guns.core.base.controller.BaseController;
@@ -7,11 +8,13 @@ import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
+import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
 import com.stylefeng.guns.modular.system.warpper.CommodityWarpper;
 import com.stylefeng.guns.util.PoiUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,9 +47,7 @@ public class TblCommodityController extends BaseController {
 
     Logger logger = LoggerFactory.getLogger(TblCommodityController.class);
 
-    private HSSFWorkbook wb = new HSSFWorkbook();
-
-    private MultipartFile mf = null;
+    private Workbook workbook = new HSSFWorkbook();
 
     static Gson gson = new Gson();
 
@@ -163,29 +164,22 @@ public class TblCommodityController extends BaseController {
     /**
      * 导入货品
      */
-    @RequestMapping(value = "/import", method = RequestMethod.POST)
+   /* @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
-    public void importPoi(@RequestBody Map columnName, HttpServletRequest request, HttpServletResponse response) {
-        Map columnMap = new HashMap();
-        columnName.forEach((key, value) -> {
-            columnMap.put(value, key);
-        });
-        try {
-            tblCommodityService.saveImportExcel(mf, columnMap);
-        } catch (Exception e) {
-            logger.error("导入：{} 失败！", mf.getOriginalFilename());
-            e.printStackTrace();
-        }
+    public void importPoi(@RequestBody List<Map<String, String>> columnMapList) {
+        //导出列名
+
     }
+*/
 
     /**
      * 导入货品
      */
-    @RequestMapping(value = "/uploadExcel", method = RequestMethod.POST)
+    @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
-    public void uploadExcel(@RequestParam(value = "file", required = true) MultipartFile file) {
-        mf = file;
-        logger.info("列表上传成功！");
+    public void importPoi(@RequestParam(value = "file", required = true) MultipartFile file, HttpServletRequest request) {
+        List<TblCommodityVo> list = PoiUtils.importExcel(file, 1, 1, TblCommodityVo.class);
+        logger.info("导入成功！");
     }
 
     /**
@@ -195,8 +189,8 @@ public class TblCommodityController extends BaseController {
     @ResponseBody
     public void exportPoi(HttpServletRequest request, HttpServletResponse response) {
         OutputStream os = null;
-        HSSFWorkbook tempWb = wb;
-        wb = null;
+        Workbook tempWb = workbook;
+        workbook = null;
         try {
             os = response.getOutputStream();
             response.setContentType("application/download");
@@ -205,7 +199,6 @@ public class TblCommodityController extends BaseController {
             tempWb.write(os);
             os.close();
         } catch (Exception e) {
-            /* logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);*/
             logger.error("导出: {} 失败！", "货品列表");
             logger.error("Bad things: {}", e.getMessage());
             e.getStackTrace();
@@ -213,7 +206,7 @@ public class TblCommodityController extends BaseController {
     }
 
     /**
-     * 生成导出表格
+     * 导出表格
      */
     @RequestMapping(value = "/generateExcel", method = RequestMethod.POST)
     @ResponseBody
@@ -223,18 +216,12 @@ public class TblCommodityController extends BaseController {
             Map conditionMap = gson.fromJson(param.get("condition"), new TypeToken<Map>() {
             }.getType());
             //导出列名
-            List<Map<String, String>> columnMapList = gson.fromJson(param.get("columnName"), new TypeToken<List<Map<String, String>>>() {
-            }.getType());
-            List<Map<String, Object>> list = tblCommodityService.selectCommodityList(conditionMap.get("name").toString(), conditionMap.get("categoriesName").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), ToolUtil.isEmpty(conditionMap.get("rowNum")) ? 0 : Integer.valueOf(conditionMap.get("rowNum").toString()));
-            try {
-                wb = PoiUtils.exportExcel(columnMapList, list);
-            } catch (Exception e) {
-                /* logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);*/
-                logger.error("生成: {} 失败！", "货品列表表格");
-                logger.error("Bad things: {}", e.getMessage());
-                e.getStackTrace();
-            }
+            List<TblCommodityVo> list = tblCommodityService.selectCommodityVoList(conditionMap.get("name").toString(), conditionMap.get("categoriesName").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), ToolUtil.isEmpty(conditionMap.get("rowNum")) ? 0 : Integer.valueOf(conditionMap.get("rowNum").toString()));
+            List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+            mapList.add(PoiUtils.getExportMap(list, "货品列表", TblCommodityVo.class));
+            workbook = PoiUtils.exportExcel(mapList, ExcelType.HSSF);
         }
 
     }
+
 }

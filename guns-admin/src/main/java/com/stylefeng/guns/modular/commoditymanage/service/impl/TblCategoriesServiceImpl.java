@@ -2,18 +2,18 @@ package com.stylefeng.guns.modular.commoditymanage.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.stylefeng.guns.core.node.ZTreeNode;
-import com.stylefeng.guns.modular.system.dao.TblCommodityMapper;
-import com.stylefeng.guns.modular.system.model.Menu;
-import com.stylefeng.guns.modular.system.model.TblCategories;
-import com.stylefeng.guns.modular.system.dao.TblCategoriesMapper;
-import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.stylefeng.guns.modular.system.model.TblCommodity;
+import com.stylefeng.guns.core.node.ZTreeNode;
+import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
+import com.stylefeng.guns.modular.system.dao.TblCategoriesMapper;
+import com.stylefeng.guns.modular.system.dao.TblCommodityMapper;
+import com.stylefeng.guns.modular.system.model.TblCategories;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -59,5 +59,15 @@ public class TblCategoriesServiceImpl extends ServiceImpl<TblCategoriesMapper, T
         for (TblCategories temp : tblCategoriesList) {
             delCategories(temp.getId());
         }
+    }
+
+    @Override
+    public Map<String, String> getCategoriesIdAndName() {
+        List<Map<String, Object>> mapList = tblCategoriesMapper.getIdAndNameList();
+        Map<String, String> result = new HashMap<String, String>();
+        mapList.forEach(item -> {
+            result.put(String.valueOf(item.get("title")), item.get("id").toString());
+        });
+        return result;
     }
 }

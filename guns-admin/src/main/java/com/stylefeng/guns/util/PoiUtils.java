@@ -1,12 +1,22 @@
 package com.stylefeng.guns.util;
 
-import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import cn.afterturn.easypoi.entity.vo.NormalExcelConstants;
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
+import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import cn.afterturn.easypoi.excel.export.ExcelExportService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>Title: PoiUtils</p>
@@ -21,46 +31,65 @@ public class PoiUtils {
     /**
      * 导出excel文件
      */
-    public static HSSFWorkbook exportExcel(List<Map<String, String>> columnMapList, List<Map<String, Object>> dataList) throws Exception {
-        // 第一步，创建一个webbook，对应一个Excel文件
-        HSSFWorkbook wb = new HSSFWorkbook();
-        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
-        HSSFSheet sheet = wb.createSheet("Sheet1");
-        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
-        HSSFRow row = sheet.createRow(0);
-        // 第四步，创建单元格，并设置值表头 设置表头居中 设置文本格式
-        HSSFDataFormat df = wb.createDataFormat();
-        HSSFCellStyle style = wb.createCellStyle();
-        style.setAlignment(HorizontalAlignment.CENTER); // 创建一个居中格式
-        style.setDataFormat(df.getFormat("@"));
-        // 存储每个key值对应得列数
-        Map<String, Integer> cellColumnMap = new HashMap<>();
+    public static Workbook exportExcel(List<Map<String, Object>> list, ExcelType type) {
+        Workbook workbook;
+        if (ExcelType.HSSF.equals(type)) {
+            workbook = new HSSFWorkbook();
+        } else {
+            workbook = new XSSFWorkbook();
+        }
+        for (Map<String, Object> map : list) {
+            ExcelExportService service = new ExcelExportService();
+            ExportParams params = (ExportParams) map.get("params");
+            Class<?> entry = (Class<?>) map.get("entity");
+            Collection<?> data = (Collection<?>) map.get("data");
+            service.createSheet(workbook, params, entry, data);
+        }
+        return workbook;
+    }
 
-        //创建表头
-        AtomicInteger column = new AtomicInteger(0);
-        columnMapList.forEach(item -> {
-            cellColumnMap.put(item.get("key"), column.get());
-            HSSFCell cell = row.createCell(column.get());
-            cell.setCellValue(item.get("title"));
-            cell.setCellStyle(style);
-            column.getAndIncrement();
-        });
+    /**
+     * 获取导入表数据集
+     *
+     * @param file
+     * @param titleRows
+     * @param headerRows
+     * @param pojoClass
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> importExcel(MultipartFile file, Integer titleRows, Integer headerRows, Class<T> pojoClass) {
+        if (file == null) {
+            return null;
+        }
+        ImportParams params = new ImportParams();
+        params.setTitleRows(titleRows);
+        params.setHeadRows(headerRows);
+        List<T> list = null;
+        try {
+            list = ExcelImportUtil.importExcel(file.getInputStream(), pojoClass, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
-
-        //填充数据
-        AtomicInteger rowNum = new AtomicInteger(1);
-        dataList.forEach(item -> {
-            HSSFRow tempRow = sheet.createRow(rowNum.get());
-            columnMapList.forEach(map -> {
-                HSSFCell cell = tempRow.createCell(cellColumnMap.get(map.get("key")));
-                cell.setCellValue(String.valueOf(item.get(map.get("key"))));
-                cell.setCellStyle(style);
-            });
-            rowNum.getAndIncrement();
-        });
-
-        //第六步,输出Excel文件
-        return wb;
+    /**
+     * 获取导出表格的工作簿
+     *
+     * @param dataList
+     * @param tableName
+     * @param pojoClass
+     * @return
+     */
+    public static Map<String, Object> getExportMap(List<?> dataList, String tableName, Class<?> pojoClass) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put(NormalExcelConstants.CLASS, pojoClass);
+        map.put(NormalExcelConstants.FILE_NAME, tableName + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        ExportParams ep = new ExportParams(tableName, "sheet_" + ((int) 1000 * Math.random()));
+        map.put(NormalExcelConstants.PARAMS, ep);
+        map.put(NormalExcelConstants.DATA_LIST, dataList);
+        return map;
     }
 
 }

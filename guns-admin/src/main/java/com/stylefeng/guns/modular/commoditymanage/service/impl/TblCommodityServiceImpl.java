@@ -2,6 +2,7 @@ package com.stylefeng.guns.modular.commoditymanage.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
+import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.system.dao.TblCommodityMapper;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -48,12 +49,17 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
     }
 
     @Override
+    public List<TblCommodityVo> selectCommodityVoList(String name, String categoriesName, String beginTime, String endTime, Integer rowNum) {
+        return tblCommodityMapper.selectCommodityVoList(name, categoriesName, beginTime, endTime, rowNum);
+    }
+
+    @Override
     public List<String> selectNameByIds(String ids) {
         return tblCommodityMapper.selsectNameByIds(ids);
     }
 
     @Override
-    public void saveImportExcel(MultipartFile mf, Map columnName) throws Exception {
+    public void saveImportExcel(MultipartFile mf, List<Map<String, String>> columnMapList) throws Exception {
         Workbook workbook = null;
         String fileName = mf.getOriginalFilename();
         if (fileName.endsWith(XLS)) {
@@ -75,6 +81,10 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
         }
 
         Row row = sheet.getRow(0);
+        if(row.getLastCellNum() != columnMapList.size()) {
+            logger.error("导入的{}的列数不对！", mf.getOriginalFilename());
+            throw new Exception("请填写数据");
+        }
         row.forEach(item -> {
 
         });

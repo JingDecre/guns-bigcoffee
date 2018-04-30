@@ -1,10 +1,11 @@
 package com.stylefeng.guns.modular.system.dao;
 
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.stylefeng.guns.core.node.ZTreeNode;
 import com.stylefeng.guns.modular.system.model.TblCategories;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -23,5 +24,11 @@ public interface TblCategoriesMapper extends BaseMapper<TblCategories> {
      * @date 2017年2月19日 下午1:33:51
      */
     List<ZTreeNode> categoriesTreeList();
+
+    /**
+     * 获取id和name集合
+     * @return
+     */
+    List<Map<String, Object>> getIdAndNameList();
 
 }

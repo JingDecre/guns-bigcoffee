@@ -25,4 +25,9 @@
         SELECT id AS id, CONCAT(cnname, '(', esname, ')') AS `name`
         FROM tbl_supplier
     </select>
+
+    <select id="getIdAndNameList" resultType="map">
+        SELECT id, cnname
+        FROM tbl_supplier
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.stylefeng.guns.modular.commoditymanage.service;
 
+import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
 import com.baomidou.mybatisplus.service.IService;
 import org.apache.ibatis.annotations.Param;
@@ -43,12 +44,28 @@ public interface ITblCommodityService extends IService<TblCommodity> {
     List<Map<String, Object>> selectCommodityList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("rowNum") Integer rowNum);
 
     /**
+     * 获取货品导出数据集合
+     * @param name
+     * @param categoriesName
+     * @param beginTime
+     * @param endTime
+     * @param rowNum
+     * @return
+     */
+    List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("rowNum") Integer rowNum);
+    /**
      * 根据ids获取产品名称列表
      * @param ids
      * @return
      */
     List<String> selectNameByIds(String ids);
 
-    void saveImportExcel(MultipartFile mf, Map columnName) throws Exception ;
+    /**
+     * 将导入的数据存库
+     * @param mf
+     * @param columnMapList
+     * @throws Exception
+     */
+    void saveImportExcel(MultipartFile mf, List<Map<String, String>> columnMapList) throws Exception ;
 
 }

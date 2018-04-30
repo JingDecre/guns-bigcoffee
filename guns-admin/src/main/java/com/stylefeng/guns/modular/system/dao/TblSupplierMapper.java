@@ -1,8 +1,7 @@
 package com.stylefeng.guns.modular.system.dao;
 
-import com.stylefeng.guns.modular.system.model.TblSupplier;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
+import com.stylefeng.guns.modular.system.model.TblSupplier;
 
 import java.util.List;
 import java.util.Map;
@@ -22,5 +21,11 @@ public interface TblSupplierMapper extends BaseMapper<TblSupplier> {
      * @return
      */
     List<Map<String, Object>> selectIdAndNameList();
+
+    /**
+     * 获取供应商id，中文名称，英文名称列表
+     * @return
+     */
+    List<Map<String, Object>> getIdAndNameList();
 
 }

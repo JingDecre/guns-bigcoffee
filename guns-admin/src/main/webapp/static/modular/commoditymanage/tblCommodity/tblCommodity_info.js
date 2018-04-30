@@ -231,26 +231,11 @@ TblCommodityInfoDlg.importSubmit = function () {
     // 上传excel
     $.ajax({
         async: false,//要求同步 不是不需看你的需求
-        url : Feng.ctxPath + "/tblCommodity/uploadExcel",
+        url : Feng.ctxPath + "/tblCommodity/import",
         type : 'POST',
         data : formData,
         processData : false,  //必须false才会避开jQuery对 formdata 的默认处理
         contentType : false,  //必须false才会自动加上正确的Content-Type
-        success : function(result) {
-
-        },
-        error : function(result) {
-            Feng.error("导入失败!");
-        }
-    });
-    //将数据存入数据库
-    $.ajax({
-        type: "post",
-        url: Feng.ctxPath + "/tblCommodity/import",
-        dataType: "json",
-        contentType: "application/json",
-        async: false,
-        data: TblCommodity.poiColumn(),
         success : function(result) {
             Feng.success("导入成功!");
         },
@@ -267,7 +252,7 @@ TblCommodityInfoDlg.exportSubmit = function () {
     var operation = function () {
         var queryData = TblCommodity.queryData;
         queryData['rowNum'] = $("#rowNum").val();
-        var param = {condition: JSON.stringify(queryData), columnName: TblCommodity.poiColumn()};
+        var param = {condition: JSON.stringify(queryData)};
         //生成表格
         $.ajax({
             type: "post",
