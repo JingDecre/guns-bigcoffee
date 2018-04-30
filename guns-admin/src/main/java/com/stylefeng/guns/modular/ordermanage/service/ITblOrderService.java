@@ -3,6 +3,7 @@ package com.stylefeng.guns.modular.ordermanage.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.modular.system.model.TblOrder;
 import com.baomidou.mybatisplus.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,12 +19,17 @@ import java.util.Map;
 public interface ITblOrderService extends IService<TblOrder> {
 
     /**
-     * 根据订单号获取产品列表
+     * 根据条件获取订单列表
      *
      * @param page
-     * @param condition
+     * @param code
+     * @param sku
+     * @param address
+     * @param logisticsCode
+     * @param beginTime
+     * @param endTime
      * @return
      */
-    List<Map<String, Object>> selectOrderList(Page<TblOrder> page, String condition);
+    List<Map<String, Object>> selectOrderList(@Param("page") Page<TblOrder> page, @Param("code") String code, @Param("sku") String sku, @Param("address") String address, @Param("logisticsCode") String logisticsCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
 }

@@ -26,7 +26,7 @@ public class TblOrderServiceImpl extends ServiceImpl<TblOrderMapper, TblOrder> i
     TblOrderMapper tblOrderMapper;
 
     @Override
-    public List<Map<String, Object>> selectOrderList(Page<TblOrder> page, String condition) {
-        return tblOrderMapper.selectOrderList(page, condition);
+    public List<Map<String, Object>> selectOrderList(Page<TblOrder> page, String code, String sku, String address, String logisticsCode, String beginTime, String endTime) {
+        return tblOrderMapper.selectOrderList(page, code, sku, address, logisticsCode, beginTime, endTime);
     }
 }

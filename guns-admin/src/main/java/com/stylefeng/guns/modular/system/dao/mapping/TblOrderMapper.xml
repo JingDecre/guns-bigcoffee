@@ -4,22 +4,22 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.TblOrder">
-        <id column="id" property="id" />
-        <result column="code" property="code" />
-        <result column="commodity_ids" property="commodityIds" />
-        <result column="commodity_details" property="commodityDetails" />
-        <result column="quantity" property="quantity" />
-        <result column="weight" property="weight" />
-        <result column="recipient_name" property="recipientName" />
-        <result column="transaction_date" property="transactionDate" />
-        <result column="country" property="country" />
-        <result column="province" property="province" />
-        <result column="city" property="city" />
-        <result column="county" property="county" />
-        <result column="detail_address" property="detailAddress" />
-        <result column="zipcode" property="zipcode" />
-        <result column="recipient_phone" property="recipientPhone" />
-        <result column="logistics_id" property="logisticsId" />
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="commodity_ids" property="commodityIds"/>
+        <result column="commodity_details" property="commodityDetails"/>
+        <result column="quantity" property="quantity"/>
+        <result column="weight" property="weight"/>
+        <result column="recipient_name" property="recipientName"/>
+        <result column="transaction_date" property="transactionDate"/>
+        <result column="country" property="country"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="county" property="county"/>
+        <result column="detail_address" property="detailAddress"/>
+        <result column="zipcode" property="zipcode"/>
+        <result column="recipient_phone" property="recipientPhone"/>
+        <result column="logistics_id" property="logisticsId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -32,11 +32,24 @@
 
     <select id="selectOrderList" resultType="map">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from tbl_order tod
         LEFT JOIN tbl_logistics tl ON tod.logistics_id = tl.id
-        <if test="condition != null">
-            where tod.code like CONCAT('%',#{condition},'%')
+        where 1=1
+        <if test="code != null and code != ''">
+            and tod.code like CONCAT('%',#{code},'%')
+        </if>
+        <if test="sku != null and sku != ''">
+            and tod.sku like CONCAT('%',#{sku},'%')
+        </if>
+        <if test="address != null and address != ''">
+            and (tod.country LIKE CONCAT('%',#{address},'%') OR tod.province LIKE CONCAT('%',#{address},'%') OR tod.city LIKE CONCAT('%',#{address},'%') OR tod.county LIKE CONCAT('%',#{address},'%'))
+        </if>
+        <if test="logisticsCode != null and logisticsCode != ''">
+            and tl.code like CONCAT('%',#{logisticsCode},'%')
+        </if>
+        <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
+            and (tod.transaction_date between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
         </if>
     </select>
 

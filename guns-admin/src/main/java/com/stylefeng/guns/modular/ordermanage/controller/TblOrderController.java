@@ -72,13 +72,29 @@ public class TblOrderController extends BaseController {
     }
 
     /**
+     * 跳转到添加货品管理导出
+     */
+    @RequestMapping("/tblOrder_import")
+    public String tblCommodityImport() {
+        return PREFIX + "tblOrder_import.html";
+    }
+
+    /**
+     * 跳转到添加货品管理导出
+     */
+    @RequestMapping("/tblOrder_export")
+    public String tblCommodityExport() {
+        return PREFIX + "tblOrder_export.html";
+    }
+
+    /**
      * 获取订单管理列表
      */
     @RequestMapping(value = "/list")
     @ResponseBody
-    public Object list(String condition) {
+    public Object list(@RequestParam String code, @RequestParam String sku, @RequestParam String address, @RequestParam String logisticsCode, @RequestParam String beginTime, @RequestParam String endTime) {
         Page<TblOrder> page = new PageFactory<TblOrder>().defaultPage();
-        List<Map<String, Object>> list = this.tblOrderService.selectOrderList(page, condition);
+        List<Map<String, Object>> list = this.tblOrderService.selectOrderList(page, code, sku, address, logisticsCode, beginTime, endTime);
         page.setRecords((List<TblOrder>) new CategoriesWarpper(list).warp());
         return super.packForBT(page);
     }
