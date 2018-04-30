@@ -30,6 +30,14 @@
         tod.logistics_id AS logisticsId, tl.code AS logisticsCode
     </sql>
 
+    <!-- 导出查询结果列 -->
+    <sql id="Export_Column_List">
+        tod.code AS code, tod.sku AS sku, tod.commodity_details AS commodityDetails,
+        tod.quantity AS quantity, tod.weight AS weight, tod.recipient_name AS recipientName, tod.transaction_date AS transactionDate,
+        tod.country AS contry, tod.province AS province, tod.city AS city, tod.county AS county, tod.detail_address AS detailAddress, tod.zipcode As zipcode, tod.recipient_phone AS recipientPhone,
+        tl.code AS logisticsCode
+    </sql>
+
     <select id="selectOrderList" resultType="map">
         select
         <include refid="Base_Column_List"/>
@@ -50,6 +58,32 @@
         </if>
         <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
             and (tod.transaction_date between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+    </select>
+
+    <select id="selectOrderVoList" resultType="com.stylefeng.guns.modular.ordermanage.vo.TblOrderVo">
+        select
+        <include refid="Export_Column_List"/>
+        from tbl_order tod
+        LEFT JOIN tbl_logistics tl ON tod.logistics_id = tl.id
+        where 1=1
+        <if test="code != null and code != ''">
+            and tod.code like CONCAT('%',#{code},'%')
+        </if>
+        <if test="sku != null and sku != ''">
+            and tod.sku like CONCAT('%',#{sku},'%')
+        </if>
+        <if test="address != null and address != ''">
+            and (tod.country LIKE CONCAT('%',#{address},'%') OR tod.province LIKE CONCAT('%',#{address},'%') OR tod.city LIKE CONCAT('%',#{address},'%') OR tod.county LIKE CONCAT('%',#{address},'%'))
+        </if>
+        <if test="logisticsCode != null and logisticsCode != ''">
+            and tl.code like CONCAT('%',#{logisticsCode},'%')
+        </if>
+        <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
+            and (tod.transaction_date between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        <if test="startPage != null and pageSize != null and pageSize != 0 ">
+            limit #{startPage}, #{pageSize}
         </if>
     </select>
 

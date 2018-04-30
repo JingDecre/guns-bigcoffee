@@ -246,7 +246,8 @@ TblOrderInfoDlg.importSubmit = function () {
 TblOrderInfoDlg.exportSubmit = function () {
     var operation = function () {
         var queryData = TblOrder.queryData;
-        queryData['rowNum'] = $("#rowNum").val();
+        queryData['startPage'] = $("#startPage").val();
+        queryData['pageSize'] = $("#pageSize").val();
         var param = {condition: JSON.stringify(queryData)};
         //生成表格
         $.ajax({
@@ -274,6 +275,7 @@ TblOrderInfoDlg.exportSubmit = function () {
 
     Feng.confirm("是否导出?", operation);
 };
+
 
 
 $(function() {

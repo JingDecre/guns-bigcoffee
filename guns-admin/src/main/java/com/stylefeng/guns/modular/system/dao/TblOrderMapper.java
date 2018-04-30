@@ -1,8 +1,9 @@
 package com.stylefeng.guns.modular.system.dao;
 
-import com.baomidou.mybatisplus.plugins.Page;
-import com.stylefeng.guns.modular.system.model.TblOrder;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.stylefeng.guns.modular.ordermanage.vo.TblOrderVo;
+import com.stylefeng.guns.modular.system.model.TblOrder;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -32,4 +33,18 @@ public interface TblOrderMapper extends BaseMapper<TblOrder> {
      */
     List<Map<String, Object>> selectOrderList(@Param("page") Page<TblOrder> page, @Param("code") String code, @Param("sku") String sku, @Param("address") String address, @Param("logisticsCode") String logisticsCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
+    /**
+     * 根据条件获取订单导出对象列表
+     *
+     * @param code
+     * @param sku
+     * @param address
+     * @param logisticsCode
+     * @param beginTime
+     * @param endTime
+     * @param startPage
+     * @param pageSize
+     * @return
+     */
+    List<TblOrderVo> selectOrderVoList(@Param("code") String code, @Param("sku") String sku, @Param("address") String address, @Param("logisticsCode") String logisticsCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
 }

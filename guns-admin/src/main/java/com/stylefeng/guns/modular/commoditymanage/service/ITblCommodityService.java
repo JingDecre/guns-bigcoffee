@@ -40,7 +40,7 @@ public interface ITblCommodityService extends IService<TblCommodity> {
      * @param rowNum
      * @return
      */
-    List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("rowNum") Integer rowNum);
+    List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
     /**
      * 根据ids获取产品名称列表
      * @param ids

@@ -253,7 +253,8 @@ TblCommodityInfoDlg.importSubmit = function () {
 TblCommodityInfoDlg.exportSubmit = function () {
     var operation = function () {
         var queryData = TblCommodity.queryData;
-        queryData['rowNum'] = $("#rowNum").val();
+        queryData['startPage'] = $("#startPage").val();
+        queryData['pageSize'] = $("#pageSize").val();
         var param = {condition: JSON.stringify(queryData)};
         //生成表格
         $.ajax({

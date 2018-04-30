@@ -246,7 +246,9 @@ public class TblCommodityController extends BaseController {
             Map conditionMap = gson.fromJson(param.get("condition"), new TypeToken<Map>() {
             }.getType());
             //导出列名
-            List<TblCommodityVo> list = tblCommodityService.selectCommodityVoList(conditionMap.get("name").toString(), conditionMap.get("categoriesName").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), ToolUtil.isEmpty(conditionMap.get("rowNum")) ? 0 : Integer.valueOf(conditionMap.get("rowNum").toString()));
+            Integer startPage = ToolUtil.isEmpty(conditionMap.get("startPage")) ? 0 : Integer.valueOf(conditionMap.get("startPage").toString());
+            Integer pageSize = ToolUtil.isEmpty(conditionMap.get("pageSize")) ? 55000 : Integer.valueOf(conditionMap.get("pageSize").toString());
+            List<TblCommodityVo> list = tblCommodityService.selectCommodityVoList(conditionMap.get("name").toString(), conditionMap.get("categoriesName").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), startPage, pageSize);
             List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
             mapList.add(PoiUtils.getExportMap(list, "货品列表", TblCommodityVo.class));
             workbook = PoiUtils.exportExcel(mapList, ExcelType.HSSF);

@@ -4,7 +4,14 @@
         <div class="form-horizontal" id="categoriesInfoForm">
             <div class="row">
                 <div class="col-sm-12">
-                    <#input id="rowNum" name="导出行数" keyupFun="this.value=this.value.replace(/[^1-9]/g,'')" placeholder="0或没值时查询全部" underline="false"/>
+                    <#input id="startPage" name="起始行" keyupFun="this.value=this.value.replace(/[^0-9]/g,'')"
+                    placeholder="0或没值时查询全部" underline="false"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <#input id="pageSize" name="导出行数" keyupFun="this.value=this.value.replace(/[^0-9]/g,'')"
+                    placeholder="输入不大于55000的数" underline="false"/>
                 </div>
             </div>
         </div>

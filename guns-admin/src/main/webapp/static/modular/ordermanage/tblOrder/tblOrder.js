@@ -5,7 +5,15 @@ var TblOrder = {
     id: "TblOrderTable",	//表格id
     seItem: null,		//选中的条目
     table: null,
-    layerIndex: -1
+    layerIndex: -1,
+    queryData: {
+        code: '',
+        sku: '',
+        address: '',
+        logisticsCode: '',
+        beginTime: '',
+        endTime: ''
+    }
 };
 
 /**
@@ -153,16 +161,6 @@ TblOrder.export = function () {
     });
     this.layerIndex = index;
 };
-
-TblOrder.quertData = {
-    code: '',
-    sku: '',
-    address: '',
-    logisticsCode: '',
-    beginTime: '',
-    endTime: ''
-};
-
 
 /**
  * 查询订单管理列表

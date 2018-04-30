@@ -92,8 +92,8 @@
         <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
             and (tcd.updatetime between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
         </if>
-        <if test="rowNum != null and rowNum != 0">
-            limit 0, #{rowNum}
+        <if test="startPage != null and pageSize != null and pageSize != 0 ">
+            limit #{startPage}, #{pageSize}
         </if>
     </select>
 

@@ -5,7 +5,13 @@ var TblCommodity = {
     id: "TblCommodityTable",	//表格id
     seItem: null,		//选中的条目
     table: null,
-    layerIndex: -1
+    layerIndex: -1,
+    queryData: {
+        name: '',
+        categoriesName: '',
+        beginTime:  '',
+        endTime:  ''
+    }
 };
 
 /**
@@ -164,14 +170,6 @@ TblCommodity.export = function () {
     });
     this.layerIndex = index;
 };
-
-TblCommodity.queryData = {
-    name: '',
-    categoriesName: '',
-    beginTime:  '',
-    endTime:  ''
-};
-
 
 /**
  * 查询货品管理列表

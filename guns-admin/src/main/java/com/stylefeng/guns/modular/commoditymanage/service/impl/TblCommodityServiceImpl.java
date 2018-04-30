@@ -36,8 +36,8 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
     }
 
     @Override
-    public List<TblCommodityVo> selectCommodityVoList(String name, String categoriesName, String beginTime, String endTime, Integer rowNum) {
-        return tblCommodityMapper.selectCommodityVoList(name, categoriesName, beginTime, endTime, rowNum);
+    public List<TblCommodityVo> selectCommodityVoList(String name, String categoriesName, String beginTime, String endTime, Integer startPage, Integer pageSize) {
+        return tblCommodityMapper.selectCommodityVoList(name, categoriesName, beginTime, endTime, startPage, pageSize);
     }
 
     @Override

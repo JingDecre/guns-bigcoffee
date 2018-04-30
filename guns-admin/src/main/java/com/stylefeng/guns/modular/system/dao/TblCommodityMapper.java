@@ -36,10 +36,11 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
      * @param categoriesName
      * @param beginTime
      * @param endTime
-     * @param rowNum
+     * @param startPage
+     * @param pageSize
      * @return
      */
-    List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("rowNum") Integer rowNum);
+    List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
     /**
      * 根据ids查询货品名称列表
      * @param ids

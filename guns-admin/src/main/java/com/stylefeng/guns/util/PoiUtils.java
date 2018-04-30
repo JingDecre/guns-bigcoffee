@@ -58,7 +58,7 @@ public class PoiUtils {
      * @param <T>
      * @return
      */
-    public static <T> List<T> importExcel(MultipartFile file, Integer titleRows, Integer headerRows, Class<T> pojoClass) {
+    public static <T> List<T> importExcel(MultipartFile file, Integer titleRows, Integer headerRows, Class<?> pojoClass) {
         if (file == null) {
             return null;
         }
