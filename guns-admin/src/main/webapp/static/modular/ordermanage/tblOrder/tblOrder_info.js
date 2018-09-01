@@ -90,6 +90,24 @@ var TblOrderInfoDlg = {
                     message: '详细地址不能为空'
                 }
             }
+        },
+        belongPlatform: {
+            validators: {
+                notEmpty: {
+                    message: '所属平台不能为空'
+                }
+            }
+        },
+        orderAmount: {
+            validators: {
+                notEmpty: {
+                    message: '金额不能为空'
+                }
+            },
+            regexp:{
+                regexp: /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/,
+                message: '金额应为正数且最多两位小数!'
+            }
         }
 
     }
@@ -151,8 +169,10 @@ TblOrderInfoDlg.collectData = function() {
     .set('detailAddress')
     .set('zipcode')
     .set('recipientPhone')
-    .set('logisticsId');
-}
+    .set('logisticsId')
+    .set('belongPlatform')
+    .set('orderAmount');
+};
 
 /**
  * 验证数据是否为空

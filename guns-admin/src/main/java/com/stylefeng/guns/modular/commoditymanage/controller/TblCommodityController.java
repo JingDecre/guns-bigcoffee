@@ -206,6 +206,17 @@ public class TblCommodityController extends BaseController {
             tblCommodity.setPurchasePrice(item.getPurchasePrice());
             tblCommodity.setCreatetime(new Date());
             tblCommodity.setUpdatetime(new Date());
+            tblCommodity.setKeyWord(item.getKeyWord());
+            tblCommodity.setCoreWord(item.getCoreWord());
+            tblCommodity.setLongTailWord(item.getLongTailWord());
+            tblCommodity.setPictureUrlOne(item.getPictureUrlOne());
+            tblCommodity.setPictureUrlTwo(item.getPictureUrlTwo());
+            tblCommodity.setPictureUrlThree(item.getPictureUrlThree());
+            tblCommodity.setPictureUrlFour(item.getPictureUrlFour());
+            tblCommodity.setPictureUrlFive(item.getPictureUrlFive());
+            tblCommodity.setPictureUrlSix(item.getPictureUrlSix());
+            tblCommodity.setPictureUrlSeven(item.getPictureUrlSeven());
+            tblCommodity.setPictureUrlEight(item.getPictureUrlEight());
             insertList.add(tblCommodity);
         });
         if (insertList.size() > 0) {

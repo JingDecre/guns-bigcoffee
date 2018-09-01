@@ -42,7 +42,28 @@ TblCommodity.initColumn = function () {
             {title: '采购价', field: 'purchasePrice', visible: false, align: 'center', valign: 'middle'},
             /*{title: '产品图片id', field: 'pictureId', visible: true, align: 'center', valign: 'middle'},
             {title: '商品添加时间', field: 'createtime', visible: true, align: 'center', valign: 'middle'},*/
-            {title: '商品更新时间', field: 'updatetime', visible: true, align: 'center', valign: 'middle'}
+            {title: '商品更新时间', field: 'updatetime', visible: true, align: 'center', valign: 'middle'},
+            {title: '关键词', field: 'keyWord', visible: true, align: 'center', valign: 'middle'},
+            {title: '核心词', field: 'coreWord', visible: false, align: 'center', valign: 'middle'},
+            {title: '长尾词', field: 'longTailWord', visible: false, align: 'center', valign: 'middle'},
+            {title: '货品图片', field: 'imgString',
+                formatter:function(value,row,index){
+                    var s = '';
+                    if (value) {
+                        s = '<img style="width:250px;height:350px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" />';
+                    }
+                    return s;
+                }
+            },
+            {title: '主图1', field: 'pictureUrlOne', visible: false, align: 'center', valign: 'middle'},
+            {title: '图片2', field: 'pictureUrlTwo', visible: false, align: 'center', valign: 'middle'},
+            {title: '图片3', field: 'pictureUrlThree', visible: false, align: 'center', valign: 'middle'},
+            {title: '图片4', field: 'pictureUrlFour', visible: false, align: 'center', valign: 'middle'},
+            {title: '图片5', field: 'pictureUrlFive', visible: false, align: 'center', valign: 'middle'},
+            {title: '图片6', field: 'pictureUrlSix', visible: false, align: 'center', valign: 'middle'},
+            {title: '图片7', field: 'pictureUrlSeven', visible: false, align: 'center', valign: 'middle'},
+            {title: '图片8', field: 'pictureUrlEight', visible: false, align: 'center', valign: 'middle'}
+
     ];
 };
 
@@ -72,8 +93,19 @@ TblCommodity.poiColumn = function () {
         {"title": "采购价", "key": "purchasePrice", "sortNo": "19"},
         /*{"title": "产品图片id", "key": "pictureId"},
         {"title": "商品添加时间", "key": "createtime", "dataType": "dateTime"},*/
-        {"title": "商品更新时间", "key": "updatetime", "sortNo": "20", "dataType": "dateTime"}
-    ];
+        {"title": "商品更新时间", "key": "updatetime", "sortNo": "20", "dataType": "dateTime"},
+        {"title": "关键词", "key": "keyWord", "sortNo": "21"},
+        {"title": "核心词", "key": "coreWord", "sortNo": "22"},
+        {"title": "长尾词", "key": "longTailWord", "sortNo": "23"},
+        {"title": "主图1", "key": "pictureUrlOne", "sortNo": "24"},
+        {"title": "图片2", "key": "pictureUrlTwo", "sortNo": "25"},
+        {"title": "图片3", "key": "pictureUrlThree", "sortNo": "26"},
+        {"title": "图片4", "key": "pictureUrlFour", "sortNo": "27"},
+        {"title": "图片5", "key": "pictureUrlFive", "sortNo": "28"},
+        {"title": "图片6", "key": "pictureUrlSix", "sortNo": "29"},
+        {"title": "图片7", "key": "pictureUrlSeven", "sortNo": "30"},
+        {"title": "图片8", "key": "pictureUrlEight", "sortNo": "31"}
+];
     return JSON.stringify(arr);
 };
 

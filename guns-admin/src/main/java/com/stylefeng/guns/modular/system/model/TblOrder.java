@@ -1,13 +1,13 @@
 package com.stylefeng.guns.modular.system.model;
 
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -98,6 +98,18 @@ public class TblOrder extends Model<TblOrder> {
      */
     @TableField("logistics_id")
     private String logisticsId;
+
+    /**
+     * 所属平台
+     */
+    @TableField("belong_platform")
+    private String belongPlatform;
+
+    /**
+     * 金额
+     */
+    @TableField("order_amount")
+    private BigDecimal orderAmount;
 
 
     public Long getId() {
@@ -236,6 +248,22 @@ public class TblOrder extends Model<TblOrder> {
         this.logisticsId = logisticsId;
     }
 
+    public String getBelongPlatform() {
+        return belongPlatform;
+    }
+
+    public void setBelongPlatform(String belongPlatform) {
+        this.belongPlatform = belongPlatform;
+    }
+
+    public BigDecimal getOrderAmount() {
+        return orderAmount;
+    }
+
+    public void setOrderAmount(BigDecimal orderAmount) {
+        this.orderAmount = orderAmount;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -244,22 +272,25 @@ public class TblOrder extends Model<TblOrder> {
     @Override
     public String toString() {
         return "TblOrder{" +
-        "id=" + id +
-        ", code=" + code +
-        ", commodityIds=" + commodityIds +
-        ", commodityDetails=" + commodityDetails +
-        ", quantity=" + quantity +
-        ", weight=" + weight +
-        ", recipientName=" + recipientName +
-        ", transactionDate=" + transactionDate +
-        ", country=" + country +
-        ", province=" + province +
-        ", city=" + city +
-        ", county=" + county +
-        ", detailAddress=" + detailAddress +
-        ", zipcode=" + zipcode +
-        ", recipientPhone=" + recipientPhone +
-        ", logisticsId=" + logisticsId +
-        "}";
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", sku='" + sku + '\'' +
+                ", commodityIds='" + commodityIds + '\'' +
+                ", commodityDetails='" + commodityDetails + '\'' +
+                ", quantity=" + quantity +
+                ", weight=" + weight +
+                ", recipientName='" + recipientName + '\'' +
+                ", transactionDate='" + transactionDate + '\'' +
+                ", country='" + country + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", county='" + county + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                ", recipientPhone='" + recipientPhone + '\'' +
+                ", logisticsId='" + logisticsId + '\'' +
+                ", belongPlatform='" + belongPlatform + '\'' +
+                ", orderAmount=" + orderAmount +
+                '}';
     }
 }

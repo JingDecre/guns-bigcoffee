@@ -22,11 +22,13 @@ var TblOrder = {
 TblOrder.initColumn = function () {
     return [
         {field: 'selectItem', radio: true},
-        {title: 'id', field: 'id', visible: true, align: 'center', valign: 'middle'},
+        {title: '编号', field: 'id', visible: true, align: 'center', valign: 'middle'},
+        {title: '所属平台', field: 'belongPlatform', visible: true, align: 'center', valign: 'middle'},
         {title: '订单号', field: 'code', visible: true, align: 'center', valign: 'middle'},
+        {title: '金额', field: 'orderAmount', visible: true, align: 'center', valign: 'middle'},
         {title: 'sku码', field: 'sku', visible: true, align: 'center', valign: 'middle'},
         /*{title: '货品id', field: 'commodityIds', visible: true, align: 'center', valign: 'middle'},*/
-        {title: '订单货品详情', field: 'commodityDetails', visible: true, align: 'center', valign: 'middle'},
+        {title: '订单货品详情', field: 'commodityDetails', visible: false, align: 'center', valign: 'middle'},
         {title: '数量', field: 'quantity', visible: true, align: 'center', valign: 'middle'},
         {title: '重量', field: 'weight', visible: true, align: 'center', valign: 'middle'},
         {title: '收件人姓名', field: 'recipientName', visible: true, align: 'center', valign: 'middle'},
@@ -36,7 +38,7 @@ TblOrder.initColumn = function () {
         {title: '城市', field: 'city', visible: true, align: 'center', valign: 'middle'},
         {title: '县 | 区 | 市', field: 'county', visible: true, align: 'center', valign: 'middle'},
         {title: '详细地址', field: 'detailAddress', visible: true, align: 'center', valign: 'middle'},
-        {title: '邮编', field: 'zipcode', visible: true, align: 'center', valign: 'middle'},
+        {title: '邮编', field: 'zipcode', visible: false, align: 'center', valign: 'middle'},
         {title: '收件人联系电话', field: 'recipientPhone', visible: true, align: 'center', valign: 'middle'},
         {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'}
     ];
@@ -47,7 +49,9 @@ TblOrder.initColumn = function () {
  */
 TblOrder.poiColumn = function () {
     return [
+        {title: '所属平台', field: 'belongPlatform'},
         {title: '订单号', field: 'code'},
+        {title: '金额', field: 'orderAmount'},
         {title: 'sku码', field: 'sku'},
         /*{title: '货品id', field: 'commodityIds'},*/
         {title: '订单货品详情', field: 'commodityDetails'},
@@ -63,6 +67,7 @@ TblOrder.poiColumn = function () {
         {title: '邮编', field: 'zipcode'},
         {title: '收件人联系电话', field: 'recipientPhone'},
         {title: '物流单号', field: 'logisticsCode'}
+
     ];
 };
 

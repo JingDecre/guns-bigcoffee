@@ -16,28 +16,7 @@ import java.util.Date;
  */
 public class TblCommodityVo implements Serializable {
     private static final long serialVersionUID = 1L;
-    /*{"title": "货品sku", "key": "sku", "sortNo": "1"},
-    {"title": "英文名称", "key": "esname", "sortNo": "2"},
-    {"title": "中文名称", "key": "cnname", "sortNo": "3"},
-    {"title": "分类", "key": "categoriesName", "sortNo": "4"},
-    {"title": "货品spu", "key": "spu", "sortNo": "5"},
-    {"title": "库存", "key": "stock", "sortNo": "6"},
-    {"title": "标题", "key": "title", "sortNo": "7"},
-    {"title": "折扣价格", "key": "discountPrice", "sortNo": "8"},
-    {"title": "原价格", "key": "originPrice", "sortNo": "9"},
-    {"title": "颜色", "key": "color", "sortNo": "10"},
-    {"title": "产品尺寸", "key": "productSize", "sortNo": "11"},
-    {"title": "重量(kg)", "key": "weight", "sortNo": "12"},
-    {"title": "包裹尺寸", "key": "packageSize", "sortNo": "13"},
-    {"title": "品牌", "key": "brands", "sortNo": "14"},
-    {"title": "描述", "key": "desc", "sortNo": "15"},
-    {"title": "所属供应商(CN)", "key": "supplierCnName", "sortNo": "16"},
-    {"title": "所属供应商(ES)", "key": "supplierEsName", "sortNo": "17"},
-    {"title": "供应商电话", "key": "supplierPhone", "sortNo": "18"},
-    {"title": "采购价", "key": "purchasePrice", "sortNo": "19"},
-    *//*{"title": "产品图片id", "key": "pictureId"},
-    {"title": "商品添加时间", "key": "createtime", "dataType": "dateTime"},*//*
-    {"title": "商品更新时间", "key": "updatetime", "sortNo": "20", "dataType": "dateTime"}*/
+
     @Excel(name = "货品sku")
     private String sku;
 
@@ -100,6 +79,39 @@ public class TblCommodityVo implements Serializable {
 
     @Excel(name = "商品更新时间", exportFormat = "yyyy-MM-dd HH:mm:ss", importFormat = "yyyy-MM-dd HH:mm:ss")
     private Date updatetime;
+
+    @Excel(name = "关键词")
+    private String keyWord;
+
+    @Excel(name = "核心词")
+    private String coreWord;
+
+    @Excel(name = "长尾词")
+    private String longTailWord;
+
+    @Excel(name = "主图1")
+    private String pictureUrlOne;
+
+    @Excel(name = "图片2")
+    private String pictureUrlTwo;
+
+    @Excel(name = "图片3")
+    private String pictureUrlThree;
+
+    @Excel(name = "图片4")
+    private String pictureUrlFour;
+
+    @Excel(name = "图片5")
+    private String pictureUrlFive;
+
+    @Excel(name = "图片6")
+    private String pictureUrlSix;
+
+    @Excel(name = "图片7")
+    private String pictureUrlSeven;
+
+    @Excel(name = "图片8")
+    private String pictureUrlEight;
 
     public String getSku() {
         return sku;
@@ -267,5 +279,93 @@ public class TblCommodityVo implements Serializable {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
+    }
+
+    public String getCoreWord() {
+        return coreWord;
+    }
+
+    public void setCoreWord(String coreWord) {
+        this.coreWord = coreWord;
+    }
+
+    public String getLongTailWord() {
+        return longTailWord;
+    }
+
+    public void setLongTailWord(String longTailWord) {
+        this.longTailWord = longTailWord;
+    }
+
+    public String getPictureUrlOne() {
+        return pictureUrlOne;
+    }
+
+    public void setPictureUrlOne(String pictureUrlOne) {
+        this.pictureUrlOne = pictureUrlOne;
+    }
+
+    public String getPictureUrlTwo() {
+        return pictureUrlTwo;
+    }
+
+    public void setPictureUrlTwo(String pictureUrlTwo) {
+        this.pictureUrlTwo = pictureUrlTwo;
+    }
+
+    public String getPictureUrlThree() {
+        return pictureUrlThree;
+    }
+
+    public void setPictureUrlThree(String pictureUrlThree) {
+        this.pictureUrlThree = pictureUrlThree;
+    }
+
+    public String getPictureUrlFour() {
+        return pictureUrlFour;
+    }
+
+    public void setPictureUrlFour(String pictureUrlFour) {
+        this.pictureUrlFour = pictureUrlFour;
+    }
+
+    public String getPictureUrlFive() {
+        return pictureUrlFive;
+    }
+
+    public void setPictureUrlFive(String pictureUrlFive) {
+        this.pictureUrlFive = pictureUrlFive;
+    }
+
+    public String getPictureUrlSix() {
+        return pictureUrlSix;
+    }
+
+    public void setPictureUrlSix(String pictureUrlSix) {
+        this.pictureUrlSix = pictureUrlSix;
+    }
+
+    public String getPictureUrlSeven() {
+        return pictureUrlSeven;
+    }
+
+    public void setPictureUrlSeven(String pictureUrlSeven) {
+        this.pictureUrlSeven = pictureUrlSeven;
+    }
+
+    public String getPictureUrlEight() {
+        return pictureUrlEight;
+    }
+
+    public void setPictureUrlEight(String pictureUrlEight) {
+        this.pictureUrlEight = pictureUrlEight;
     }
 }

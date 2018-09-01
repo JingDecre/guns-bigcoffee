@@ -7,26 +7,29 @@
 
             <div class="row">
                 <div class="col-sm-6 b-r">
-                    <#input id="code" name="订单号" underline="false"/>
+                    <#input id="belongPlatform" name="所属平台" underline="false"/>
+                    <#input id="code" name="订单号" underline="true"/>
                     <!--<#input id="commodityIds" name="货品id" underline="true"/>-->
-                    <#input id="commodityDetails" name="订单货品详情" underline="true"/>
-                    <#input id="quantity" name="数量" underline="false"/>
-                    <#input id="weight" name="重量(kg)" underline="true"/>
-                    <#input id="recipientName" name="收件人姓名" underline="false"/>
+                    <#input id="commodityDetails" name="订单货品详情" underline="false"/>
+                    <#input id="quantity" name="数量" underline="true"/>
+                    <#input id="weight" name="重量(kg)" underline="false"/>
+                    <#input id="recipientName" name="收件人姓名" underline="true"/>
                     <#input id="transactionDate" name="订单日期"
-                        clickFun="laydate({istime: false, format: 'YYYY-MM-DD'})" underline="true"/>
+                        clickFun="laydate({istime: false, format: 'YYYY-MM-DD'})" underline="false"/>
                     <#input id="recipientPhone" name="收件人联系电话"/>
+
                 </div>
 
                 <div class="col-sm-6">
                     <#input id="sku" name="sku码" underline="false"/>
-                    <#input id="country" name="国家" underline="true"/>
-                    <#input id="province" name="州/省" underline="false"/>
-                    <#input id="city" name="城市" underline="true"/>
-                    <#input id="county" name="县/区/ 市" underline="false"/>
-                    <#input id="detailAddress" name="详细地址" underline="true"/>
-                    <#input id="zipcode" name="邮编" underline="false"/>
-                    <#select id="logisticsId" name="物流单号" underline="false">
+                    <#input id="orderAmount" name="金额" underline="true"/>
+                    <#input id="country" name="国家" underline="false"/>
+                    <#input id="province" name="州/省" underline="true"/>
+                    <#input id="city" name="城市" underline="false"/>
+                    <#input id="county" name="县/区/ 市" underline="true"/>
+                    <#input id="detailAddress" name="详细地址" underline="false"/>
+                    <#input id="zipcode" name="邮编"  underline="true"/>
+                    <#select id="logisticsId" name="物流单号">
                         <option value="">请选择-----</option>
                         @ for(logistics in logisticsList){
                         <option value="${logistics.id}">${logistics.code}</option>

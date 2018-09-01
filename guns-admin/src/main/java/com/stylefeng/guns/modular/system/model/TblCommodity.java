@@ -1,15 +1,14 @@
 package com.stylefeng.guns.modular.system.model;
 
-import java.io.Serializable;
-
+import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableName;
-import java.io.Serializable;
 
 /**
  * <p>
@@ -117,6 +116,39 @@ public class TblCommodity extends Model<TblCommodity> {
      * 商品更新时间
      */
     private Date updatetime;
+
+    @TableField("key_word")
+    private String keyWord;
+
+    @TableField("core_word")
+    private String coreWord;
+
+    @TableField("long_tail_word")
+    private String longTailWord;
+
+    @TableField("picture_url_one")
+    private String pictureUrlOne;
+
+    @TableField("picture_url_two")
+    private String pictureUrlTwo;
+
+    @TableField("picture_url_three")
+    private String pictureUrlThree;
+
+    @TableField("picture_url_four")
+    private String pictureUrlFour;
+
+    @TableField("picture_url_five")
+    private String pictureUrlFive;
+
+    @TableField("picture_url_six")
+    private String pictureUrlSix;
+
+    @TableField("picture_url_seven")
+    private String pictureUrlSeven;
+
+    @TableField("picture_url_eight")
+    private String pictureUrlEight;
 
 
     public Integer getId() {
@@ -287,6 +319,94 @@ public class TblCommodity extends Model<TblCommodity> {
         this.updatetime = updatetime;
     }
 
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
+    }
+
+    public String getCoreWord() {
+        return coreWord;
+    }
+
+    public void setCoreWord(String coreWord) {
+        this.coreWord = coreWord;
+    }
+
+    public String getLongTailWord() {
+        return longTailWord;
+    }
+
+    public void setLongTailWord(String longTailWord) {
+        this.longTailWord = longTailWord;
+    }
+
+    public String getPictureUrlOne() {
+        return pictureUrlOne;
+    }
+
+    public void setPictureUrlOne(String pictureUrlOne) {
+        this.pictureUrlOne = pictureUrlOne;
+    }
+
+    public String getPictureUrlTwo() {
+        return pictureUrlTwo;
+    }
+
+    public void setPictureUrlTwo(String pictureUrlTwo) {
+        this.pictureUrlTwo = pictureUrlTwo;
+    }
+
+    public String getPictureUrlThree() {
+        return pictureUrlThree;
+    }
+
+    public void setPictureUrlThree(String pictureUrlThree) {
+        this.pictureUrlThree = pictureUrlThree;
+    }
+
+    public String getPictureUrlFour() {
+        return pictureUrlFour;
+    }
+
+    public void setPictureUrlFour(String pictureUrlFour) {
+        this.pictureUrlFour = pictureUrlFour;
+    }
+
+    public String getPictureUrlFive() {
+        return pictureUrlFive;
+    }
+
+    public void setPictureUrlFive(String pictureUrlFive) {
+        this.pictureUrlFive = pictureUrlFive;
+    }
+
+    public String getPictureUrlSix() {
+        return pictureUrlSix;
+    }
+
+    public void setPictureUrlSix(String pictureUrlSix) {
+        this.pictureUrlSix = pictureUrlSix;
+    }
+
+    public String getPictureUrlSeven() {
+        return pictureUrlSeven;
+    }
+
+    public void setPictureUrlSeven(String pictureUrlSeven) {
+        this.pictureUrlSeven = pictureUrlSeven;
+    }
+
+    public String getPictureUrlEight() {
+        return pictureUrlEight;
+    }
+
+    public void setPictureUrlEight(String pictureUrlEight) {
+        this.pictureUrlEight = pictureUrlEight;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -295,27 +415,38 @@ public class TblCommodity extends Model<TblCommodity> {
     @Override
     public String toString() {
         return "TblCommodity{" +
-        "id=" + id +
-        ", esname=" + esname +
-        ", cnname=" + cnname +
-        ", categoriesId=" + categoriesId +
-        ", sku=" + sku +
-        ", spu=" + spu +
-        ", stock=" + stock +
-        ", title=" + title +
-        ", discountPrice=" + discountPrice +
-        ", originPrice=" + originPrice +
-        ", color=" + color +
-        ", productSize=" + productSize +
-        ", weight=" + weight +
-        ", packageSize=" + packageSize +
-        ", brands=" + brands +
-        ", desc=" + desc +
-        ", supplierId=" + supplierId +
-        ", purchasePrice=" + purchasePrice +
-        ", pictureId=" + pictureId +
-        ", createtime=" + createtime +
-        ", updatetime=" + updatetime +
-        "}";
+                "id=" + id +
+                ", esname='" + esname + '\'' +
+                ", cnname='" + cnname + '\'' +
+                ", categoriesId='" + categoriesId + '\'' +
+                ", sku='" + sku + '\'' +
+                ", spu='" + spu + '\'' +
+                ", stock='" + stock + '\'' +
+                ", title='" + title + '\'' +
+                ", discountPrice=" + discountPrice +
+                ", originPrice=" + originPrice +
+                ", color='" + color + '\'' +
+                ", productSize='" + productSize + '\'' +
+                ", weight=" + weight +
+                ", packageSize='" + packageSize + '\'' +
+                ", brands='" + brands + '\'' +
+                ", desc='" + desc + '\'' +
+                ", supplierId='" + supplierId + '\'' +
+                ", purchasePrice=" + purchasePrice +
+                ", pictureId='" + pictureId + '\'' +
+                ", createtime=" + createtime +
+                ", updatetime=" + updatetime +
+                ", keyWord='" + keyWord + '\'' +
+                ", coreWord='" + coreWord + '\'' +
+                ", longTailWord='" + longTailWord + '\'' +
+                ", pictureUrlOne='" + pictureUrlOne + '\'' +
+                ", pictureUrlTwo='" + pictureUrlTwo + '\'' +
+                ", pictureUrlThree='" + pictureUrlThree + '\'' +
+                ", pictureUrlFour='" + pictureUrlFour + '\'' +
+                ", pictureUrlFive='" + pictureUrlFive + '\'' +
+                ", pictureUrlSix='" + pictureUrlSix + '\'' +
+                ", pictureUrlSeven='" + pictureUrlSeven + '\'' +
+                ", pictureUrlEight='" + pictureUrlEight + '\'' +
+                '}';
     }
 }

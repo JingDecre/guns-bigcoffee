@@ -46,6 +46,6 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
      * @param ids
      * @return
      */
-    List<String> selsectNameByIds(@Param("ids")String ids);
+    List<String> selectNameByIds(@Param("ids")String ids);
 
 }

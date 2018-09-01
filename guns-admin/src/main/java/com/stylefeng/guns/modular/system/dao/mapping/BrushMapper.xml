@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BrushMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.Brush">
+        <id column="id" property="id" />
+        <result column="operate_time" property="operateTime" />
+        <result column="whether_success" property="whetherSuccess" />
+        <result column="logistics_id" property="logisticsId" />
+        <result column="platform_account" property="platformAccount" />
+        <result column="customer_info" property="customerInfo" />
+        <result column="search_way" property="searchWay" />
+        <result column="order_amount" property="orderAmount" />
+        <result column="comment_content" property="commentContent" />
+        <result column="comment_picture_one" property="commentPictureOne" />
+        <result column="comment_picture_two" property="commentPictureTwo" />
+        <result column="comment_picture_three" property="commentPictureThree" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        tb.id AS  id, DATE_FORMAT(tb.operate_time,'%Y-%m-%d %H:%i:%s') AS operateTime, tb.whether_success AS whetherSuccess, tb.logistics_id AS logisticsId, tl.code as logisticsCode, tb.platform_account AS platformAccount, tb.customer_info AS customerInfo, tb.search_way AS searchWay, tb.order_amount AS orderAmount, tb.comment_content AS commentContent, tb.comment_picture_one AS commentPictureOne, tb.comment_picture_two AS commentPictureTwo, tb.comment_picture_three AS commentPictureThree
+    </sql>
+
+    <select id="selectBrushList" resultType="map">
+        select
+        <include refid="Base_Column_List" />
+        from tbl_brush tb
+        LEFT JOIN tbl_logistics tl ON tb.logistics_id = tl.id
+        where 1=1
+        <if test="name != null">
+            AND tb.customer_info  LIKE CONCAT('%',#{name},'%') OR tl.code LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
+            and (tb.operate_time between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+    </select>
+
+
+</mapper>

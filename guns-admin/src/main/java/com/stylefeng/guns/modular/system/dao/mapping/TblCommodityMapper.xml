@@ -25,6 +25,17 @@
         <result column="picture_id" property="pictureId" />
         <result column="createtime" property="createtime" />
         <result column="updatetime" property="updatetime" />
+        <result column="key_word" property="keyWord" />
+        <result column="core_word" property="coreWord" />
+        <result column="long_tail_word" property="longTailWord" />
+        <result column="picture_url_one" property="pictureUrlOne" />
+        <result column="picture_url_two" property="pictureUrlTwo" />
+        <result column="picture_url_three" property="pictureUrlThree" />
+        <result column="picture_url_four" property="pictureUrlFour" />
+        <result column="picture_url_five" property="pictureUrlFive" />
+        <result column="picture_url_six" property="pictureUrlSix" />
+        <result column="picture_url_seven" property="pictureUrlSeven" />
+        <result column="picture_url_eight" property="pictureUrlEight" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -36,7 +47,9 @@
         tcd.spu AS spu, tcd.stock AS stock, tcd.title AS title, tcd.discount_price AS discountPrice, origin_price AS originPrice, tcd.color AS color,
         tcd.product_size AS productSize, weight, tcd.package_size AS packageSize, tcd.brands AS brands, tcd.desc AS `desc`, tcd.supplier_id AS supplierId,
         tsp.cnname AS supplierCnName, tsp.esname AS supplierEsName, tsp.sku AS supplierSku, tsp.phone AS supplierPhone,
-        tcd.purchase_price AS purchasePrice, tcd.picture_id AS pictureId, DATE_FORMAT(tcd.createtime,'%Y-%m-%d %H:%i:%s') AS createtime, DATE_FORMAT(tcd.updatetime,'%Y-%m-%d %H:%i:%s') AS updatetime
+        tcd.purchase_price AS purchasePrice, tcd.picture_id AS pictureId, DATE_FORMAT(tcd.createtime,'%Y-%m-%d %H:%i:%s') AS createtime, DATE_FORMAT(tcd.updatetime,'%Y-%m-%d %H:%i:%s') AS updatetime,
+        tcd.key_word AS keyWord, tcd.core_word AS coreWord, tcd.long_tail_word AS longTailWord, tcd.picture_url_one AS pictureUrlOne, tcd.picture_url_two AS pictureUrlTwo, tcd.picture_url_three AS pictureUrlThree,
+        tcd.picture_url_four AS pictureUrlFour, tcd.picture_url_five AS pictureUrlFive, tcd.picture_url_six AS pictureUrlSix, tcd.picture_url_seven AS pictureUrlSeven, tcd.picture_url_eight AS pictureUrlEight
     </sql>
     <!-- 导出查询结果列 -->
     <sql id="Export_Column_List">
@@ -44,7 +57,9 @@
         tcd.spu AS spu, tcd.stock AS stock, tcd.title AS title, tcd.discount_price AS discountPrice, origin_price AS originPrice, tcd.color AS color,
         tcd.product_size AS productSize, tcd.weight As weight, tcd.package_size AS packageSize, tcd.brands AS brands, tcd.desc AS `desc`,
         tsp.cnname AS supplierCnName, tsp.esname AS supplierEsName, tsp.phone AS supplierPhone,
-        tcd.purchase_price AS purchasePrice, tcd.createtime AS createtime, tcd.updatetime AS updatetime
+        tcd.purchase_price AS purchasePrice, tcd.createtime AS createtime, tcd.updatetime AS updatetime,
+        tcd.key_word AS keyWord, tcd.core_word AS coreWord, tcd.long_tail_word AS longTailWord, tcd.picture_url_one AS pictureUrlOne, tcd.picture_url_two AS pictureUrlTwo, tcd.picture_url_three AS pictureUrlThree,
+        tcd.picture_url_four AS pictureUrlFour, tcd.picture_url_five AS pictureUrlFive, tcd.picture_url_six AS pictureUrlSix, tcd.picture_url_seven AS pictureUrlSeven, tcd.picture_url_eight AS pictureUrlEight
     </sql>
     <select id="selectCommodityList" resultType="map">
         select
@@ -64,7 +79,7 @@
         </if>
     </select>
 
-    <select id="selsectNameByIds">
+    <select id="selectNameByIds">
         select (
         CASE tc.cnname
         WHEN (tc.cnname IS NULL)

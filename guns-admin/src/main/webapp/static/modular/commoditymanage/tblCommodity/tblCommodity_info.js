@@ -71,6 +71,20 @@ var TblCommodityInfoDlg = {
                     message: '供应商不能为空'
                 }
             }
+        },
+        keyWord: {
+            validators: {
+                notEmpty: {
+                    message: '关键词不能为空'
+                }
+            }
+        },
+        coreWord: {
+            validators: {
+                notEmpty: {
+                    message: '核心词不能为空'
+                }
+            }
         }
 
     }
@@ -136,7 +150,18 @@ TblCommodityInfoDlg.collectData = function() {
     .set('purchasePrice')
     /*.set('pictureId')*/
     .set('createtime')
-    .set('updatetime');
+    .set('updatetime')
+    .set('keyWord')
+    .set('coreWord')
+    .set('longTailWord')
+    .set('pictureUrlOne')
+    .set('pictureUrlTwo')
+    .set('pictureUrlThree')
+    .set('pictureUrlFour')
+    .set('pictureUrlFive')
+    .set('pictureUrlSix')
+    .set('pictureUrlSeven')
+    .set('pictureUrlEight');
 }
 
 /**

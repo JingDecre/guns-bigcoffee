@@ -37,7 +37,6 @@ public interface ITblCommodityService extends IService<TblCommodity> {
      * @param categoriesName
      * @param beginTime
      * @param endTime
-     * @param rowNum
      * @return
      */
     List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);

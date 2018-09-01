@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * <p>Title: CommodityWarpper</p>
- * <p>Description: 货品</p>
+ * <p>Description: 刷单</p>
  *
  * @author decre
  * @version 1.0.0

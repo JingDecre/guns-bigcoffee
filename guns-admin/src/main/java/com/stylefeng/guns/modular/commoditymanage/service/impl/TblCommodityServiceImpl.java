@@ -6,6 +6,9 @@ import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.system.dao.TblCommodityMapper;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
+import com.stylefeng.guns.util.HttpFileUtils;
+import com.stylefeng.guns.util.Img2Base64Utils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -32,7 +35,16 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
 
     @Override
     public List<Map<String, Object>> selectCommodityList(Page<TblCommodity> page, String name, String categoriesName, String beginTime, String endTime) {
-        return tblCommodityMapper.selectCommodityList(page, name, categoriesName, beginTime, endTime);
+        List<Map<String, Object>> list = tblCommodityMapper.selectCommodityList(page, name, categoriesName, beginTime, endTime);
+        list.forEach(map->{
+            // 获取网络图片并转化成base64字符串
+            String imgUrl = new String(map.get("pictureUrlOne").toString());
+            if (StringUtils.isNotBlank(imgUrl)) {
+                String imgOneStr = Img2Base64Utils.GetImageStr(HttpFileUtils.getInputStream(imgUrl));
+                map.put("imgString", imgOneStr);
+            }
+        });
+        return list;
     }
 
     @Override
@@ -42,7 +54,7 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
 
     @Override
     public List<String> selectNameByIds(String ids) {
-        return tblCommodityMapper.selsectNameByIds(ids);
+        return tblCommodityMapper.selectNameByIds(ids);
     }
 
 }

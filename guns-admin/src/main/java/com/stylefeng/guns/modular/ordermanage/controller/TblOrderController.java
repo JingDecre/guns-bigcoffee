@@ -187,6 +187,8 @@ public class TblOrderController extends BaseController {
             order.setZipcode(item.getZipcode());
             order.setRecipientName(item.getRecipientName());
             order.setRecipientPhone(item.getRecipientPhone());
+            order.setBelongPlatform(item.getBelongPlatform());
+            order.setOrderAmount(item.getOrderAmount());
             if (ToolUtil.isNotEmpty(logisticsMap.get(item.getLogisticsCode()))) {
                 order.setLogisticsId(item.getLogisticsCode());
             }

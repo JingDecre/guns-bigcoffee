@@ -1,0 +1,46 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal"  id="paramForm">
+
+            <input type="hidden" id="id" value="${item.id}">
+            <input type="hidden" id="logisticsIdValue" value="${item.logisticsId}">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                    <#input id="orderAmount" name="订单金额" value="${item.orderAmount}" underline="false"/>
+                    <#select id="whetherSuccess" name="是否完成" value="${item.whetherSuccess}" underline="true">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </#select>
+                    <#select id="logisticsId" name="物流单号" underline="false" >
+                        <option value=""></option>
+                        @ for(logistics in logisticsList){
+                        <option value="${logistics.id}">${logistics.code}</option>
+                        @}
+                    </#select>
+                    <#input id="platformAccount" name="平台账号" value="${item.platformAccount}" underline="true"/>
+                    <#input id="customerInfo" name="客户信息" value="${item.customerInfo}" />
+                </div>
+
+                <div class="col-sm-6">
+                    <#input id="searchWay" name="产品搜索方式" value="${item.searchWay}" underline="false"/>
+
+                    <#input id="commentContent" name="评论内容" value="${item.commentContent}" underline="true"/>
+                    <#input id="commentPictureOne" name="评论图片链接1" value="${item.commentPictureOne}" underline="false"/>
+                    <#input id="commentPictureTwo" name="评论图片链接2" value="${item.commentPictureTwo}" underline="true"/>
+                    <#input id="commentPictureThree" name="评论图片链接3" value="${item.commentPictureThree}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BrushInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BrushInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/brushmanage/brush/brush_info.js"></script>
+@}

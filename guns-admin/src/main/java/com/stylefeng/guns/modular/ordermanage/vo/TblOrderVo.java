@@ -3,6 +3,7 @@ package com.stylefeng.guns.modular.ordermanage.vo;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -60,6 +61,12 @@ public class TblOrderVo implements Serializable {
 
     @Excel(name = "物流单号")
     private String logisticsCode;
+
+    @Excel(name = "所属平台")
+    private String belongPlatform;
+
+    @Excel(name = "金额")
+    private BigDecimal orderAmount;
 
     public String getCode() {
         return code;
@@ -179,5 +186,21 @@ public class TblOrderVo implements Serializable {
 
     public void setLogisticsCode(String logisticsCode) {
         this.logisticsCode = logisticsCode;
+    }
+
+    public String getBelongPlatform() {
+        return belongPlatform;
+    }
+
+    public void setBelongPlatform(String belongPlatform) {
+        this.belongPlatform = belongPlatform;
+    }
+
+    public BigDecimal getOrderAmount() {
+        return orderAmount;
+    }
+
+    public void setOrderAmount(BigDecimal orderAmount) {
+        this.orderAmount = orderAmount;
     }
 }
