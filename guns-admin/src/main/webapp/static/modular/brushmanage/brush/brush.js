@@ -32,10 +32,11 @@ Brush.initColumn = function () {
                 formatter:function(value,row,index){
                     var s = '';
                     if (value) {
-                        s = '<img style="width:250px;height:350px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" />';
+                        s = '<a class = "view"  href="javascript:void(0)"><img style="width:64px;height:64px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" /></a>';
                     }
                     return s;
-                }
+                },
+                events: 'enlargePicture'
             },
             {title: '评论图片链接1', field: 'commentPictureOne', visible: false, align: 'center', valign: 'middle'},
             {title: '评论图片链接2', field: 'commentPictureTwo', visible: false, align: 'center', valign: 'middle'},
@@ -104,6 +105,49 @@ Brush.delete = function () {
         ajax.start();
     }
 };
+
+/**
+ * 导入货品管理列表
+ */
+Brush.import = function () {
+    var index = layer.open({
+        type: 2,
+        title: '刷单导入',
+        area: ['500px', '420px'], //宽高
+        fix: false, //不固定
+        maxmin: true,
+        content: Feng.ctxPath + '/brush/brush_import'
+    });
+    this.layerIndex = index;
+};
+
+/**
+ * 导出货品管理列表
+ */
+Brush.export = function () {
+    var index = layer.open({
+        type: 2,
+        title: '刷单导出',
+        area: ['500px', '420px'], //宽高
+        fix: false, //不固定
+        maxmin: true,
+        content: Feng.ctxPath + '/brush/brush_export'
+    });
+    this.layerIndex = index;
+};
+
+
+/**
+ * 放大图片
+ */
+window.enlargePicture = {
+    'click .view': function (e, value, row, index) {
+        var html = '<img style="display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" />';
+        Feng.infoDetail("单子详情图", html);
+    }
+};
+
+
 
 /**
  * 查询刷单管理列表

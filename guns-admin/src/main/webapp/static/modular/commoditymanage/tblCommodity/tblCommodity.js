@@ -21,6 +21,16 @@ TblCommodity.initColumn = function () {
     return [
         {field: 'selectItem', radio: true},
             {title: 'id', field: 'id', visible: false, align: 'center', valign: 'middle'},
+            {title: '货品图片', field: 'imgString',
+                formatter:function(value,row,index){
+                    var s = '';
+                    if (value) {
+                        s = '<a class = "view"  href="javascript:void(0)"><img style="width:64px;height:64px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" /></a>';
+                    }
+                    return s;
+                },
+                events: 'enlargePicture'
+            },
             {title: '货品sku', field: 'sku', visible: true, align: 'center', valign: 'middle'},
             {title: '英文名称', field: 'esname', visible: true, align: 'center', valign: 'middle'},
             {title: '中文名称', field: 'cnname', visible: true, align: 'center', valign: 'middle'},
@@ -46,15 +56,6 @@ TblCommodity.initColumn = function () {
             {title: '关键词', field: 'keyWord', visible: true, align: 'center', valign: 'middle'},
             {title: '核心词', field: 'coreWord', visible: false, align: 'center', valign: 'middle'},
             {title: '长尾词', field: 'longTailWord', visible: false, align: 'center', valign: 'middle'},
-            {title: '货品图片', field: 'imgString',
-                formatter:function(value,row,index){
-                    var s = '';
-                    if (value) {
-                        s = '<img style="width:250px;height:350px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" />';
-                    }
-                    return s;
-                }
-            },
             {title: '主图1', field: 'pictureUrlOne', visible: false, align: 'center', valign: 'middle'},
             {title: '图片2', field: 'pictureUrlTwo', visible: false, align: 'center', valign: 'middle'},
             {title: '图片3', field: 'pictureUrlThree', visible: false, align: 'center', valign: 'middle'},
@@ -202,7 +203,15 @@ TblCommodity.export = function () {
     });
     this.layerIndex = index;
 };
-
+/**
+ * 放大图片
+ */
+window.enlargePicture = {
+    'click .view': function (e, value, row, index) {
+        var html = '<img style="display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" />';
+        Feng.infoDetail("货品详细图", html);
+    }
+};
 /**
  * 查询货品管理列表
  */

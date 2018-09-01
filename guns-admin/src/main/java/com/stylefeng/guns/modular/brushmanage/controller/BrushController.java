@@ -1,21 +1,36 @@
 package com.stylefeng.guns.modular.brushmanage.controller;
 
+import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.stylefeng.guns.core.base.controller.BaseController;
 import com.stylefeng.guns.core.common.constant.factory.PageFactory;
 import com.stylefeng.guns.core.log.LogObjectHolder;
+import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.brushmanage.service.IBrushService;
+import com.stylefeng.guns.modular.brushmanage.vo.BrushVo;
 import com.stylefeng.guns.modular.logisticsmanage.service.ITblLogisticsService;
 import com.stylefeng.guns.modular.system.model.Brush;
 import com.stylefeng.guns.modular.system.warpper.BrushWarpper;
+import com.stylefeng.guns.util.PoiUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +46,15 @@ import java.util.Map;
 public class BrushController extends BaseController {
 
     private String PREFIX = "/brushmanage/brush/";
+
+    Logger logger = LoggerFactory.getLogger(BrushController.class);
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    private Workbook workbook = new HSSFWorkbook();
+
+    static Gson gson = new Gson();
+
 
     @Autowired
     private IBrushService brushService;
@@ -68,6 +92,22 @@ public class BrushController extends BaseController {
         model.addAttribute("item",brush);
         LogObjectHolder.me().set(brush);
         return PREFIX + "brush_edit.html";
+    }
+
+    /**
+     * 跳转到添加货品管理导出
+     */
+    @RequestMapping("/brush_import")
+    public String tblCommodityImport() {
+        return PREFIX + "brush_import.html";
+    }
+
+    /**
+     * 跳转到添加货品管理导出
+     */
+    @RequestMapping("/brush_export")
+    public String tblCommodityExport() {
+        return PREFIX + "brush_export.html";
     }
 
     /**
@@ -121,5 +161,82 @@ public class BrushController extends BaseController {
     @ResponseBody
     public Object detail(@PathVariable("brushId") Integer brushId) {
         return brushService.selectById(brushId);
+    }
+
+    /**
+     * 导入货品
+     */
+    @RequestMapping(value = "/import", method = RequestMethod.POST)
+    @ResponseBody
+    public void importPoi(@RequestParam(value = "file", required = true) MultipartFile file, HttpServletRequest request) {
+        List<BrushVo> list = PoiUtils.importExcel(file, 1, 1, BrushVo.class);
+        List<Brush> insertList = new ArrayList<>();
+        Map<String, String> logisticsMap = tblLogisticsService.selectCodeAndIdMap();
+        //组装存库数据
+        list.forEach(item -> {
+            Brush brush = new Brush();
+            brush.setOperateTime(item.getOperateTime());
+            brush.setWhetherSuccess(item.getWhetherSuccess());
+            brush.setPlatformAccount(item.getPlatformAccount());
+            brush.setCustomerInfo(item.getCustomerInfo());
+            brush.setSearchWay(item.getSearchWay());
+            brush.setOrderAmount(item.getOrderAmount());
+            brush.setCommentContent(item.getCommentContent());
+            brush.setCommentPictureOne(item.getCommentPictureOne());
+            brush.setCommentPictureTwo(item.getCommentPictureTwo());
+            brush.setCommentPictureThree(item.getCommentPictureThree());
+            if (ToolUtil.isNotEmpty(logisticsMap.get(item.getLogisticsCode()))) {
+                brush.setLogisticsId(item.getLogisticsCode());
+            }
+            insertList.add(brush);
+        });
+        if(insertList.size() > 0){
+            brushService.insertBatch(insertList);
+        }
+        logger.info("导入成功！");
+    }
+
+    /**
+     * 导出货品
+     */
+    @RequestMapping(value = "/export")
+    @ResponseBody
+    public void exportPoi(HttpServletRequest request, HttpServletResponse response) {
+        OutputStream os = null;
+        Workbook tempWb = workbook;
+        workbook = null;
+        try {
+            os = response.getOutputStream();
+            response.setContentType("application/download");
+            String tableName = "刷单列表_";
+            response.addHeader("Content-Disposition", "attachment;fileName=" + new String(tableName.getBytes(), "iso-8859-1") + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + ".xls");
+            tempWb.write(os);
+            os.close();
+        } catch (Exception e) {
+            logger.error("导出: {} 失败！", "刷单列表");
+            logger.error("Bad things: {}", e.getMessage());
+            e.getStackTrace();
+        }
+    }
+
+    /**
+     * 导出表格
+     */
+    @RequestMapping(value = "/generateExcel", method = RequestMethod.POST)
+    @ResponseBody
+    public void generateExcel(@RequestBody Map<String, String> param) {
+        if (ToolUtil.isNotEmpty(param)) {
+            //查询参数
+            Map conditionMap = gson.fromJson(param.get("condition"), new TypeToken<Map>() {
+            }.getType());
+            //导出列名
+            Integer startPage = ToolUtil.isEmpty(conditionMap.get("startPage")) ? 0 : Integer.valueOf(conditionMap.get("startPage").toString());
+            Integer pageSize = ToolUtil.isEmpty(conditionMap.get("pageSize")) ? 55000 : Integer.valueOf(conditionMap.get("pageSize").toString());
+            List<BrushVo> list = brushService.selectBrushVoList(String.valueOf(conditionMap.get("name")), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), startPage, pageSize);
+            List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+            mapList.add(PoiUtils.getExportMap(list, "刷单列表", BrushVo.class));
+            workbook = PoiUtils.exportExcel(mapList, ExcelType.HSSF);
+        }
+
     }
 }

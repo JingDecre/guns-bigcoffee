@@ -1,0 +1,31 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="exportForm">
+            <div class="row">
+                <div class="col-sm-12">
+                    <#input id="startPage" name="起始行" keyupFun="this.value=this.value.replace(/[^0-9]/g,'')"
+                    placeholder="0或没值时查询全部" underline="false"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <#input id="pageSize" name="导出行数" keyupFun="this.value=this.value.replace(/[^0-9]/g,'')"
+                    placeholder="输入不大于55000的数" underline="false"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row btn-group-m-t">
+            <div class="col-sm-10">
+                <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BrushInfoDlg.exportSubmit()"/>
+                <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BrushInfoDlg.close()"/>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+<script src="${ctxPath}/static/modular/brushmanage/brush/brush.js"></script>
+<script src="${ctxPath}/static/modular/brushmanage/brush/brush_info.js"></script>
+@}

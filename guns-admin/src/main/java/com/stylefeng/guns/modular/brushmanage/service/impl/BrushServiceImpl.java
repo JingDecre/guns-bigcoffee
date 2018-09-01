@@ -1,6 +1,7 @@
 package com.stylefeng.guns.modular.brushmanage.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.stylefeng.guns.modular.brushmanage.vo.BrushVo;
 import com.stylefeng.guns.modular.system.model.Brush;
 import com.stylefeng.guns.modular.system.dao.BrushMapper;
 import com.stylefeng.guns.modular.brushmanage.service.IBrushService;
@@ -36,5 +37,10 @@ public class BrushServiceImpl extends ServiceImpl<BrushMapper, Brush> implements
             }
         });
         return list;
+    }
+
+    @Override
+    public List<BrushVo> selectBrushVoList(String name, String beginTime, String endTime, Integer startPage, Integer pageSize) {
+        return baseMapper.selectBrushVoList(name, beginTime, endTime, startPage, pageSize);
     }
 }

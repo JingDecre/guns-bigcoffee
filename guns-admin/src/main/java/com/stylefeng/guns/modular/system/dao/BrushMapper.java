@@ -2,6 +2,7 @@ package com.stylefeng.guns.modular.system.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.stylefeng.guns.modular.brushmanage.vo.BrushVo;
 import com.stylefeng.guns.modular.system.model.Brush;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,6 +28,18 @@ public interface BrushMapper extends BaseMapper<Brush> {
      * @return
      */
     List<Map<String, Object>> selectBrushList(@Param("page") Page<Brush> page, @Param("name") String name,  @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+
+
+    /**
+     * 根据条件获取刷单导出对象列表
+     *
+     * @param beginTime
+     * @param endTime
+     * @param startPage
+     * @param pageSize
+     * @return
+     */
+    List<BrushVo> selectBrushVoList(@Param("name") String name, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
 
 
 }
