@@ -85,7 +85,7 @@ public class BrushController extends BaseController {
      * 跳转到修改刷单管理
      */
     @RequestMapping("/brush_update/{brushId}")
-    public String brushUpdate(@PathVariable Integer brushId, Model model) {
+    public String brushUpdate(@PathVariable Long brushId, Model model) {
         Brush brush = brushService.selectById(brushId);
         List<Map<String, Object>> logisticsMapList = tblLogisticsService.selectIdAndCodeList();
         model.addAttribute("logisticsList", logisticsMapList);
@@ -138,7 +138,7 @@ public class BrushController extends BaseController {
      */
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public Object delete(@RequestParam Integer brushId) {
+    public Object delete(@RequestParam Long brushId) {
         brushService.deleteById(brushId);
         return SUCCESS_TIP;
     }
@@ -159,7 +159,7 @@ public class BrushController extends BaseController {
      */
     @RequestMapping(value = "/detail/{brushId}")
     @ResponseBody
-    public Object detail(@PathVariable("brushId") Integer brushId) {
+    public Object detail(@PathVariable("brushId") Long brushId) {
         return brushService.selectById(brushId);
     }
 
