@@ -1,5 +1,8 @@
 package com.stylefeng.guns.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -15,6 +18,8 @@ import java.net.URL;
  * @date 2018/8/31 0031 23:00
  */
 public class HttpFileUtils {
+
+    private static Logger logger = LoggerFactory.getLogger(HttpFileUtils.class);
 
     /**
      * 通过http地址获取图片二进制流
@@ -41,13 +46,13 @@ public class HttpFileUtils {
 
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("Bad url: {}", e.getMessage());
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("Bad url: {}", e.getMessage());
+        } finally {
+            return inputStream;
         }
-        return inputStream;
-
     }
 
     public static void main(String[] args) {

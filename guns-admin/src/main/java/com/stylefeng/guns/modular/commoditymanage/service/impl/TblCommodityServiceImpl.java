@@ -2,6 +2,7 @@ package com.stylefeng.guns.modular.commoditymanage.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.system.dao.TblCommodityMapper;
@@ -36,11 +37,12 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
     @Override
     public List<Map<String, Object>> selectCommodityList(Page<TblCommodity> page, String name, String categoriesName, String beginTime, String endTime) {
         List<Map<String, Object>> list = tblCommodityMapper.selectCommodityList(page, name, categoriesName, beginTime, endTime);
-        list.forEach(map->{
+        list.forEach(map -> {
             // 获取网络图片并转化成base64字符串
             String imgUrl = new String(map.get("pictureUrlOne").toString());
-            if (StringUtils.isNotBlank(imgUrl)) {
-                String imgOneStr = Img2Base64Utils.GetImageStr(HttpFileUtils.getInputStream(imgUrl));
+            String imgOneStr;
+            if (StringUtils.isNotBlank(imgUrl) && ToolUtil.isNotEmpty(HttpFileUtils.getInputStream(imgUrl))) {
+                imgOneStr = Img2Base64Utils.GetImageStr(HttpFileUtils.getInputStream(imgUrl));
                 map.put("imgString", imgOneStr);
             }
         });
