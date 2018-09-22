@@ -138,8 +138,8 @@ public class BrushController extends BaseController {
      */
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public Object delete(@RequestParam Long brushId) {
-        brushService.deleteById(brushId);
+    public Object delete(@RequestBody List<Long> ids) {
+        brushService.deleteBatchIds(ids);
         return SUCCESS_TIP;
     }
 

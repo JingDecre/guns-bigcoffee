@@ -2,6 +2,7 @@ package com.stylefeng.guns.modular.commoditymanage.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.google.common.collect.Maps;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
@@ -57,6 +58,17 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
     @Override
     public List<String> selectNameByIds(String ids) {
         return tblCommodityMapper.selectNameByIds(ids);
+    }
+
+    @Override
+    public TblCommodity selectCommodityBySKU(String sku) {
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("sku", sku);
+        List<TblCommodity> list = tblCommodityMapper.selectByMap(paramMap);
+        if (list.size() > 0) {
+            return list.get(0);
+        }
+        return null;
     }
 
 }

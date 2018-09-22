@@ -13,10 +13,7 @@ import com.stylefeng.guns.modular.system.warpper.CategoriesWarpper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -95,9 +92,9 @@ public class TblSupplierController extends BaseController {
      */
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public Object delete(@RequestParam Long tblSupplierId) {
+    public Object delete(@RequestBody List<Long> ids) {
         // TODO 清除含属于该供应商的货品
-        tblSupplierService.deleteById(tblSupplierId);
+        tblSupplierService.deleteBatchIds(ids);
         return SUCCESS_TIP;
     }
 

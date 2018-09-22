@@ -13,14 +13,14 @@ var TblLogistics = {
  */
 TblLogistics.initColumn = function () {
     return [
-        {field: 'selectItem', radio: true},
-            {title: 'No', field: 'id', visible: true, align: 'center', valign: 'middle'},
-            {title: '物流单号', field: 'code', visible: true, align: 'center', valign: 'middle'},
-            {title: '物流方式', field: 'way', visible: true, align: 'center', valign: 'middle'},
-            {title: '物流承接单位', field: 'unit', visible: true, align: 'center', valign: 'middle'},
-            {title: '客服电话', field: 'customerPhone', visible: true, align: 'center', valign: 'middle'},
-            {title: '订单追踪网址', field: 'trackingUrl', visible: true, align: 'center', valign: 'middle'},
-            {title: '物流当前位置', field: 'position', visible: false, align: 'center', valign: 'middle'}
+        {field: 'checked', checkbox: true},
+        {title: 'No', field: 'id', visible: true, align: 'center', valign: 'middle'},
+        {title: '物流单号', field: 'code', visible: true, align: 'center', valign: 'middle'},
+        {title: '物流方式', field: 'way', visible: true, align: 'center', valign: 'middle'},
+        {title: '物流承接单位', field: 'unit', visible: true, align: 'center', valign: 'middle'},
+        {title: '客服电话', field: 'customerPhone', visible: true, align: 'center', valign: 'middle'},
+        {title: '订单追踪网址', field: 'trackingUrl', visible: true, align: 'center', valign: 'middle'},
+        {title: '物流当前位置', field: 'position', visible: false, align: 'center', valign: 'middle'}
     ];
 };
 
@@ -81,10 +81,15 @@ TblLogistics.delete = function () {
         }, function (data) {
             Feng.error("删除失败!" + data.responseJSON.message + "!");
         });
-        ajax.set("tblLogisticsId",this.seItem.id);
-        var operation = function () {
-            ajax.start();
+        var selected = $('#' + this.id).bootstrapTable('getSelections');
+        var ids = [];
+        for (var i = 0; i < selected.length; i++) {
+            ids.push(selected[i].id);
         }
+        ajax.setData(JSON.stringify(ids));
+        var operation = function () {
+            ajax.start(1);
+        };
         Feng.confirm("是否刪除该单号?", operation);
     }
 };

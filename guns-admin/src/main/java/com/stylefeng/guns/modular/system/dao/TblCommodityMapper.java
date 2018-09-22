@@ -21,6 +21,7 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
 
     /**
      * 根据条件查询货品列表
+     *
      * @param page
      * @param name
      * @param categoriesName
@@ -32,6 +33,7 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
 
     /**
      * 根据条件查询所需导出的表数据
+     *
      * @param name
      * @param categoriesName
      * @param beginTime
@@ -41,11 +43,13 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
      * @return
      */
     List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
+
     /**
      * 根据ids查询货品名称列表
+     *
      * @param ids
      * @return
      */
-    List<String> selectNameByIds(@Param("ids")String ids);
+    List<String> selectNameByIds(@Param("ids") String ids);
 
 }

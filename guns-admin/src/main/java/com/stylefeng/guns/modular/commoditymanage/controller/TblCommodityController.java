@@ -140,8 +140,8 @@ public class TblCommodityController extends BaseController {
      */
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public Object delete(@RequestParam Integer tblCommodityId) {
-        tblCommodityService.deleteById(tblCommodityId);
+    public Object delete(@RequestBody List<Long> ids) {
+        tblCommodityService.deleteBatchIds(ids);
         return SUCCESS_TIP;
     }
 
@@ -178,7 +178,10 @@ public class TblCommodityController extends BaseController {
         Map<String, String> supplierMap = tblSupplierService.getNameAndIdMap();
         //组装存库数据
         list.forEach(item -> {
-            TblCommodity tblCommodity = new TblCommodity();
+            TblCommodity tblCommodity = tblCommodityService.selectCommodityBySKU(item.getSku());
+            if (ToolUtil.isEmpty(tblCommodity)) {
+                tblCommodity = new TblCommodity();
+            }
             tblCommodity.setSku(item.getSku());
             tblCommodity.setEsname(item.getEsname());
             tblCommodity.setCnname(item.getCnname());
@@ -220,7 +223,7 @@ public class TblCommodityController extends BaseController {
             insertList.add(tblCommodity);
         });
         if (insertList.size() > 0) {
-            tblCommodityService.insertBatch(insertList);
+            tblCommodityService.insertOrUpdateBatch(insertList);
         }
         logger.info("导入成功！");
     }

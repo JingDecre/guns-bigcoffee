@@ -18,29 +18,35 @@ var Brush = {
  */
 Brush.initColumn = function () {
     return [
-        {field: 'selectItem', radio: true},
-            {title: '编号', field: 'id', visible: true, align: 'center', valign: 'middle'},
-            {title: '操作时间', field: 'operateTime', visible: true, align: 'center', valign: 'middle'},
-            {title: '是否完成', field: 'whetherSuccess', visible: true, align: 'center', valign: 'middle'},
-            {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'},
-            {title: '平台账号', field: 'platformAccount', visible: true, align: 'center', valign: 'middle'},
-            {title: '客户信息', field: 'customerInfo', visible: true, align: 'center', valign: 'middle'},
-            {title: '产品搜索方式', field: 'searchWay', visible: true, align: 'center', valign: 'middle'},
-            {title: '订单金额', field: 'orderAmount', visible: true, align: 'center', valign: 'middle'},
-            {title: '评论内容', field: 'commentContent', visible: true, align: 'center', valign: 'middle'},
-            {title: '评论图片', field: 'imgString',
-                formatter:function(value,row,index){
-                    var s = '';
-                    if (value) {
-                        s = '<a class = "view"  href="javascript:void(0)"><img style="width:64px;height:64px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" /></a>';
-                    }
-                    return s;
-                },
-                events: 'enlargePicture'
+        {field: 'checked', checkbox: true},
+        {title: '编号', field: 'id', visible: true, align: 'center', valign: 'middle'},
+        {title: '操作时间', field: 'operateTime', visible: true, align: 'center', valign: 'middle'},
+        {title: '是否完成', field: 'whetherSuccess', visible: true, align: 'center', valign: 'middle'},
+        {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'},
+        {title: '平台账号', field: 'platformAccount', visible: true, align: 'center', valign: 'middle'},
+        {title: '客户信息', field: 'customerInfo', visible: true, align: 'center', valign: 'middle'},
+        {title: '产品搜索方式', field: 'searchWay', visible: true, align: 'center', valign: 'middle'},
+        {title: '订单金额', field: 'orderAmount', visible: true, align: 'center', valign: 'middle'},
+        {title: '评论内容', field: 'commentContent', visible: true, formatter: function(value,row,index){
+                var s = '';
+                if (value) {
+                    s = '<span style="max-width: 200px; overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display: block;" title="' + value + '">' + value + '</span>';
+                }
+                return s;
+            }, align: 'center', valign: 'middle'},
+        {title: '评论图片', field: 'imgString',
+            formatter:function(value,row,index){
+                var s = '';
+                if (value) {
+                    s = '<a class = "view"  href="javascript:void(0)"><img style="width:64px;height:64px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" /></a>';
+                }
+                return s;
             },
-            {title: '评论图片链接1', field: 'commentPictureOne', visible: false, align: 'center', valign: 'middle'},
-            {title: '评论图片链接2', field: 'commentPictureTwo', visible: false, align: 'center', valign: 'middle'},
-            {title: '评论图片链接3', field: 'commentPictureThree', visible: false, align: 'center', valign: 'middle'}
+            events: 'enlargePicture'
+        },
+        {title: '评论图片链接1', field: 'commentPictureOne', visible: false, align: 'center', valign: 'middle'},
+        {title: '评论图片链接2', field: 'commentPictureTwo', visible: false, align: 'center', valign: 'middle'},
+        {title: '评论图片链接3', field: 'commentPictureThree', visible: false, align: 'center', valign: 'middle'}
     ];
 };
 
@@ -101,8 +107,13 @@ Brush.delete = function () {
         }, function (data) {
             Feng.error("删除失败!" + data.responseJSON.message + "!");
         });
-        ajax.set("brushId",this.seItem.id);
-        ajax.start();
+        var selected = $('#' + this.id).bootstrapTable('getSelections');
+        var ids = [];
+        for (var i = 0; i < selected.length; i++) {
+            ids.push(selected[i].id);
+        }
+        ajax.setData(JSON.stringify(ids));
+        ajax.start(1);
     }
 };
 

@@ -47,4 +47,12 @@ public interface ITblOrderService extends IService<TblOrder> {
      * @return
      */
     List<TblOrderVo> selectOrderVoList(@Param("code") String code, @Param("sku") String sku, @Param("address") String address, @Param("logisticsCode") String logisticsCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
+
+    /**
+     * 根据单号获取订单
+     * @param code
+     * @return
+     */
+    TblOrder selectOrderByCode(@Param("code") String code);
+
 }

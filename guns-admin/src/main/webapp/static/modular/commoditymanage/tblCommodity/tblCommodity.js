@@ -19,51 +19,64 @@ var TblCommodity = {
  */
 TblCommodity.initColumn = function () {
     return [
-        {field: 'selectItem', radio: true},
-            {title: 'id', field: 'id', visible: false, align: 'center', valign: 'middle'},
-            {title: '货品图片', field: 'imgString',
-                formatter:function(value,row,index){
-                    var s = '';
-                    if (value) {
-                        s = '<a class = "view"  href="javascript:void(0)"><img style="width:64px;height:64px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" /></a>';
-                    }
-                    return s;
-                },
-                events: 'enlargePicture'
+        {field: 'checked', checkbox: true},
+        {title: 'id', field: 'id', visible: false, align: 'center', valign: 'middle'},
+        {title: '货品图片', field: 'imgString',
+            formatter:function(value,row,index){
+                var s = '';
+                if (value) {
+                    s = '<a class = "view"  href="javascript:void(0)"><img style="width:64px;height:64px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" /></a>';
+                }
+                return s;
             },
-            {title: '货品sku', field: 'sku', visible: true, align: 'center', valign: 'middle'},
-            {title: '英文名称', field: 'esname', visible: true, align: 'center', valign: 'middle'},
-            {title: '中文名称', field: 'cnname', visible: true, align: 'center', valign: 'middle'},
-            {title: '分类', field: 'categoriesName', visible: true, align: 'center', valign: 'middle'},
-            {title: '货品spu', field: 'spu', visible: false, align: 'center', valign: 'middle'},
-            {title: '库存', field: 'stock', visible: false, align: 'center', valign: 'middle'},
-            {title: '标题', field: 'title', visible: false, align: 'center', valign: 'middle'},
-            {title: '折扣价格', field: 'discountPrice', visible: false, align: 'center', valign: 'middle'},
-            {title: '原价格', field: 'originPrice', visible: false, align: 'center', valign: 'middle'},
-            {title: '颜色', field: 'color', visible: false, align: 'center', valign: 'middle'},
-            {title: '产品尺寸', field: 'productSize', visible: true, align: 'center', valign: 'middle'},
-            {title: '重量(kg)', field: 'weight', visible: true, align: 'center', valign: 'middle'},
-            {title: '包裹尺寸', field: 'packageSize', visible: false, align: 'center', valign: 'middle'},
-            {title: '品牌', field: 'brands', visible: false, align: 'center', valign: 'middle'},
-            {title: '描述', field: 'desc', visible: false, align: 'center', valign: 'middle'},
-            {title: '所属供应商(CN)', field: 'supplierCnName', visible: true, align: 'center', valign: 'middle'},
-            {title: '所属供应商(ES)', field: 'supplierEsName', visible: false, align: 'center', valign: 'middle'},
-            {title: '供应商电话', field: 'supplierPhone', visible: true, align: 'center', valign: 'middle'},
-            {title: '采购价', field: 'purchasePrice', visible: false, align: 'center', valign: 'middle'},
-            /*{title: '产品图片id', field: 'pictureId', visible: true, align: 'center', valign: 'middle'},
-            {title: '商品添加时间', field: 'createtime', visible: true, align: 'center', valign: 'middle'},*/
-            {title: '商品更新时间', field: 'updatetime', visible: true, align: 'center', valign: 'middle'},
-            {title: '关键词', field: 'keyWord', visible: true, align: 'center', valign: 'middle'},
-            {title: '核心词', field: 'coreWord', visible: false, align: 'center', valign: 'middle'},
-            {title: '长尾词', field: 'longTailWord', visible: false, align: 'center', valign: 'middle'},
-            {title: '主图1', field: 'pictureUrlOne', visible: false, align: 'center', valign: 'middle'},
-            {title: '图片2', field: 'pictureUrlTwo', visible: false, align: 'center', valign: 'middle'},
-            {title: '图片3', field: 'pictureUrlThree', visible: false, align: 'center', valign: 'middle'},
-            {title: '图片4', field: 'pictureUrlFour', visible: false, align: 'center', valign: 'middle'},
-            {title: '图片5', field: 'pictureUrlFive', visible: false, align: 'center', valign: 'middle'},
-            {title: '图片6', field: 'pictureUrlSix', visible: false, align: 'center', valign: 'middle'},
-            {title: '图片7', field: 'pictureUrlSeven', visible: false, align: 'center', valign: 'middle'},
-            {title: '图片8', field: 'pictureUrlEight', visible: false, align: 'center', valign: 'middle'}
+            events: 'enlargePicture'
+        },
+        {title: '货品sku', field: 'sku', visible: true, align: 'center', valign: 'middle'},
+        {title: '英文名称', field: 'esname', visible: true, align: 'center', valign: 'middle'},
+        {title: '中文名称', field: 'cnname', visible: true, align: 'center', valign: 'middle'},
+        {title: '分类', field: 'categoriesName', visible: true, align: 'center', valign: 'middle'},
+        {title: '货品spu', field: 'spu', visible: false, align: 'center', valign: 'middle'},
+        {title: '库存', field: 'stock', visible: false, align: 'center', valign: 'middle'},
+        {title: '标题', field: 'title', formatter: function(value,row,index){
+                var s = '';
+                if (value) {
+                    s = '<span style="max-width: 200px; overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display: block;" title="' + value + '">' + value + '</span>';
+                }
+                return s;
+            },
+            visible: false, align: 'center', valign: 'middle'},
+        {title: '折扣价格', field: 'discountPrice', visible: false, align: 'center', valign: 'middle'},
+        {title: '原价格', field: 'originPrice', visible: false, align: 'center', valign: 'middle'},
+        {title: '颜色', field: 'color', visible: false, align: 'center', valign: 'middle'},
+        {title: '产品尺寸', field: 'productSize', visible: true, align: 'center', valign: 'middle'},
+        {title: '重量(kg)', field: 'weight', visible: true, align: 'center', valign: 'middle'},
+        {title: '包裹尺寸', field: 'packageSize', visible: false, align: 'center', valign: 'middle'},
+        {title: '品牌', field: 'brands', visible: false, align: 'center', valign: 'middle'},
+        {title: '描述', field: 'desc', visible: false, formatter: function(value,row,index){
+                var s = '';
+                if (value) {
+                    s = '<span style="max-width: 200px; overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display: block;" title="' + value + '">' + value + '</span>';
+                }
+                return s;
+            }, align: 'center', valign: 'middle'},
+        {title: '所属供应商(CN)', field: 'supplierCnName', visible: true, align: 'center', valign: 'middle'},
+        {title: '所属供应商(ES)', field: 'supplierEsName', visible: false, align: 'center', valign: 'middle'},
+        {title: '供应商电话', field: 'supplierPhone', visible: true, align: 'center', valign: 'middle'},
+        {title: '采购价', field: 'purchasePrice', visible: false, align: 'center', valign: 'middle'},
+        /*{title: '产品图片id', field: 'pictureId', visible: true, align: 'center', valign: 'middle'},
+        {title: '商品添加时间', field: 'createtime', visible: true, align: 'center', valign: 'middle'},*/
+        {title: '商品更新时间', field: 'updatetime', visible: true, align: 'center', valign: 'middle'},
+        {title: '关键词', field: 'keyWord', visible: true, align: 'center', valign: 'middle'},
+        {title: '核心词', field: 'coreWord', visible: false, align: 'center', valign: 'middle'},
+        {title: '长尾词', field: 'longTailWord', visible: false, align: 'center', valign: 'middle'},
+        {title: '主图1', field: 'pictureUrlOne', visible: false, align: 'center', valign: 'middle'},
+        {title: '图片2', field: 'pictureUrlTwo', visible: false, align: 'center', valign: 'middle'},
+        {title: '图片3', field: 'pictureUrlThree', visible: false, align: 'center', valign: 'middle'},
+        {title: '图片4', field: 'pictureUrlFour', visible: false, align: 'center', valign: 'middle'},
+        {title: '图片5', field: 'pictureUrlFive', visible: false, align: 'center', valign: 'middle'},
+        {title: '图片6', field: 'pictureUrlSix', visible: false, align: 'center', valign: 'middle'},
+        {title: '图片7', field: 'pictureUrlSeven', visible: false, align: 'center', valign: 'middle'},
+        {title: '图片8', field: 'pictureUrlEight', visible: false, align: 'center', valign: 'middle'}
 
     ];
 };
@@ -167,11 +180,16 @@ TblCommodity.delete = function () {
         }, function (data) {
             Feng.error("删除失败!" + data.responseJSON.message + "!");
         });
-        ajax.set("tblCommodityId",this.seItem.id);
-        var operation = function () {
-            ajax.start();
+        var selected = $('#' + this.id).bootstrapTable('getSelections');
+        var ids = [];
+        for (var i = 0; i < selected.length; i++) {
+            ids.push(selected[i].id);
         }
-        Feng.confirm("是否刪除该货品?", operation);
+        ajax.setData(JSON.stringify(ids));
+        var operation = function () {
+            ajax.start(1);
+        };
+        Feng.confirm("是否刪除选中货品?", operation);
     }
 
 };

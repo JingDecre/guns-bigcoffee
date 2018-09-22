@@ -137,8 +137,8 @@ public class TblOrderController extends BaseController {
      */
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public Object delete(@RequestParam Long tblOrderId) {
-        tblOrderService.deleteById(tblOrderId);
+    public Object delete(@RequestBody List<Long> ids) {
+        tblOrderService.deleteBatchIds(ids);
         return SUCCESS_TIP;
     }
 
@@ -172,7 +172,11 @@ public class TblOrderController extends BaseController {
         Map<String, String> logisticsMap = tblLogisticsService.selectCodeAndIdMap();
         //组装存库数据
         list.forEach(item -> {
-            TblOrder order = new TblOrder();
+
+            TblOrder order = tblOrderService.selectOrderByCode(item.getCode());
+            if (ToolUtil.isEmpty(order)) {
+                order = new TblOrder();
+            }
             order.setCode(item.getCode());
             order.setSku(item.getSku());
             order.setCommodityDetails(item.getCommodityDetails());
@@ -195,7 +199,7 @@ public class TblOrderController extends BaseController {
             insertList.add(order);
         });
         if(insertList.size() > 0){
-            tblOrderService.insertBatch(insertList);
+            tblOrderService.insertOrUpdateBatch(insertList);
         }
         logger.info("导入成功！");
     }

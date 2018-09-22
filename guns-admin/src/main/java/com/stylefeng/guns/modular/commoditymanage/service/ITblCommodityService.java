@@ -21,6 +21,7 @@ public interface ITblCommodityService extends IService<TblCommodity> {
 
     /**
      * 根据条件获取产品列表
+     *
      * @param page
      * @param name
      * @param categoriesName
@@ -33,6 +34,7 @@ public interface ITblCommodityService extends IService<TblCommodity> {
 
     /**
      * 获取货品导出数据集合
+     *
      * @param name
      * @param categoriesName
      * @param beginTime
@@ -40,11 +42,20 @@ public interface ITblCommodityService extends IService<TblCommodity> {
      * @return
      */
     List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
+
     /**
      * 根据ids获取产品名称列表
+     *
      * @param ids
      * @return
      */
     List<String> selectNameByIds(String ids);
+
+    /**
+     * 根据sku获取对象
+     * @param sku
+     * @return
+     */
+    TblCommodity selectCommodityBySKU(@Param("sku") String sku);
 
 }

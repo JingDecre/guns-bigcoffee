@@ -10,7 +10,7 @@
 	};
 	
 	$ax.prototype = {
-		start : function () {	
+		start : function (contentType) {
 			var me = this;
 
 			if (this.url.indexOf("?") == -1) {
@@ -18,23 +18,43 @@
 			} else {
 				this.url = this.url + "&jstime=" + new Date().getTime();
 			}
-			
-			$.ajax({
-		        type: this.type,
-		        url: this.url,
-		        dataType: this.dataType,
-		        async: this.async,
-		        data: this.data,
-				beforeSend: function(data) {
-					
-				},
-		        success: function(data) {
-		        	me.success(data);
-		        },
-		        error: function(data) {
-		        	me.error(data);
-		        }
-		    });
+			if (contentType) {
+                $.ajax({
+                    type: this.type,
+                    url: this.url,
+                    dataType: this.dataType,
+                    async: this.async,
+                    data: this.data,
+                    contentType: "application/json;charset=utf-8",
+                    beforeSend: function(data) {
+
+                    },
+                    success: function(data) {
+                        me.success(data);
+                    },
+                    error: function(data) {
+                        me.error(data);
+                    }
+                });
+			} else {
+                $.ajax({
+                    type: this.type,
+                    url: this.url,
+                    dataType: this.dataType,
+                    async: this.async,
+                    data: this.data,
+                    beforeSend: function(data) {
+
+                    },
+                    success: function(data) {
+                        me.success(data);
+                    },
+                    error: function(data) {
+                        me.error(data);
+                    }
+                });
+			}
+
 		}, 
 		
 		set : function (key, value) {

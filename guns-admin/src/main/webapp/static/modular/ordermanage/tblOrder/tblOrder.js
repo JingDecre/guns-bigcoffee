@@ -21,14 +21,20 @@ var TblOrder = {
  */
 TblOrder.initColumn = function () {
     return [
-        {field: 'selectItem', radio: true},
+        {field: 'checked', checkbox: true},
         {title: '编号', field: 'id', visible: true, align: 'center', valign: 'middle'},
         {title: '所属平台', field: 'belongPlatform', visible: true, align: 'center', valign: 'middle'},
         {title: '订单号', field: 'code', visible: true, align: 'center', valign: 'middle'},
         {title: '金额', field: 'orderAmount', visible: true, align: 'center', valign: 'middle'},
         {title: 'sku码', field: 'sku', visible: true, align: 'center', valign: 'middle'},
         /*{title: '货品id', field: 'commodityIds', visible: true, align: 'center', valign: 'middle'},*/
-        {title: '订单货品详情', field: 'commodityDetails', visible: false, align: 'center', valign: 'middle'},
+        {title: '订单货品详情', field: 'commodityDetails', formatter: function(value,row,index){
+                var s = '';
+                if (value) {
+                    s = '<span style="max-width: 200px; overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display: block;" title="' + value + '">' + value + '</span>';
+                }
+                return s;
+            }, visible: false, align: 'center', valign: 'middle'},
         {title: '数量', field: 'quantity', visible: true, align: 'center', valign: 'middle'},
         {title: '重量', field: 'weight', visible: true, align: 'center', valign: 'middle'},
         {title: '收件人姓名', field: 'recipientName', visible: true, align: 'center', valign: 'middle'},
@@ -37,7 +43,13 @@ TblOrder.initColumn = function () {
         {title: '州 | 省', field: 'province', visible: true, align: 'center', valign: 'middle'},
         {title: '城市', field: 'city', visible: true, align: 'center', valign: 'middle'},
         {title: '县 | 区 | 市', field: 'county', visible: true, align: 'center', valign: 'middle'},
-        {title: '详细地址', field: 'detailAddress', visible: true, align: 'center', valign: 'middle'},
+        {title: '详细地址', field: 'detailAddress', formatter: function(value,row,index){
+                var s = '';
+                if (value) {
+                    s = '<span style="max-width: 200px; overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display: block;" title="' + value + '">' + value + '</span>';
+                }
+                return s;
+            }, visible: true, align: 'center', valign: 'middle'},
         {title: '邮编', field: 'zipcode', visible: false, align: 'center', valign: 'middle'},
         {title: '收件人联系电话', field: 'recipientPhone', visible: true, align: 'center', valign: 'middle'},
         {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'}
@@ -128,10 +140,15 @@ TblOrder.delete = function () {
         }, function (data) {
             Feng.error("删除失败!" + data.responseJSON.message + "!");
         });
-        ajax.set("tblOrderId", this.seItem.id);
-        var operation = function () {
-            ajax.start();
+        var selected = $('#' + this.id).bootstrapTable('getSelections');
+        var ids = [];
+        for (var i = 0; i < selected.length; i++) {
+            ids.push(selected[i].id);
         }
+        ajax.setData(JSON.stringify(ids));
+        var operation = function () {
+            ajax.start(1);
+        };
         Feng.confirm("是否刪除该订单?", operation);
 
     }
