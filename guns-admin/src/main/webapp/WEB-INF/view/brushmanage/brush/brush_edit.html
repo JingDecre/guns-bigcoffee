@@ -5,10 +5,11 @@
 
             <input type="hidden" id="id" value="${item.id}">
             <input type="hidden" id="logisticsIdValue" value="${item.logisticsId}">
+            <input type="hidden" id="whetherSuccessVal" value="${item.whetherSuccess}">
             <div class="row">
                 <div class="col-sm-6 b-r">
                     <#input id="orderAmount" name="订单金额" value="${item.orderAmount}" underline="false"/>
-                    <#select id="whetherSuccess" name="是否完成" value="${item.whetherSuccess}" underline="true">
+                    <#select id="whetherSuccess" name="是否完成"  underline="true">
                         <option value="0">否</option>
                         <option value="1">是</option>
                     </#select>

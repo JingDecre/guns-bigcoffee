@@ -52,7 +52,8 @@ TblOrder.initColumn = function () {
             }, visible: true, align: 'center', valign: 'middle'},
         {title: '邮编', field: 'zipcode', visible: false, align: 'center', valign: 'middle'},
         {title: '收件人联系电话', field: 'recipientPhone', visible: true, align: 'center', valign: 'middle'},
-        {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'}
+        {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'},
+        {title: '创建人', field: 'createUserName', visible: false, align: 'center', valign: 'middle'}
     ];
 };
 

@@ -36,8 +36,8 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
     TblCommodityMapper tblCommodityMapper;
 
     @Override
-    public List<Map<String, Object>> selectCommodityList(Page<TblCommodity> page, String name, String categoriesName, String beginTime, String endTime) {
-        List<Map<String, Object>> list = tblCommodityMapper.selectCommodityList(page, name, categoriesName, beginTime, endTime);
+    public List<Map<String, Object>> selectCommodityList(Page<TblCommodity> page, String name, String categoriesName, String beginTime, String endTime, Integer createUserId, String supplierCode) {
+        List<Map<String, Object>> list = tblCommodityMapper.selectCommodityList(page, name, categoriesName, beginTime, endTime, createUserId, supplierCode);
         list.forEach(map -> {
             // 获取网络图片并转化成base64字符串
             String imgUrl = new String(map.get("pictureUrlOne").toString());
@@ -51,8 +51,8 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
     }
 
     @Override
-    public List<TblCommodityVo> selectCommodityVoList(String name, String categoriesName, String beginTime, String endTime, Integer startPage, Integer pageSize) {
-        return tblCommodityMapper.selectCommodityVoList(name, categoriesName, beginTime, endTime, startPage, pageSize);
+    public List<TblCommodityVo> selectCommodityVoList(String name, String categoriesName, String beginTime, String endTime, Integer createUserId, String supplierCode, Integer startPage, Integer pageSize) {
+        return tblCommodityMapper.selectCommodityVoList(name, categoriesName, beginTime, endTime, createUserId, supplierCode, startPage, pageSize);
     }
 
     @Override

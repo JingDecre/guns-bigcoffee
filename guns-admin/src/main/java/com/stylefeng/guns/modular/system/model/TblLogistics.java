@@ -1,12 +1,11 @@
 package com.stylefeng.guns.modular.system.model;
 
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 /**
@@ -53,6 +52,11 @@ public class TblLogistics extends Model<TblLogistics> {
      * 物流当前位置
      */
     private String position;
+    /**
+     * 创建者id
+     */
+    @TableField("create_user_id")
+    private Integer createUserId;
 
 
     public Long getId() {
@@ -111,6 +115,10 @@ public class TblLogistics extends Model<TblLogistics> {
         this.position = position;
     }
 
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -119,13 +127,14 @@ public class TblLogistics extends Model<TblLogistics> {
     @Override
     public String toString() {
         return "TblLogistics{" +
-        "id=" + id +
-        ", code=" + code +
-        ", way=" + way +
-        ", unit=" + unit +
-        ", customerPhone=" + customerPhone +
-        ", trackingUrl=" + trackingUrl +
-        ", position=" + position +
-        "}";
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", way='" + way + '\'' +
+                ", unit='" + unit + '\'' +
+                ", customerPhone='" + customerPhone + '\'' +
+                ", trackingUrl='" + trackingUrl + '\'' +
+                ", position='" + position + '\'' +
+                ", createUserId='" + createUserId + '\'' +
+                '}';
     }
 }

@@ -1,11 +1,11 @@
 package com.stylefeng.guns.modular.system.model;
 
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 /**
@@ -58,7 +58,11 @@ public class TblCategories extends Model<TblCategories> {
      * 备注
      */
     private String tips;
-
+    /**
+     * 创建者id
+     */
+    @TableField("create_user_id")
+    private Integer createUserId;
 
     public Long getId() {
         return id;
@@ -132,6 +136,14 @@ public class TblCategories extends Model<TblCategories> {
         this.tips = tips;
     }
 
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -140,15 +152,16 @@ public class TblCategories extends Model<TblCategories> {
     @Override
     public String toString() {
         return "TblCategories{" +
-        "id=" + id +
-        ", code=" + code +
-        ", pcode=" + pcode +
-        ", pcodes=" + pcodes +
-        ", name=" + name +
-        ", icon=" + icon +
-        ", num=" + num +
-        ", levels=" + levels +
-        ", tips=" + tips +
-        "}";
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", pcode='" + pcode + '\'' +
+                ", pcodes='" + pcodes + '\'' +
+                ", name='" + name + '\'' +
+                ", icon='" + icon + '\'' +
+                ", num=" + num +
+                ", levels=" + levels +
+                ", tips='" + tips + '\'' +
+                ", createUserId='" + createUserId + '\'' +
+                '}';
     }
 }

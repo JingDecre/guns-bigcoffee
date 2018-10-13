@@ -10,6 +10,7 @@ import com.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.core.exception.GunsException;
 import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.node.ZTreeNode;
+import com.stylefeng.guns.core.shiro.ShiroKit;
 import com.stylefeng.guns.core.support.BeanKit;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
@@ -121,7 +122,8 @@ public class TblCategoriesController extends BaseController {
         }
         //设置父级菜单编号
         categoriesSetPcode(tblCategories);
-
+        Integer createUserId = ShiroKit.getUser().getId();
+        tblCategories.setCreateUserId(createUserId);
         tblCategoriesService.insert(tblCategories);
         return SUCCESS_TIP;
     }

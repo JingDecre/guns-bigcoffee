@@ -7,12 +7,15 @@ import com.google.gson.reflect.TypeToken;
 import com.stylefeng.guns.core.base.controller.BaseController;
 import com.stylefeng.guns.core.common.constant.factory.PageFactory;
 import com.stylefeng.guns.core.log.LogObjectHolder;
+import com.stylefeng.guns.core.shiro.ShiroKit;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCategoriesService;
 import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
+import com.stylefeng.guns.modular.system.model.User;
+import com.stylefeng.guns.modular.system.service.IUserService;
 import com.stylefeng.guns.modular.system.warpper.CommodityWarpper;
 import com.stylefeng.guns.util.PoiUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -61,6 +64,10 @@ public class TblCommodityController extends BaseController {
 
     @Autowired
     private ITblCategoriesService tblCategoriesService;
+
+    @Autowired
+    private IUserService userService;
+
 
     /**
      * 跳转到货品管理首页
@@ -118,7 +125,14 @@ public class TblCommodityController extends BaseController {
     @ResponseBody
     public Object list(@RequestParam(required = false) String name, @RequestParam(required = false) String categoriesName, @RequestParam(required = false) String beginTime, @RequestParam(required = false) String endTime) {
         Page<TblCommodity> page = new PageFactory<TblCommodity>().defaultPage();
-        List<Map<String, Object>> list = tblCommodityService.selectCommodityList(page, name, categoriesName, beginTime, endTime);
+        Integer createUserId = ShiroKit.getUser().getId();
+        User user = userService.selectById(createUserId);
+        String supplierCode = user.getSupplierCode();
+        if (ToolUtil.isEmpty(user.getSupplierShiro()) || user.getSupplierShiro().equals(0)) {
+            createUserId = -999;
+            supplierCode = "";
+        }
+        List<Map<String, Object>> list = tblCommodityService.selectCommodityList(page, name, categoriesName, beginTime, endTime, createUserId, supplierCode);
         page.setRecords((List<TblCommodity>) new CommodityWarpper(list).warp());
         return super.packForBT(page);
     }
@@ -131,6 +145,8 @@ public class TblCommodityController extends BaseController {
     public Object add(TblCommodity tblCommodity) {
         tblCommodity.setCreatetime(new Date());
         tblCommodity.setUpdatetime(new Date());
+        Integer createUserId = ShiroKit.getUser().getId();
+        tblCommodity.setCreateUserId(createUserId);
         tblCommodityService.insert(tblCommodity);
         return SUCCESS_TIP;
     }
@@ -176,6 +192,7 @@ public class TblCommodityController extends BaseController {
         //获取外键id
         Map<String, String> categoriesMap = tblCategoriesService.getCategoriesIdAndName();
         Map<String, String> supplierMap = tblSupplierService.getNameAndIdMap();
+        Integer createUserId = ShiroKit.getUser().getId();
         //组装存库数据
         list.forEach(item -> {
             TblCommodity tblCommodity = tblCommodityService.selectCommodityBySKU(item.getSku());
@@ -220,6 +237,7 @@ public class TblCommodityController extends BaseController {
             tblCommodity.setPictureUrlSix(item.getPictureUrlSix());
             tblCommodity.setPictureUrlSeven(item.getPictureUrlSeven());
             tblCommodity.setPictureUrlEight(item.getPictureUrlEight());
+            tblCommodity.setCreateUserId(createUserId);
             insertList.add(tblCommodity);
         });
         if (insertList.size() > 0) {
@@ -264,7 +282,14 @@ public class TblCommodityController extends BaseController {
             //导出列名
             Integer startPage = ToolUtil.isEmpty(conditionMap.get("startPage")) ? 0 : Integer.valueOf(conditionMap.get("startPage").toString());
             Integer pageSize = ToolUtil.isEmpty(conditionMap.get("pageSize")) ? 55000 : Integer.valueOf(conditionMap.get("pageSize").toString());
-            List<TblCommodityVo> list = tblCommodityService.selectCommodityVoList(conditionMap.get("name").toString(), conditionMap.get("categoriesName").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), startPage, pageSize);
+            Integer createUserId = ShiroKit.getUser().getId();
+            User user = userService.selectById(createUserId);
+            String supplierCode = user.getSupplierCode();
+            if (ToolUtil.isEmpty(user.getSupplierShiro()) || user.getSupplierShiro().equals(0)) {
+                createUserId = -999;
+                supplierCode = "";
+            }
+            List<TblCommodityVo> list = tblCommodityService.selectCommodityVoList(conditionMap.get("name").toString(), conditionMap.get("categoriesName").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), createUserId, supplierCode, startPage, pageSize);
             List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
             mapList.add(PoiUtils.getExportMap(list, "货品列表", TblCommodityVo.class));
             workbook = PoiUtils.exportExcel(mapList, ExcelType.HSSF);

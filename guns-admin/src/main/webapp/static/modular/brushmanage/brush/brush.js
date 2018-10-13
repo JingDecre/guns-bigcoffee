@@ -21,7 +21,7 @@ Brush.initColumn = function () {
         {field: 'checked', checkbox: true},
         {title: '编号', field: 'id', visible: true, align: 'center', valign: 'middle'},
         {title: '操作时间', field: 'operateTime', visible: true, align: 'center', valign: 'middle'},
-        {title: '是否完成', field: 'whetherSuccess', visible: true, align: 'center', valign: 'middle'},
+        {title: '是否完成', field: 'whetherSuccessName', visible: true, align: 'center', valign: 'middle'},
         {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'},
         {title: '平台账号', field: 'platformAccount', visible: true, align: 'center', valign: 'middle'},
         {title: '客户信息', field: 'customerInfo', visible: true, align: 'center', valign: 'middle'},
@@ -46,7 +46,8 @@ Brush.initColumn = function () {
         },
         {title: '评论图片链接1', field: 'commentPictureOne', visible: false, align: 'center', valign: 'middle'},
         {title: '评论图片链接2', field: 'commentPictureTwo', visible: false, align: 'center', valign: 'middle'},
-        {title: '评论图片链接3', field: 'commentPictureThree', visible: false, align: 'center', valign: 'middle'}
+        {title: '评论图片链接3', field: 'commentPictureThree', visible: false, align: 'center', valign: 'middle'},
+        {title: '创建人', field: 'createUserName', visible: false, align: 'center', valign: 'middle'}
     ];
 };
 

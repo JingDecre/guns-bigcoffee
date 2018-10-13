@@ -94,6 +94,16 @@ public interface IConstantFactory {
     String getMenuStatusName(Integer status);
 
     /**
+     * 获取刷单完成状态
+     */
+    String getBrushStatusName(Integer status);
+
+    /**
+     * 获取用户供应商权限状态
+     */
+    String getSupplierShiroName(Integer status);
+
+    /**
      * 查询字典
      */
     List<Dict> findInDict(Integer id);

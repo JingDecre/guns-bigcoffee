@@ -31,8 +31,8 @@ public class BrushServiceImpl extends ServiceImpl<BrushMapper, Brush> implements
     private static Logger logger = LoggerFactory.getLogger(BrushServiceImpl.class);
 
     @Override
-    public List<Map<String, Object>> selectBrushList(Page<Brush> page, String name, String beginTime, String endTime) {
-        List<Map<String, Object>> list = baseMapper.selectBrushList(page, name, beginTime, endTime);
+    public List<Map<String, Object>> selectBrushList(Page<Brush> page, String name, String beginTime, String endTime, Integer createUserId) {
+        List<Map<String, Object>> list = baseMapper.selectBrushList(page, name, beginTime, endTime, createUserId);
         list.forEach(map -> {
             // 获取网络图片并转化成base64字符串
             String imgUrl = new String(map.get("commentPictureOne").toString());
@@ -46,7 +46,7 @@ public class BrushServiceImpl extends ServiceImpl<BrushMapper, Brush> implements
     }
 
     @Override
-    public List<BrushVo> selectBrushVoList(String name, String beginTime, String endTime, Integer startPage, Integer pageSize) {
-        return baseMapper.selectBrushVoList(name, beginTime, endTime, startPage, pageSize);
+    public List<BrushVo> selectBrushVoList(String name, String beginTime, String endTime, Integer createUserId,Integer startPage, Integer pageSize) {
+        return baseMapper.selectBrushVoList(name, beginTime, endTime, createUserId, startPage, pageSize);
     }
 }

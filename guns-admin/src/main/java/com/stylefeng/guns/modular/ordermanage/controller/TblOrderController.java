@@ -7,11 +7,14 @@ import com.google.gson.reflect.TypeToken;
 import com.stylefeng.guns.core.base.controller.BaseController;
 import com.stylefeng.guns.core.common.constant.factory.PageFactory;
 import com.stylefeng.guns.core.log.LogObjectHolder;
+import com.stylefeng.guns.core.shiro.ShiroKit;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.logisticsmanage.service.ITblLogisticsService;
 import com.stylefeng.guns.modular.ordermanage.service.ITblOrderService;
 import com.stylefeng.guns.modular.ordermanage.vo.TblOrderVo;
 import com.stylefeng.guns.modular.system.model.TblOrder;
+import com.stylefeng.guns.modular.system.model.User;
+import com.stylefeng.guns.modular.system.service.IUserService;
 import com.stylefeng.guns.modular.system.warpper.CategoriesWarpper;
 import com.stylefeng.guns.util.PoiUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -59,6 +62,9 @@ public class TblOrderController extends BaseController {
 
     @Autowired
     private ITblLogisticsService tblLogisticsService;
+
+    @Autowired
+    private IUserService userService;
 
     /**
      * 跳转到订单管理首页
@@ -117,7 +123,12 @@ public class TblOrderController extends BaseController {
     @ResponseBody
     public Object list(@RequestParam(required = false) String code, @RequestParam(required = false) String sku, @RequestParam(required = false) String address, @RequestParam(required = false) String logisticsCode, @RequestParam(required = false) String beginTime, @RequestParam(required = false) String endTime) {
         Page<TblOrder> page = new PageFactory<TblOrder>().defaultPage();
-        List<Map<String, Object>> list = this.tblOrderService.selectOrderList(page, code, sku, address, logisticsCode, beginTime, endTime);
+        Integer createUserId = ShiroKit.getUser().getId();
+        User user = userService.selectById(createUserId);
+        if (ToolUtil.isEmpty(user.getSupplierShiro()) || user.getSupplierShiro().equals(0)) {
+            createUserId = -999;
+        }
+        List<Map<String, Object>> list = this.tblOrderService.selectOrderList(page, code, sku, address, logisticsCode, beginTime, endTime, createUserId);
         page.setRecords((List<TblOrder>) new CategoriesWarpper(list).warp());
         return super.packForBT(page);
     }
@@ -128,6 +139,8 @@ public class TblOrderController extends BaseController {
     @RequestMapping(value = "/add")
     @ResponseBody
     public Object add(TblOrder tblOrder) {
+        Integer createUserId = ShiroKit.getUser().getId();
+        tblOrder.setCreateUserId(createUserId);
         tblOrderService.insert(tblOrder);
         return SUCCESS_TIP;
     }
@@ -170,6 +183,7 @@ public class TblOrderController extends BaseController {
         List<TblOrderVo> list = PoiUtils.importExcel(file, 1, 1, TblOrderVo.class);
         List<TblOrder> insertList = new ArrayList<>();
         Map<String, String> logisticsMap = tblLogisticsService.selectCodeAndIdMap();
+        Integer createUserId = ShiroKit.getUser().getId();
         //组装存库数据
         list.forEach(item -> {
 
@@ -193,6 +207,7 @@ public class TblOrderController extends BaseController {
             order.setRecipientPhone(item.getRecipientPhone());
             order.setBelongPlatform(item.getBelongPlatform());
             order.setOrderAmount(item.getOrderAmount());
+            order.setCreateUserId(createUserId);
             if (ToolUtil.isNotEmpty(logisticsMap.get(item.getLogisticsCode()))) {
                 order.setLogisticsId(item.getLogisticsCode());
             }
@@ -240,7 +255,12 @@ public class TblOrderController extends BaseController {
             //导出列名
             Integer startPage = ToolUtil.isEmpty(conditionMap.get("startPage")) ? 0 : Integer.valueOf(conditionMap.get("startPage").toString());
             Integer pageSize = ToolUtil.isEmpty(conditionMap.get("pageSize")) ? 55000 : Integer.valueOf(conditionMap.get("pageSize").toString());
-            List<TblOrderVo> list = tblOrderService.selectOrderVoList(String.valueOf(conditionMap.get("code")), conditionMap.get("sku").toString(),conditionMap.get("address").toString(), conditionMap.get("logisticsCode").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), startPage, pageSize);
+            Integer createUserId = ShiroKit.getUser().getId();
+            User user = userService.selectById(createUserId);
+            if (ToolUtil.isEmpty(user.getSupplierShiro()) || user.getSupplierShiro().equals(0)) {
+                createUserId = -999;
+            }
+            List<TblOrderVo> list = tblOrderService.selectOrderVoList(String.valueOf(conditionMap.get("code")), conditionMap.get("sku").toString(),conditionMap.get("address").toString(), conditionMap.get("logisticsCode").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), createUserId, startPage, pageSize);
             List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
             mapList.add(PoiUtils.getExportMap(list, "订单列表", TblOrderVo.class));
             workbook = PoiUtils.exportExcel(mapList, ExcelType.HSSF);

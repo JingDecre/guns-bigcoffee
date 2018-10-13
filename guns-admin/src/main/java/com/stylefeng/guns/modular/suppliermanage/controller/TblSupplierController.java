@@ -6,9 +6,12 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.core.base.controller.BaseController;
 import com.stylefeng.guns.core.common.constant.factory.PageFactory;
 import com.stylefeng.guns.core.log.LogObjectHolder;
+import com.stylefeng.guns.core.shiro.ShiroKit;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
 import com.stylefeng.guns.modular.system.model.TblSupplier;
+import com.stylefeng.guns.modular.system.model.User;
+import com.stylefeng.guns.modular.system.service.IUserService;
 import com.stylefeng.guns.modular.system.warpper.CategoriesWarpper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,9 @@ public class TblSupplierController extends BaseController {
 
     @Autowired
     private ITblSupplierService tblSupplierService;
+
+    @Autowired
+    private IUserService userService;
 
     /**
      * 跳转到供应商首页
@@ -67,13 +73,16 @@ public class TblSupplierController extends BaseController {
     public Object list(@RequestParam(required = false) String name) {
         //判断condition 是否有值
         Page<TblSupplier> page = new PageFactory<TblSupplier>().defaultPage();
-        if (ToolUtil.isEmpty(name)) {
-            page.setRecords((List<TblSupplier>) new CategoriesWarpper(tblSupplierService.selectMaps(null)).warp());
-        } else {
-            EntityWrapper<TblSupplier> entityWrapper = new EntityWrapper<>();
-            Wrapper<TblSupplier> wrapper = entityWrapper.like("name", name);
-            page.setRecords((List<TblSupplier>) new CategoriesWarpper(this.tblSupplierService.selectMaps(wrapper)).warp());
+        Wrapper<TblSupplier> wrapper = new EntityWrapper<>();
+        if (ToolUtil.isNotEmpty(name)) {
+            wrapper = wrapper.like("name", name);
         }
+        Integer createUserId = ShiroKit.getUser().getId();
+        User user = userService.selectById(createUserId);
+        if (ToolUtil.isNotEmpty(user.getSupplierShiro()) && user.getSupplierShiro().equals(1)) {
+            wrapper = wrapper.eq("create_user_id", createUserId);
+        }
+        page.setRecords((List<TblSupplier>) new CategoriesWarpper(this.tblSupplierService.selectMaps(wrapper)).warp());
         return super.packForBT(page);
     }
 
@@ -83,6 +92,8 @@ public class TblSupplierController extends BaseController {
     @RequestMapping(value = "/add")
     @ResponseBody
     public Object add(TblSupplier tblSupplier) {
+        Integer createUserId = ShiroKit.getUser().getId();
+        tblSupplier.setCreateUserId(createUserId);
         tblSupplierService.insert(tblSupplier);
         return SUCCESS_TIP;
     }

@@ -22,6 +22,7 @@
         <result column="logistics_id" property="logisticsId"/>
         <result column="belong_platform" property="belongPlatform"/>
         <result column="order_amount" property="orderAmount"/>
+        <result column="create_user_id" property="createUserId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -29,7 +30,7 @@
         tod.id AS id, tod.code AS code, tod.sku AS sku, tod.commodity_ids AS commodityIds, tod.commodity_details AS commodityDetails,
         tod.quantity AS quantity, tod.weight AS weight, tod.recipient_name AS recipientName, tod.transaction_date AS transactionDate,
         tod.country AS country, tod.province AS province, tod.city AS city, tod.county AS county, tod.detail_address AS detailAddress, tod.zipcode As zipcode, tod.recipient_phone AS recipientPhone,
-        tod.logistics_id AS logisticsId, tl.code AS logisticsCode, tod.belong_platform AS belongPlatform, tod.order_amount as orderAmount
+        tod.logistics_id AS logisticsId, tl.code AS logisticsCode, tod.belong_platform AS belongPlatform, tod.order_amount as orderAmount, u.name AS createUserName
     </sql>
 
     <!-- 导出查询结果列 -->
@@ -45,6 +46,7 @@
         <include refid="Base_Column_List"/>
         from tbl_order tod
         LEFT JOIN tbl_logistics tl ON tod.logistics_id = tl.id
+        LEFT JOIN sys_user u ON  tod.create_user_id = u.id
         where 1=1
         <if test="code != null and code != ''">
             and tod.code like CONCAT('%',#{code},'%')
@@ -60,6 +62,9 @@
         </if>
         <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
             and (tod.transaction_date between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        <if test="createUserId != -999 ">
+            and (tod.create_user_id = #{createUserId})
         </if>
     </select>
 
@@ -83,6 +88,9 @@
         </if>
         <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
             and (tod.transaction_date between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        <if test="createUserId != -999 ">
+            and (tod.create_user_id = #{createUserId})
         </if>
         <if test="startPage != null and pageSize != null and pageSize != 0 ">
             limit #{startPage}, #{pageSize}

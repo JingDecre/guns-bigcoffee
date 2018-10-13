@@ -143,7 +143,7 @@ UserInfoDlg.hideDeptSelectTree = function () {
  */
 UserInfoDlg.collectData = function () {
     this.set('id').set('account').set('sex').set('password').set('avatar')
-        .set('email').set('name').set('birthday').set('rePassword').set('deptid').set('phone');
+        .set('email').set('name').set('birthday').set('rePassword').set('deptid').set('phone').set('supplierShiro').set('supplierCode');
 };
 
 /**
@@ -256,6 +256,8 @@ $(function () {
 
     //初始化性别选项
     $("#sex").val($("#sexValue").val());
+    $("#supplierShiro").val($("#supplierShiroValue").val());
+    $("#supplierCode").val($("#supplierCodeValue").val());
 
     // 初始化头像上传
     var avatarUp = new $WebUpload("avatar");

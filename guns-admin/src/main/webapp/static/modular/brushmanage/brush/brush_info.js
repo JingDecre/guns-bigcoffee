@@ -201,7 +201,7 @@ $(function() {
     }else{
         $("#logisticsId").val("");
     }
-
+    $("#whetherSuccess").val($("#whetherSuccessVal").val());
     // 初始化导入表格上传
     var fileUp = new $FileUpload("excelUp");
     fileUp.init();

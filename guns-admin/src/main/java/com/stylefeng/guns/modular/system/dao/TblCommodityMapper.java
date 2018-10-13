@@ -29,7 +29,7 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
      * @param endTime
      * @return
      */
-    List<Map<String, Object>> selectCommodityList(@Param("page") Page<TblCommodity> page, @Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<Map<String, Object>> selectCommodityList(@Param("page") Page<TblCommodity> page, @Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId, @Param("supplierCode") String supplierCode);
 
     /**
      * 根据条件查询所需导出的表数据
@@ -42,7 +42,7 @@ public interface TblCommodityMapper extends BaseMapper<TblCommodity> {
      * @param pageSize
      * @return
      */
-    List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
+    List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId, @Param("supplierCode") String supplierCode, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
 
     /**
      * 根据ids查询货品名称列表

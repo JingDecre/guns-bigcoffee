@@ -29,6 +29,8 @@ public class UserDto{
 	private Date createtime;
 	private Integer version;
 	private String avatar;
+	private Integer supplierShiro;
+	private String supplierCode;
 
 
 	public Integer getId() {
@@ -149,5 +151,21 @@ public class UserDto{
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+
+	public Integer getSupplierShiro() {
+		return supplierShiro;
+	}
+
+	public void setSupplierShiro(Integer supplierShiro) {
+		this.supplierShiro = supplierShiro;
+	}
+
+	public String getSupplierCode() {
+		return supplierCode;
+	}
+
+	public void setSupplierCode(String supplierCode) {
+		this.supplierCode = supplierCode;
 	}
 }

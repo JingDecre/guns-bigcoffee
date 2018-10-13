@@ -76,7 +76,8 @@ TblCommodity.initColumn = function () {
         {title: '图片5', field: 'pictureUrlFive', visible: false, align: 'center', valign: 'middle'},
         {title: '图片6', field: 'pictureUrlSix', visible: false, align: 'center', valign: 'middle'},
         {title: '图片7', field: 'pictureUrlSeven', visible: false, align: 'center', valign: 'middle'},
-        {title: '图片8', field: 'pictureUrlEight', visible: false, align: 'center', valign: 'middle'}
+        {title: '图片8', field: 'pictureUrlEight', visible: false, align: 'center', valign: 'middle'},
+        {title: '创建人', field: 'createUserName', visible: false, align: 'center', valign: 'middle'}
 
     ];
 };

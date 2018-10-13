@@ -24,7 +24,12 @@ MgrUser.initColumn = function () {
         {title: '邮箱', field: 'email', align: 'center', valign: 'middle', sortable: true},
         {title: '电话', field: 'phone', align: 'center', valign: 'middle', sortable: true},
         {title: '创建时间', field: 'createtime', align: 'center', valign: 'middle', sortable: true},
-        {title: '状态', field: 'statusName', align: 'center', valign: 'middle', sortable: true}];
+        {title: '状态', field: 'statusName', align: 'center', valign: 'middle', sortable: true},
+        {title: '供应商权限', field: 'supplierShiroName', align: 'center', valign: 'middle', sortable: true},
+        {title: '供应商代码', field: 'supplierCode', align: 'center', valign: 'middle', sortable: true}
+    ];
+
+
     return columns;
 };
 

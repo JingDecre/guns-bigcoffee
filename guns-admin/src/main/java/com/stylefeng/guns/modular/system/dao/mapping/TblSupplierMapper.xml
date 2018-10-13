@@ -14,6 +14,7 @@
         <result column="oicq" property="oicq" />
         <result column="email" property="email" />
         <result column="licenseid" property="licenseid" />
+        <result column="create_user_id" property="createUserId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -22,7 +23,7 @@
     </sql>
 
     <select id="selectIdAndNameList" resultType="map">
-        SELECT id AS id, CONCAT(cnname, '(', esname, ')') AS `name`
+        SELECT id AS id, CONCAT(cnname, '(', esname, ')') AS `name`, suppliercode
         FROM tbl_supplier
     </select>
 

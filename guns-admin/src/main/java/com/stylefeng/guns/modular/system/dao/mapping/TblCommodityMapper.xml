@@ -36,6 +36,7 @@
         <result column="picture_url_six" property="pictureUrlSix" />
         <result column="picture_url_seven" property="pictureUrlSeven" />
         <result column="picture_url_eight" property="pictureUrlEight" />
+        <result column="create_user_id" property="createUserId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -46,6 +47,7 @@
         tcd.id AS id, tcd.esname AS esname, tcd.cnname AS cnname, tcd.categories_id AS categoriesId, tcg.name AS categoriesName, tcd.sku AS sku,
         tcd.spu AS spu, tcd.stock AS stock, tcd.title AS title, tcd.discount_price AS discountPrice, origin_price AS originPrice, tcd.color AS color,
         tcd.product_size AS productSize, weight, tcd.package_size AS packageSize, tcd.brands AS brands, tcd.desc AS `desc`, tcd.supplier_id AS supplierId,
+        tcd.create_user_id AS createUserId,u.name AS createUserName,
         tsp.cnname AS supplierCnName, tsp.esname AS supplierEsName, tsp.sku AS supplierSku, tsp.phone AS supplierPhone,
         tcd.purchase_price AS purchasePrice, tcd.picture_id AS pictureId, DATE_FORMAT(tcd.createtime,'%Y-%m-%d %H:%i:%s') AS createtime, DATE_FORMAT(tcd.updatetime,'%Y-%m-%d %H:%i:%s') AS updatetime,
         tcd.key_word AS keyWord, tcd.core_word AS coreWord, tcd.long_tail_word AS longTailWord, tcd.picture_url_one AS pictureUrlOne, tcd.picture_url_two AS pictureUrlTwo, tcd.picture_url_three AS pictureUrlThree,
@@ -67,6 +69,7 @@
         from tbl_commodity tcd
         LEFT JOIN tbl_categories tcg ON tcd.categories_id = tcg.id
         LEFT JOIN  tbl_supplier tsp ON tcd.supplier_id = tsp.id
+        LEFT JOIN sys_user u ON  tcd.create_user_id = u.id
         WHERE 1 = 1
         <if test="name != null">
             AND tcd.cnname  LIKE CONCAT('%',#{name},'%') OR tcd.esname LIKE CONCAT('%',#{name},'%')
@@ -77,6 +80,15 @@
         <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
             and (tcd.updatetime between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
         </if>
+
+        <if test="createUserId != -999 ">
+            and ((tcd.create_user_id = #{createUserId})
+            <if test="supplierCode != null and supplierCode != '' ">
+                or (tsp.suppliercode = #{supplierCode})
+            </if>
+            )
+        </if>
+
     </select>
 
     <select id="selectNameByIds">
@@ -89,6 +101,9 @@
         ) AS commodityName
         from tbl_commodity tc
         where tc.id IN (#{ids})
+        <if test="createUserId != -999 ">
+            and (tc.create_user_id = #{createUserId})
+        </if>
     </select>
 
     <select id="selectCommodityVoList" resultType="com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo">
@@ -99,13 +114,20 @@
         LEFT JOIN  tbl_supplier tsp ON tcd.supplier_id = tsp.id
         WHERE 1 = 1
         <if test="name != null">
-            AND tcd.cnname  LIKE CONCAT('%',#{name},'%') OR tcd.esname LIKE CONCAT('%',#{name},'%')
+            AND (tcd.cnname  LIKE CONCAT('%',#{name},'%') OR tcd.esname LIKE CONCAT('%',#{name},'%'))
         </if>
         <if test="categoriesName != null">
             AND tcg.name LIKE  CONCAT('%',#{categoriesName},'%')
         </if>
         <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
-            and (tcd.updatetime between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+            AND (tcd.updatetime between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        <if test="createUserId != -999 ">
+            AND ((tcd.create_user_id = #{createUserId})
+            <if test="supplierCode != null and supplierCode != '' ">
+                or (tsp.suppliercode = #{supplierCode})
+            </if>
+            )
         </if>
         <if test="startPage != null and pageSize != null and pageSize != 0 ">
             limit #{startPage}, #{pageSize}

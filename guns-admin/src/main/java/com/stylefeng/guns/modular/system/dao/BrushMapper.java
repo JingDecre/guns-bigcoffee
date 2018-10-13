@@ -27,7 +27,7 @@ public interface BrushMapper extends BaseMapper<Brush> {
      * @param endTime
      * @return
      */
-    List<Map<String, Object>> selectBrushList(@Param("page") Page<Brush> page, @Param("name") String name,  @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<Map<String, Object>> selectBrushList(@Param("page") Page<Brush> page, @Param("name") String name,  @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId);
 
 
     /**
@@ -39,7 +39,7 @@ public interface BrushMapper extends BaseMapper<Brush> {
      * @param pageSize
      * @return
      */
-    List<BrushVo> selectBrushVoList(@Param("name") String name, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
+    List<BrushVo> selectBrushVoList(@Param("name") String name, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
 
 
 }

@@ -111,6 +111,12 @@ public class TblOrder extends Model<TblOrder> {
     @TableField("order_amount")
     private BigDecimal orderAmount;
 
+    /**
+     * 创建者id
+     */
+    @TableField("create_user_id")
+    private Integer createUserId;
+
 
     public Long getId() {
         return id;
@@ -264,6 +270,14 @@ public class TblOrder extends Model<TblOrder> {
         this.orderAmount = orderAmount;
     }
 
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -291,6 +305,7 @@ public class TblOrder extends Model<TblOrder> {
                 ", logisticsId='" + logisticsId + '\'' +
                 ", belongPlatform='" + belongPlatform + '\'' +
                 ", orderAmount=" + orderAmount +
+                ", createUserId='" + createUserId + '\'' +
                 '}';
     }
 }

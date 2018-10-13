@@ -7,11 +7,14 @@ import com.google.gson.reflect.TypeToken;
 import com.stylefeng.guns.core.base.controller.BaseController;
 import com.stylefeng.guns.core.common.constant.factory.PageFactory;
 import com.stylefeng.guns.core.log.LogObjectHolder;
+import com.stylefeng.guns.core.shiro.ShiroKit;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.brushmanage.service.IBrushService;
 import com.stylefeng.guns.modular.brushmanage.vo.BrushVo;
 import com.stylefeng.guns.modular.logisticsmanage.service.ITblLogisticsService;
 import com.stylefeng.guns.modular.system.model.Brush;
+import com.stylefeng.guns.modular.system.model.User;
+import com.stylefeng.guns.modular.system.service.IUserService;
 import com.stylefeng.guns.modular.system.warpper.BrushWarpper;
 import com.stylefeng.guns.util.PoiUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -61,6 +64,9 @@ public class BrushController extends BaseController {
 
     @Autowired
     private ITblLogisticsService tblLogisticsService;
+
+    @Autowired
+    private IUserService userService;
 
     /**
      * 跳转到刷单管理首页
@@ -117,7 +123,12 @@ public class BrushController extends BaseController {
     @ResponseBody
     public Object list(@RequestParam(required = false) String name, @RequestParam(required = false) String beginTime, @RequestParam(required = false) String endTime) {
         Page<Brush> page = new PageFactory<Brush>().defaultPage();
-        List<Map<String, Object>> list = brushService.selectBrushList(page, name, beginTime, endTime);
+        Integer createUserId = ShiroKit.getUser().getId();
+        User user = userService.selectById(createUserId);
+        if (ToolUtil.isEmpty(user.getSupplierShiro()) || user.getSupplierShiro().equals(0)) {
+            createUserId = -999;
+        }
+        List<Map<String, Object>> list = brushService.selectBrushList(page, name, beginTime, endTime, createUserId);
         page.setRecords((List<Brush>) new BrushWarpper(list).warp());
         return super.packForBT(page);
     }
@@ -128,7 +139,9 @@ public class BrushController extends BaseController {
     @RequestMapping(value = "/add")
     @ResponseBody
     public Object add(Brush brush) {
+        Integer id = ShiroKit.getUser().getId();
         brush.setOperateTime(new Date());
+        brush.setCreateUserId(id);
         brushService.insert(brush);
         return SUCCESS_TIP;
     }
@@ -172,6 +185,7 @@ public class BrushController extends BaseController {
         List<BrushVo> list = PoiUtils.importExcel(file, 1, 1, BrushVo.class);
         List<Brush> insertList = new ArrayList<>();
         Map<String, String> logisticsMap = tblLogisticsService.selectCodeAndIdMap();
+        Integer createUserId = ShiroKit.getUser().getId();
         //组装存库数据
         list.forEach(item -> {
             Brush brush = new Brush();
@@ -185,6 +199,7 @@ public class BrushController extends BaseController {
             brush.setCommentPictureOne(item.getCommentPictureOne());
             brush.setCommentPictureTwo(item.getCommentPictureTwo());
             brush.setCommentPictureThree(item.getCommentPictureThree());
+            brush.setCreateUserId(createUserId);
             if (ToolUtil.isNotEmpty(logisticsMap.get(item.getLogisticsCode()))) {
                 brush.setLogisticsId(item.getLogisticsCode());
             }
@@ -229,10 +244,15 @@ public class BrushController extends BaseController {
             //查询参数
             Map conditionMap = gson.fromJson(param.get("condition"), new TypeToken<Map>() {
             }.getType());
+            Integer createUserId = ShiroKit.getUser().getId();
+            User user = userService.selectById(createUserId);
+            if (ToolUtil.isEmpty(user.getSupplierShiro()) || user.getSupplierShiro().equals(0)) {
+                createUserId = -999;
+            }
             //导出列名
             Integer startPage = ToolUtil.isEmpty(conditionMap.get("startPage")) ? 0 : Integer.valueOf(conditionMap.get("startPage").toString());
             Integer pageSize = ToolUtil.isEmpty(conditionMap.get("pageSize")) ? 55000 : Integer.valueOf(conditionMap.get("pageSize").toString());
-            List<BrushVo> list = brushService.selectBrushVoList(String.valueOf(conditionMap.get("name")), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), startPage, pageSize);
+            List<BrushVo> list = brushService.selectBrushVoList(String.valueOf(conditionMap.get("name")), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), createUserId, startPage, pageSize);
             List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
             mapList.add(PoiUtils.getExportMap(list, "刷单列表", BrushVo.class));
             workbook = PoiUtils.exportExcel(mapList, ExcelType.HSSF);

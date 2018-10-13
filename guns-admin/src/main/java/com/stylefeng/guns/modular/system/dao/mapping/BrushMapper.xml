@@ -16,20 +16,23 @@
         <result column="comment_picture_one" property="commentPictureOne" />
         <result column="comment_picture_two" property="commentPictureTwo" />
         <result column="comment_picture_three" property="commentPictureThree" />
+        <result column="create_user_id" property="createUserId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         tb.id AS  id, DATE_FORMAT(tb.operate_time,'%Y-%m-%d %H:%i:%s') AS operateTime, tb.whether_success AS whetherSuccess, tb.logistics_id AS logisticsId,
         tl.code as logisticsCode, tb.platform_account AS platformAccount, tb.customer_info AS customerInfo, tb.search_way AS searchWay, tb.order_amount AS orderAmount,
-        tb.comment_content AS commentContent, tb.comment_picture_one AS commentPictureOne, tb.comment_picture_two AS commentPictureTwo, tb.comment_picture_three AS commentPictureThree
+        tb.comment_content AS commentContent, tb.comment_picture_one AS commentPictureOne, tb.comment_picture_two AS commentPictureTwo,
+        tb.comment_picture_three AS commentPictureThree, tb.create_user_id AS createUserId, u.name AS createUserName
     </sql>
 
     <!-- 导出查询结果列 -->
     <sql id="Export_Column_List">
         DATE_FORMAT(tb.operate_time,'%Y-%m-%d %H:%i:%s') AS operateTime, tb.whether_success AS whetherSuccess,
         tl.code as logisticsCode, tb.platform_account AS platformAccount, tb.customer_info AS customerInfo, tb.search_way AS searchWay, tb.order_amount AS orderAmount,
-        tb.comment_content AS commentContent, tb.comment_picture_one AS commentPictureOne, tb.comment_picture_two AS commentPictureTwo, tb.comment_picture_three AS commentPictureThree
+        tb.comment_content AS commentContent, tb.comment_picture_one AS commentPictureOne, tb.comment_picture_two AS commentPictureTwo,
+        tb.comment_picture_three AS commentPictureThree, tb.create_user_id AS createUserId
     </sql>
 
     <select id="selectBrushList" resultType="map">
@@ -37,26 +40,33 @@
         <include refid="Base_Column_List" />
         from tbl_brush tb
         LEFT JOIN tbl_logistics tl ON tb.logistics_id = tl.id
+        LEFT JOIN  sys_user u ON tb.create_user_id = u.id
         where 1=1
         <if test="name != null">
             AND tb.customer_info  LIKE CONCAT('%',#{name},'%') OR tl.code LIKE CONCAT('%',#{name},'%')
         </if>
         <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
             and (tb.operate_time between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        <if test="createUserId != -999 ">
+            and (tb.create_user_id = #{createUserId})
         </if>
     </select>
 
     <select id="selectBrushVoList" resultType="com.stylefeng.guns.modular.brushmanage.vo.BrushVo">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Export_Column_List" />
         from tbl_brush tb
         LEFT JOIN tbl_logistics tl ON tb.logistics_id = tl.id
         where 1=1
         <if test="name != null">
-            AND tb.customer_info  LIKE CONCAT('%',#{name},'%') OR tl.code LIKE CONCAT('%',#{name},'%')
+            AND (tb.customer_info  LIKE CONCAT('%',#{name},'%') OR tl.code LIKE CONCAT('%',#{name},'%'))
         </if>
         <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
             and (tb.operate_time between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        <if test="createUserId != -999 ">
+            and (tb.create_user_id = #{createUserId})
         </if>
         <if test="startPage != null and pageSize != null and pageSize != 0 ">
             limit #{startPage}, #{pageSize}

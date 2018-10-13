@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.stylefeng.guns.core.common.constant.cache.Cache;
 import com.stylefeng.guns.core.common.constant.cache.CacheKey;
+import com.stylefeng.guns.core.common.constant.state.BrushStatus;
 import com.stylefeng.guns.core.common.constant.state.ManagerStatus;
 import com.stylefeng.guns.core.common.constant.state.MenuStatus;
+import com.stylefeng.guns.core.common.constant.state.SupplierShiro;
 import com.stylefeng.guns.modular.system.dao.*;
 import com.stylefeng.guns.modular.system.model.*;
 import com.stylefeng.guns.core.log.LogObjectHolder;
@@ -266,6 +268,16 @@ public class ConstantFactory implements IConstantFactory {
     @Override
     public String getMenuStatusName(Integer status) {
         return MenuStatus.valueOf(status);
+    }
+
+    @Override
+    public String getBrushStatusName(Integer status) {
+        return BrushStatus.valueOf(status);
+    }
+
+    @Override
+    public String getSupplierShiroName(Integer status) {
+        return SupplierShiro.valueOf(status);
     }
 
     /**

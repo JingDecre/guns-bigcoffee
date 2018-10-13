@@ -30,7 +30,7 @@ public interface ITblCommodityService extends IService<TblCommodity> {
      * @return
      */
 
-    List<Map<String, Object>> selectCommodityList(Page<TblCommodity> page, @Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<Map<String, Object>> selectCommodityList(Page<TblCommodity> page, @Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId, @Param("supplierCode") String supplierCode);
 
     /**
      * 获取货品导出数据集合
@@ -41,7 +41,7 @@ public interface ITblCommodityService extends IService<TblCommodity> {
      * @param endTime
      * @return
      */
-    List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
+    List<TblCommodityVo> selectCommodityVoList(@Param("name") String name, @Param("categoriesName") String categoriesName, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId, @Param("supplierCode") String supplierCode, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
 
     /**
      * 根据ids获取产品名称列表

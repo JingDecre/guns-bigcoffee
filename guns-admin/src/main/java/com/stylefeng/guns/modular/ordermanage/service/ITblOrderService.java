@@ -31,7 +31,7 @@ public interface ITblOrderService extends IService<TblOrder> {
      * @param endTime
      * @return
      */
-    List<Map<String, Object>> selectOrderList(@Param("page") Page<TblOrder> page, @Param("code") String code, @Param("sku") String sku, @Param("address") String address, @Param("logisticsCode") String logisticsCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<Map<String, Object>> selectOrderList(@Param("page") Page<TblOrder> page, @Param("code") String code, @Param("sku") String sku, @Param("address") String address, @Param("logisticsCode") String logisticsCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId);
 
     /**
      * 根据条件获取订单导出对象列表
@@ -46,7 +46,7 @@ public interface ITblOrderService extends IService<TblOrder> {
      * @param pageSize
      * @return
      */
-    List<TblOrderVo> selectOrderVoList(@Param("code") String code, @Param("sku") String sku, @Param("address") String address, @Param("logisticsCode") String logisticsCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
+    List<TblOrderVo> selectOrderVoList(@Param("code") String code, @Param("sku") String sku, @Param("address") String address, @Param("logisticsCode") String logisticsCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
 
     /**
      * 根据单号获取订单

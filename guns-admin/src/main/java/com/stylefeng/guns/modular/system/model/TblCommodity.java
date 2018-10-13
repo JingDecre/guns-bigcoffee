@@ -149,6 +149,11 @@ public class TblCommodity extends Model<TblCommodity> {
 
     @TableField("picture_url_eight")
     private String pictureUrlEight;
+    /**
+     * 创建者id
+     */
+    @TableField("create_user_id")
+    private Integer createUserId;
 
 
     public Integer getId() {
@@ -407,6 +412,14 @@ public class TblCommodity extends Model<TblCommodity> {
         this.pictureUrlEight = pictureUrlEight;
     }
 
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -447,6 +460,7 @@ public class TblCommodity extends Model<TblCommodity> {
                 ", pictureUrlSix='" + pictureUrlSix + '\'' +
                 ", pictureUrlSeven='" + pictureUrlSeven + '\'' +
                 ", pictureUrlEight='" + pictureUrlEight + '\'' +
+                ", createUserId='" + createUserId + '\'' +
                 '}';
     }
 }

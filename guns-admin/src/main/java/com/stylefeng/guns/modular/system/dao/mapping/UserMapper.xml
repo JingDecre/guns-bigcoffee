@@ -19,20 +19,22 @@
 		<result column="status" property="status" />
 		<result column="createtime" property="createtime" />
 		<result column="version" property="version" />
+		<result column="supplier_shiro" property="supplierShiro" />
+		<result column="supplier_code" property="supplierCode" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
 		id, account, name, birthday, sex, email, avatar,
 		phone, roleid,
 		deptid, status,
-		createtime, version
+		createtime, version,supplier_shiro as supplierShiro,supplier_code as supplierCode
 	</sql>
 
 	<sql id="Base_Column_List_With_Pwd">
 		id, account, name, birthday,password, sex, email, avatar,
 		phone, roleid,salt,
 		deptid, status,
-		createtime, version
+		createtime, version,supplier_shiro as supplierShiro,supplier_code as supplierCode
 	</sql>
 
 	<select id="selectUsers" resultType="map">

@@ -6,9 +6,12 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.core.base.controller.BaseController;
 import com.stylefeng.guns.core.common.constant.factory.PageFactory;
 import com.stylefeng.guns.core.log.LogObjectHolder;
+import com.stylefeng.guns.core.shiro.ShiroKit;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.modular.logisticsmanage.service.ITblLogisticsService;
 import com.stylefeng.guns.modular.system.model.TblLogistics;
+import com.stylefeng.guns.modular.system.model.User;
+import com.stylefeng.guns.modular.system.service.IUserService;
 import com.stylefeng.guns.modular.system.warpper.CategoriesWarpper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +37,9 @@ public class TblLogisticsController extends BaseController {
 
     @Autowired
     private ITblLogisticsService tblLogisticsService;
+
+    @Autowired
+    private IUserService userService;
 
     /**
      * 跳转到物流管理首页
@@ -70,13 +76,17 @@ public class TblLogisticsController extends BaseController {
     public Object list(String condition) {
         //判断condition 是否有值
         Page<TblLogistics> page = new PageFactory<TblLogistics>().defaultPage();
-        if (ToolUtil.isEmpty(condition)) {
+        Wrapper<TblLogistics> wrapper = new EntityWrapper<>();
+        if (ToolUtil.isNotEmpty(condition)) {
+            wrapper = wrapper.like("name", condition);
             page.setRecords((List<TblLogistics>) new CategoriesWarpper(tblLogisticsService.selectMaps(null)).warp());
-        } else {
-            EntityWrapper<TblLogistics> entityWrapper = new EntityWrapper<>();
-            Wrapper<TblLogistics> wrapper = entityWrapper.like("name", condition);
-            page.setRecords((List<TblLogistics>) new CategoriesWarpper(this.tblLogisticsService.selectMaps(wrapper)).warp());
         }
+        Integer createUserId = ShiroKit.getUser().getId();
+        User user = userService.selectById(createUserId);
+        if (ToolUtil.isNotEmpty(user.getSupplierShiro()) && user.getSupplierShiro().equals(1)) {
+            wrapper = wrapper.eq("create_user_id", createUserId);
+        }
+        page.setRecords((List<TblLogistics>) new CategoriesWarpper(this.tblLogisticsService.selectMaps(wrapper)).warp());
         return super.packForBT(page);
     }
 
@@ -86,6 +96,8 @@ public class TblLogisticsController extends BaseController {
     @RequestMapping(value = "/add")
     @ResponseBody
     public Object add(TblLogistics tblLogistics) {
+        Integer createUserId = ShiroKit.getUser().getId();
+        tblLogistics.setCreateUserId(createUserId);
         tblLogisticsService.insert(tblLogistics);
         return SUCCESS_TIP;
     }

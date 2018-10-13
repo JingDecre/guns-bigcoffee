@@ -17,6 +17,7 @@ import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.shiro.ShiroKit;
 import com.stylefeng.guns.core.shiro.ShiroUser;
 import com.stylefeng.guns.core.util.ToolUtil;
+import com.stylefeng.guns.modular.suppliermanage.service.ITblSupplierService;
 import com.stylefeng.guns.modular.system.dao.UserMapper;
 import com.stylefeng.guns.modular.system.factory.UserFactory;
 import com.stylefeng.guns.modular.system.model.User;
@@ -56,6 +57,9 @@ public class UserMgrController extends BaseController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private ITblSupplierService tblSupplierService;
+
     /**
      * 跳转到查看管理员列表的页面
      */
@@ -68,7 +72,9 @@ public class UserMgrController extends BaseController {
      * 跳转到查看管理员列表的页面
      */
     @RequestMapping("/user_add")
-    public String addView() {
+    public String addView(Model model) {
+        List<Map<String, Object>> supplierList = tblSupplierService.selectIdAndNameList();
+        model.addAttribute("supplierList", supplierList);
         return PREFIX + "user_add.html";
     }
 
@@ -102,6 +108,8 @@ public class UserMgrController extends BaseController {
         model.addAttribute(user);
         model.addAttribute("roleName", ConstantFactory.me().getRoleName(user.getRoleid()));
         model.addAttribute("deptName", ConstantFactory.me().getDeptName(user.getDeptid()));
+        List<Map<String, Object>> supplierList = tblSupplierService.selectIdAndNameList();
+        model.addAttribute("supplierList", supplierList);
         LogObjectHolder.me().set(user);
         return PREFIX + "user_edit.html";
     }

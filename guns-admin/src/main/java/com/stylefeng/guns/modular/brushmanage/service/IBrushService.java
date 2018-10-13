@@ -28,7 +28,7 @@ public interface IBrushService extends IService<Brush> {
      * @return
      */
 
-    List<Map<String, Object>> selectBrushList(Page<Brush> page, @Param("name") String name, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<Map<String, Object>> selectBrushList(Page<Brush> page, @Param("name") String name, @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId);
 
 
     /**
@@ -40,5 +40,5 @@ public interface IBrushService extends IService<Brush> {
      * @param pageSize
      * @return
      */
-    List<BrushVo> selectBrushVoList(@Param("name") String name,  @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
+    List<BrushVo> selectBrushVoList(@Param("name") String name,  @Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("createUserId") Integer createUserId, @Param("startPage") Integer startPage, @Param("pageSize") Integer pageSize);
 }

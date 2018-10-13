@@ -83,6 +83,12 @@ public class Brush extends Model<Brush> {
      */
     @TableField("comment_picture_three")
     private String commentPictureThree;
+    /**
+     * 创建者id
+     */
+    @TableField("create_user_id")
+    private Integer createUserId;
+
 
 
     public Long getId() {
@@ -181,6 +187,14 @@ public class Brush extends Model<Brush> {
         this.commentPictureThree = commentPictureThree;
     }
 
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -189,18 +203,19 @@ public class Brush extends Model<Brush> {
     @Override
     public String toString() {
         return "Brush{" +
-        "id=" + id +
-        ", operateTime=" + operateTime +
-        ", whetherSuccess=" + whetherSuccess +
-        ", logisticsId=" + logisticsId +
-        ", platformAccount=" + platformAccount +
-        ", customerInfo=" + customerInfo +
-        ", searchWay=" + searchWay +
-        ", orderAmount=" + orderAmount +
-        ", commentContent=" + commentContent +
-        ", commentPictureOne=" + commentPictureOne +
-        ", commentPictureTwo=" + commentPictureTwo +
-        ", commentPictureThree=" + commentPictureThree +
-        "}";
+                "id=" + id +
+                ", operateTime=" + operateTime +
+                ", whetherSuccess=" + whetherSuccess +
+                ", logisticsId='" + logisticsId + '\'' +
+                ", platformAccount='" + platformAccount + '\'' +
+                ", customerInfo='" + customerInfo + '\'' +
+                ", searchWay='" + searchWay + '\'' +
+                ", orderAmount=" + orderAmount +
+                ", commentContent='" + commentContent + '\'' +
+                ", commentPictureOne='" + commentPictureOne + '\'' +
+                ", commentPictureTwo='" + commentPictureTwo + '\'' +
+                ", commentPictureThree='" + commentPictureThree + '\'' +
+                ", createUserId='" + createUserId + '\'' +
+                '}';
     }
 }

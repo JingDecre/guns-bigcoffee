@@ -5,7 +5,8 @@
 			
 			<input type="hidden" id="id" value="${user.id}">
 			<input type="hidden" id="sexValue" value="${user.sex}">
-
+			<input type="hidden" id="supplierShiroValue" value="${user.supplierShiro}">
+			<input type="hidden" id="supplierCodeValue" value="${user.supplierCode}">
 			
 			<div class="row">
 				<div class="col-sm-6 b-r">
@@ -18,7 +19,12 @@
 
 					<#input id="roleid" name="角色" underline="true" value="${roleName}" disabled="disabled"/>
 
-					<#input id="email" name="邮箱" type="email" value="${user.email}"/>
+					<#input id="email" name="邮箱" type="email" value="${user.email}" underline="true"/>
+
+					<#select id="supplierShiro" name="供应商权限" >
+						<option value="0">禁用</option>
+						<option value="1">启用</option>
+					</#select>
 				</div>
 				<div class="col-sm-6">
 					<div id="driverInfoContent">
@@ -32,7 +38,14 @@
 								clickFun="UserInfoDlg.showDeptSelectTree(); return false;"
 								style="background-color: #ffffff !important;"/>
 
-						<#input id="phone" name="电话" value="${user.phone}"/>
+						<#input id="phone" name="电话" underline="true" value="${user.phone}"/>
+
+						<#select id="supplierCode" name="供应商代码">
+							<option value="">请选择-----</option>
+							@ for(supplier in supplierList){
+							<option value="${supplier.suppliercode}">${supplier.name}</option>
+							@}
+						</#select>
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,7 @@
 package com.stylefeng.guns.modular.system.warpper;
 
 import com.stylefeng.guns.core.base.warpper.BaseControllerWarpper;
+import com.stylefeng.guns.core.common.constant.factory.ConstantFactory;
 
 import java.util.Map;
 
@@ -20,5 +21,6 @@ public class BrushWarpper extends BaseControllerWarpper {
 
     @Override
     protected void warpTheMap(Map<String, Object> map) {
+        map.put("whetherSuccessName", ConstantFactory.me().getBrushStatusName((Integer) map.get("whetherSuccess")));
     }
 }

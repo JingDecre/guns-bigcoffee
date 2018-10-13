@@ -28,13 +28,13 @@ public class TblOrderServiceImpl extends ServiceImpl<TblOrderMapper, TblOrder> i
     TblOrderMapper tblOrderMapper;
 
     @Override
-    public List<Map<String, Object>> selectOrderList(Page<TblOrder> page, String code, String sku, String address, String logisticsCode, String beginTime, String endTime) {
-        return tblOrderMapper.selectOrderList(page, code, sku, address, logisticsCode, beginTime, endTime);
+    public List<Map<String, Object>> selectOrderList(Page<TblOrder> page, String code, String sku, String address, String logisticsCode, String beginTime, String endTime, Integer createUserId) {
+        return tblOrderMapper.selectOrderList(page, code, sku, address, logisticsCode, beginTime, endTime, createUserId);
     }
 
     @Override
-    public List<TblOrderVo> selectOrderVoList(String code, String sku, String address, String logisticsCode, String beginTime, String endTime, Integer startPage, Integer pageSize) {
-        return tblOrderMapper.selectOrderVoList(code, sku, address, logisticsCode, beginTime, endTime, startPage, pageSize);
+    public List<TblOrderVo> selectOrderVoList(String code, String sku, String address, String logisticsCode, String beginTime, String endTime, Integer createUserId, Integer startPage, Integer pageSize) {
+        return tblOrderMapper.selectOrderVoList(code, sku, address, logisticsCode, beginTime, endTime, createUserId, startPage, pageSize);
     }
 
     @Override

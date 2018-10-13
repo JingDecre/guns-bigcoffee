@@ -18,7 +18,11 @@
 
 					<#input id="roleid" name="角色" underline="true" disabled="disabled"/>
 
-					<#input id="email" name="邮箱" type="email"/>
+					<#input id="email" name="邮箱" underline="true" type="email"/>
+					<#select id="supplierShiro" name="供应商权限">
+						<option value="0">禁用</option>
+						<option value="1">启用</option>
+					</#select>
 				</div>
 				<div class="col-sm-6">
 					<div id="driverInfoContent">
@@ -33,7 +37,14 @@
 								clickFun="UserInfoDlg.showDeptSelectTree(); return false;"
 								style="background-color: #ffffff !important;"/>
 
-						<#input id="phone" name="电话"/>
+						<#input id="phone"  underline="true" name="电话"/>
+
+						<#select id="supplierCode"  name="供应商代码">
+							<option value="">请选择-----</option>
+							@ for(supplier in supplierList){
+							<option value="${supplier.suppliercode}">${supplier.name}</option>
+							@}
+						</#select>
 					</div>
 				</div>
 			</div>

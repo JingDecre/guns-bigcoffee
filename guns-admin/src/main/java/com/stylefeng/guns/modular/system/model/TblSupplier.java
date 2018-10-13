@@ -1,11 +1,11 @@
 package com.stylefeng.guns.modular.system.model;
 
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 /**
@@ -62,6 +62,11 @@ public class TblSupplier extends Model<TblSupplier> {
      * 营业执照图片id
      */
     private String licenseid;
+    /**
+     * 创建者id
+     */
+    @TableField("create_user_id")
+    private Integer createUserId;
 
 
     public Long getId() {
@@ -144,6 +149,14 @@ public class TblSupplier extends Model<TblSupplier> {
         this.licenseid = licenseid;
     }
 
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -152,16 +165,17 @@ public class TblSupplier extends Model<TblSupplier> {
     @Override
     public String toString() {
         return "TblSupplier{" +
-        "id=" + id +
-        ", suppliercode=" + suppliercode +
-        ", cnname=" + cnname +
-        ", esname=" + esname +
-        ", sku=" + sku +
-        ", contacts=" + contacts +
-        ", phone=" + phone +
-        ", oicq=" + oicq +
-        ", email=" + email +
-        ", licenseid=" + licenseid +
-        "}";
+                "id=" + id +
+                ", suppliercode='" + suppliercode + '\'' +
+                ", cnname='" + cnname + '\'' +
+                ", esname='" + esname + '\'' +
+                ", sku='" + sku + '\'' +
+                ", contacts='" + contacts + '\'' +
+                ", phone='" + phone + '\'' +
+                ", oicq='" + oicq + '\'' +
+                ", email='" + email + '\'' +
+                ", licenseid='" + licenseid + '\'' +
+                ", createUserId='" + createUserId + '\'' +
+                '}';
     }
 }
