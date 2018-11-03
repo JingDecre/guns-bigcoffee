@@ -23,22 +23,23 @@
         <result column="belong_platform" property="belongPlatform"/>
         <result column="order_amount" property="orderAmount"/>
         <result column="create_user_id" property="createUserId" />
+        <result column="logistics_code" property="logisticsCode" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         tod.id AS id, tod.code AS code, tod.sku AS sku, tod.commodity_ids AS commodityIds, tod.commodity_details AS commodityDetails,
-        tod.quantity AS quantity, tod.weight AS weight, tod.recipient_name AS recipientName, tod.transaction_date AS transactionDate,
+        tod.quantity AS quantity, tod.weight AS weight, tod.recipient_name AS recipientName, tod.transaction_date AS transactionDate, tod.logistics_code AS logisticsCode,
         tod.country AS country, tod.province AS province, tod.city AS city, tod.county AS county, tod.detail_address AS detailAddress, tod.zipcode As zipcode, tod.recipient_phone AS recipientPhone,
-        tod.logistics_id AS logisticsId, tl.code AS logisticsCode, tod.belong_platform AS belongPlatform, tod.order_amount as orderAmount, u.name AS createUserName
+        tod.logistics_id AS logisticsId, tl.code AS logisticsName, tod.belong_platform AS belongPlatform, tod.order_amount as orderAmount, u.name AS createUserName
     </sql>
 
     <!-- 导出查询结果列 -->
     <sql id="Export_Column_List">
         tod.code AS code, tod.sku AS sku, tod.commodity_details AS commodityDetails,
-        tod.quantity AS quantity, tod.weight AS weight, tod.recipient_name AS recipientName, tod.transaction_date AS transactionDate,
+        tod.quantity AS quantity, tod.weight AS weight, tod.recipient_name AS recipientName, tod.transaction_date AS transactionDate,tod.logistics_code AS logisticsCode,
         tod.country AS country, tod.province AS province, tod.city AS city, tod.county AS county, tod.detail_address AS detailAddress, tod.zipcode As zipcode, tod.recipient_phone AS recipientPhone,
-        tl.code AS logisticsCode, tod.belong_platform AS belongPlatform,  tod.order_amount as orderAmount
+        tl.code AS logisticsName, tod.belong_platform AS belongPlatform,  tod.order_amount as orderAmount
     </sql>
 
     <select id="selectOrderList" resultType="map">

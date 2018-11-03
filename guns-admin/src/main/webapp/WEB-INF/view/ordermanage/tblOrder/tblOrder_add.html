@@ -16,7 +16,13 @@
                     <#input id="recipientName" name="收件人姓名" underline="true"/>
                     <#input id="transactionDate" name="订单日期"
                         clickFun="laydate({istime: false, format: 'YYYY-MM-DD'})" underline="false"/>
-                    <#input id="recipientPhone" name="收件人联系电话"/>
+                    <#input id="recipientPhone" name="收件人联系电话" underline="true"/>
+                    <#select id="logisticsId" name="物流商名称">
+                    <option value="">请选择-----</option>
+                    @ for(logistics in logisticsList){
+                    <option value="${logistics.id}">${logistics.code}</option>
+                    @}
+                </#select>
 
                 </div>
 
@@ -29,12 +35,8 @@
                     <#input id="county" name="县/区/ 市" underline="true"/>
                     <#input id="detailAddress" name="详细地址" underline="false"/>
                     <#input id="zipcode" name="邮编"  underline="true"/>
-                    <#select id="logisticsId" name="物流单号">
-                        <option value="">请选择-----</option>
-                        @ for(logistics in logisticsList){
-                        <option value="${logistics.id}">${logistics.code}</option>
-                        @}
-                    </#select>
+                    <#input id="logisticsCode" name="物流单号"  />
+
                 </div>
             </div>
 

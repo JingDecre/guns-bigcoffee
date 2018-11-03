@@ -78,7 +78,7 @@ public class TblLogisticsController extends BaseController {
         Page<TblLogistics> page = new PageFactory<TblLogistics>().defaultPage();
         Wrapper<TblLogistics> wrapper = new EntityWrapper<>();
         if (ToolUtil.isNotEmpty(condition)) {
-            wrapper = wrapper.like("name", condition);
+            wrapper = wrapper.like("code", condition);
             page.setRecords((List<TblLogistics>) new CategoriesWarpper(tblLogisticsService.selectMaps(null)).warp());
         }
         Integer createUserId = ShiroKit.getUser().getId();

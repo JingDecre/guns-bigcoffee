@@ -15,7 +15,7 @@ TblLogistics.initColumn = function () {
     return [
         {field: 'checked', checkbox: true},
         {title: 'No', field: 'id', visible: true, align: 'center', valign: 'middle'},
-        {title: '物流单号', field: 'code', visible: true, align: 'center', valign: 'middle'},
+        {title: '物流商', field: 'code', visible: true, align: 'center', valign: 'middle'},
         {title: '物流方式', field: 'way', visible: true, align: 'center', valign: 'middle'},
         {title: '物流承接单位', field: 'unit', visible: true, align: 'center', valign: 'middle'},
         {title: '客服电话', field: 'customerPhone', visible: true, align: 'center', valign: 'middle'},

@@ -160,7 +160,7 @@ BrushInfoDlg.importSubmit = function () {
  */
 BrushInfoDlg.exportSubmit = function () {
     var operation = function () {
-        var queryData = Brush.queryData;
+        var queryData = window.parent.Brush.queryData;
         queryData['startPage'] = $("#startPage").val();
         queryData['pageSize'] = $("#pageSize").val();
         var param = {condition: JSON.stringify(queryData)};

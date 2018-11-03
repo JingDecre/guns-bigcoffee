@@ -94,7 +94,7 @@ public class TblOrder extends Model<TblOrder> {
     @TableField("recipient_phone")
     private String recipientPhone;
     /**
-     * 物流单号
+     * 物流商
      */
     @TableField("logistics_id")
     private String logisticsId;
@@ -116,6 +116,12 @@ public class TblOrder extends Model<TblOrder> {
      */
     @TableField("create_user_id")
     private Integer createUserId;
+
+    /**
+     * 创建者id
+     */
+    @TableField("logistics_code")
+    private String logisticsCode;
 
 
     public Long getId() {
@@ -278,6 +284,14 @@ public class TblOrder extends Model<TblOrder> {
         this.createUserId = createUserId;
     }
 
+    public String getLogisticsCode() {
+        return logisticsCode;
+    }
+
+    public void setLogisticsCode(String logisticsCode) {
+        this.logisticsCode = logisticsCode;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -305,7 +319,8 @@ public class TblOrder extends Model<TblOrder> {
                 ", logisticsId='" + logisticsId + '\'' +
                 ", belongPlatform='" + belongPlatform + '\'' +
                 ", orderAmount=" + orderAmount +
-                ", createUserId='" + createUserId + '\'' +
+                ", createUserId=" + createUserId +
+                ", logisticsCode=" + logisticsCode +
                 '}';
     }
 }

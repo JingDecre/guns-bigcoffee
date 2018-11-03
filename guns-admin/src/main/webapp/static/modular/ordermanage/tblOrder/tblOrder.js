@@ -52,6 +52,7 @@ TblOrder.initColumn = function () {
             }, visible: true, align: 'center', valign: 'middle'},
         {title: '邮编', field: 'zipcode', visible: false, align: 'center', valign: 'middle'},
         {title: '收件人联系电话', field: 'recipientPhone', visible: true, align: 'center', valign: 'middle'},
+        {title: '物流商', field: 'logisticsName', visible: true, align: 'center', valign: 'middle'},
         {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'},
         {title: '创建人', field: 'createUserName', visible: false, align: 'center', valign: 'middle'}
     ];
@@ -79,6 +80,7 @@ TblOrder.poiColumn = function () {
         {title: '详细地址', field: 'detailAddress'},
         {title: '邮编', field: 'zipcode'},
         {title: '收件人联系电话', field: 'recipientPhone'},
+        {title: '物流商', field: 'logisticsName'},
         {title: '物流单号', field: 'logisticsCode'}
 
     ];
@@ -189,13 +191,13 @@ TblOrder.export = function () {
  * 查询订单管理列表
  */
 TblOrder.search = function () {
-    TblOrder.quertData['code'] = $("#code").val();
-    TblOrder.quertData['sku'] = $("#sku").val();
-    TblOrder.quertData['address'] = $("#address").val();
-    TblOrder.quertData['logisticsCode'] = $("#logisticsCode").val();
-    TblOrder.quertData['beginTime'] = $("#beginTime").val();
-    TblOrder.quertData['endTime'] = $("#endTime").val();
-    TblOrder.table.refresh({query: TblOrder.quertData});
+    TblOrder.queryData['code'] = $("#orderCode").val();
+    TblOrder.queryData['sku'] = $("#sku").val();
+    TblOrder.queryData['address'] = $("#address").val();
+    TblOrder.queryData['logisticsCode'] = $("#logisticsCode").val();
+    TblOrder.queryData['beginTime'] = $("#beginTime").val();
+    TblOrder.queryData['endTime'] = $("#endTime").val();
+    TblOrder.table.refresh({query: TblOrder.queryData});
 };
 
 $(function () {

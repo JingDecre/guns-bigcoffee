@@ -208,7 +208,8 @@ public class TblOrderController extends BaseController {
             order.setBelongPlatform(item.getBelongPlatform());
             order.setOrderAmount(item.getOrderAmount());
             order.setCreateUserId(createUserId);
-            if (ToolUtil.isNotEmpty(logisticsMap.get(item.getLogisticsCode()))) {
+            order.setLogisticsCode(item.getLogisticsCode());
+            if (ToolUtil.isNotEmpty(logisticsMap.get(item.getLogisticsName()))) {
                 order.setLogisticsId(item.getLogisticsCode());
             }
             insertList.add(order);

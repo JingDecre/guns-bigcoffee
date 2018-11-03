@@ -62,6 +62,9 @@ public class TblOrderVo implements Serializable {
     @Excel(name = "物流单号")
     private String logisticsCode;
 
+    @Excel(name = "物流商")
+    private String logisticsName;
+
     @Excel(name = "所属平台")
     private String belongPlatform;
 
@@ -186,6 +189,14 @@ public class TblOrderVo implements Serializable {
 
     public void setLogisticsCode(String logisticsCode) {
         this.logisticsCode = logisticsCode;
+    }
+
+    public String getLogisticsName() {
+        return logisticsName;
+    }
+
+    public void setLogisticsName(String logisticsName) {
+        this.logisticsName = logisticsName;
     }
 
     public String getBelongPlatform() {

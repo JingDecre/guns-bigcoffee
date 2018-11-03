@@ -167,7 +167,7 @@ TblOrderInfoDlg.collectData = function() {
     .set('recipientPhone')
     .set('logisticsId')
     .set('belongPlatform')
-    .set('orderAmount');
+    .set('orderAmount').set('logisticsCode');
 };
 
 /**
@@ -261,7 +261,7 @@ TblOrderInfoDlg.importSubmit = function () {
  */
 TblOrderInfoDlg.exportSubmit = function () {
     var operation = function () {
-        var queryData = TblOrder.queryData;
+        var queryData = window.parent.TblOrder.queryData;
         queryData['startPage'] = $("#startPage").val();
         queryData['pageSize'] = $("#pageSize").val();
         var param = {condition: JSON.stringify(queryData)};
@@ -299,7 +299,6 @@ $(function() {
     if($("#logisticsIdValue").val() == undefined){
         $("#logisticsId").val("");
     }else{
-        $("#logisticsId").attr("disabled", "disabled");
         $("#logisticsId").val($("#logisticsIdValue").val());
     }
 

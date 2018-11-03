@@ -277,7 +277,7 @@ TblCommodityInfoDlg.importSubmit = function () {
  */
 TblCommodityInfoDlg.exportSubmit = function () {
     var operation = function () {
-        var queryData = TblCommodity.queryData;
+        var queryData = window.parent.TblCommodity.queryData;
         queryData['startPage'] = $("#startPage").val();
         queryData['pageSize'] = $("#pageSize").val();
         var param = {condition: JSON.stringify(queryData)};

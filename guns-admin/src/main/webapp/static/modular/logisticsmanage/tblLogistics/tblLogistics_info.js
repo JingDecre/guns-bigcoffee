@@ -7,11 +7,7 @@ var TblLogisticsInfoDlg = {
         code: {
             validators: {
                 notEmpty: {
-                    message: '物流单号不能为空'
-                },
-                regexp:{
-                    regexp: /(^[A-Za-z0-9]+$)/,
-                    message: '单号为英文或数字!'
+                    message: '物流商不能为空'
                 }
             }
         },
