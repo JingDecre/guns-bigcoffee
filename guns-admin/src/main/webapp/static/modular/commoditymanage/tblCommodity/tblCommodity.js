@@ -25,7 +25,7 @@ TblCommodity.initColumn = function () {
             formatter:function(value,row,index){
                 var s = '';
                 if (value) {
-                    s = '<a class = "view"  href="javascript:void(0)"><img style="width:64px;height:64px; display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" /></a>';
+                    s = '<a class = "view"  href="javascript:void(0)"><img style="width:64px;height:64px; display: block; margin: 0 auto;"  src="'+value+'" /></a>';
                 }
                 return s;
             },
@@ -227,7 +227,7 @@ TblCommodity.export = function () {
  */
 window.enlargePicture = {
     'click .view': function (e, value, row, index) {
-        var html = '<img style="display: block; margin: 0 auto;"  src="data:image/gif;base64,'+value+'" />';
+        var html = '<img style="display: block; margin: 0 auto;"  src="'+value+'" />';
         Feng.infoDetail("货品详细图", html);
     }
 };
