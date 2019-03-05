@@ -7,7 +7,6 @@ import com.stylefeng.guns.modular.commoditymanage.service.ITblCommodityService;
 import com.stylefeng.guns.modular.commoditymanage.vo.TblCommodityVo;
 import com.stylefeng.guns.modular.system.dao.TblCommodityMapper;
 import com.stylefeng.guns.modular.system.model.TblCommodity;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -38,9 +37,7 @@ public class TblCommodityServiceImpl extends ServiceImpl<TblCommodityMapper, Tbl
         list.parallelStream().forEach(map -> {
             // 获取网络图片并转化成base64字符串
             String imgUrl = new String(map.get("pictureUrlOne").toString());
-            if (StringUtils.isNotBlank(imgUrl)) {
-                map.put("imgString", imgUrl);
-            }
+            map.put("imgString", imgUrl);
         });
         return list;
     }
