@@ -231,16 +231,22 @@ TblOrderInfoDlg.editSubmit = function() {
  * 导入
  */
 TblOrderInfoDlg.importSubmit = function () {
-
+    var uploadType = window.parent.TblOrder.uploadType;
     var formData = new FormData();
     var node = document.getElementById("excelUp");
     if (node.files && node.files[0]) {
         formData.append('file', node.files[0]);
     }
+
+    var url = Feng.ctxPath + "/tblOrder/import";
+    if ('pdf' == uploadType) {
+        url = Feng.ctxPath + "/tblOrder/uploadLogisticsPdf";
+        formData.append('orderId', window.parent.TblOrder.seItem.id);
+    }
     // 上传excel
     $.ajax({
         async: false,//要求同步 不是不需看你的需求
-        url : Feng.ctxPath + "/tblOrder/import",
+        url : url,
         type : 'POST',
         data : formData,
         processData : false,  //必须false才会避开jQuery对 formdata 的默认处理

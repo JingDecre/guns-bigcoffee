@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.stylefeng.guns.core.base.controller.BaseController;
+import com.stylefeng.guns.core.base.tips.SuccessTip;
+import com.stylefeng.guns.core.base.tips.Tip;
 import com.stylefeng.guns.core.common.constant.factory.PageFactory;
 import com.stylefeng.guns.core.log.LogObjectHolder;
 import com.stylefeng.guns.core.shiro.ShiroKit;
@@ -22,6 +24,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -55,6 +58,8 @@ public class TblOrderController extends BaseController {
 
     private Workbook workbook = new HSSFWorkbook();
 
+    private String downloadFileName = "";
+
     static Gson gson = new Gson();
 
     @Autowired
@@ -65,6 +70,9 @@ public class TblOrderController extends BaseController {
 
     @Autowired
     private IUserService userService;
+
+    @Value("${logistics.pdf-path}")
+    private String filePath;
 
     /**
      * 跳转到订单管理首页
@@ -104,8 +112,16 @@ public class TblOrderController extends BaseController {
      * 跳转到添加货品管理导出
      */
     @RequestMapping("/tblOrder_import")
-    public String tblCommodityImport() {
+    public String tblOrderImport() {
         return PREFIX + "tblOrder_import.html";
+    }
+
+    /**
+     * 跳转到添加货品管理导出
+     */
+    @RequestMapping("/tblOrder_uploadLogisticsPdf")
+    public String tblOrderUploadLogistics() {
+        return PREFIX + "tblOrder_uploadLogisticsPdf.html";
     }
 
     /**
@@ -214,10 +230,110 @@ public class TblOrderController extends BaseController {
             }
             insertList.add(order);
         });
-        if(insertList.size() > 0){
+        if (insertList.size() > 0) {
             tblOrderService.insertOrUpdateBatch(insertList);
         }
         logger.info("导入成功！");
+    }
+
+    /**
+     * 导入货品
+     */
+    @RequestMapping(value = "/uploadLogisticsPdf", method = RequestMethod.POST)
+    @ResponseBody
+    public void uploadLogisticsPdf(@RequestParam(value = "file", required = true) MultipartFile file, @RequestParam(required = true) String orderId, HttpServletRequest request) {
+        String fileName = file.getOriginalFilename();
+        File fileDir = new File(filePath.trim());
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+        String nowSecond = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String saveFileName = fileName.substring(0, fileName.lastIndexOf(".pdf"));
+        String saveFilePath = filePath + File.separator + saveFileName + "_" + nowSecond + ".pdf";
+        TblOrder order = tblOrderService.selectById(orderId);
+        try {
+            // 获取上传文件的输入流
+            InputStream in = file.getInputStream();
+            //创建一个文件输出流
+            FileOutputStream out = new FileOutputStream(saveFilePath);
+            //创建一个缓冲区
+            byte buffer[] = new byte[1024];
+            //判断输入流中的数据是否已经读完的标识
+            int len = 0;
+            //循环将输入流读入到缓冲区当中，(len=in.read(buffer))>0就表示in里面还有数据
+            while ((len = in.read(buffer)) > 0) {
+                //使用FileOutputStream输出流将缓冲区的数据写入到指定的目录(savePath + "\\" + filename)当中
+                out.write(buffer, 0, len);
+            }
+            //关闭输入流
+            in.close();
+            //关闭输出流
+            out.close();
+            //更新物流面单信息
+            order.setLogisticsPdfName(saveFileName + "_" + nowSecond);
+            tblOrderService.updateById(order);
+
+        } catch (IOException e) {
+            logger.error("文件{}有问题!!!", fileName);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 物流面单文件是否存在
+     * @param tblOrderId
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/checkLogisticsPdf/{tblOrderId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object checkLogisticsPdf(@PathVariable("tblOrderId") Long tblOrderId, HttpServletRequest request, HttpServletResponse response) {
+        TblOrder order = tblOrderService.selectById(tblOrderId);
+        String fileName = order.getLogisticsPdfName();
+        String saveFilePath = filePath + File.separator + fileName + ".pdf";
+        File file = new File(saveFilePath);
+        if (!file.exists()) {
+            Tip tip = new SuccessTip();
+            tip.setCode(404);
+            tip.setMessage(fileName + "不存在！可能已被删除");
+            return tip;
+        }
+        downloadFileName = fileName + ".pdf";
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * 下载物流面单文件
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/downloadLogisticsPdf")
+    @ResponseBody
+    public void downloadLogisticsPdf(HttpServletRequest request, HttpServletResponse response) {
+        String saveFilePath = filePath.trim() + File.separator + downloadFileName;
+        File file = new File(saveFilePath);
+        try {
+            InputStream fis = new BufferedInputStream(new FileInputStream(saveFilePath));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();
+            // 清空response
+            response.reset();
+            // 设置response的Header
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String(downloadFileName.getBytes(), "iso-8859-1"));
+            response.addHeader("Content-Length", "" + file.length());
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            toClient.write(buffer);
+            toClient.flush();
+            toClient.close();
+        } catch (Exception e) {
+            logger.error("下载: {} 失败！", downloadFileName);
+            logger.error("Bad things: {}", e.getMessage());
+            e.getStackTrace();
+        }
     }
 
     /**
@@ -261,7 +377,7 @@ public class TblOrderController extends BaseController {
             if (ToolUtil.isEmpty(user.getSupplierShiro()) || user.getSupplierShiro().equals(0)) {
                 createUserId = -999;
             }
-            List<TblOrderVo> list = tblOrderService.selectOrderVoList(String.valueOf(conditionMap.get("code")), conditionMap.get("sku").toString(),conditionMap.get("address").toString(), conditionMap.get("logisticsCode").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), createUserId, startPage, pageSize);
+            List<TblOrderVo> list = tblOrderService.selectOrderVoList(String.valueOf(conditionMap.get("code")), conditionMap.get("sku").toString(), conditionMap.get("address").toString(), conditionMap.get("logisticsCode").toString(), conditionMap.get("beginTime").toString(), conditionMap.get("endTime").toString(), createUserId, startPage, pageSize);
             List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
             mapList.add(PoiUtils.getExportMap(list, "订单列表", TblOrderVo.class));
             workbook = PoiUtils.exportExcel(mapList, ExcelType.HSSF);

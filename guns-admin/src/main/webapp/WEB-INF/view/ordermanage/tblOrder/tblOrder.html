@@ -49,6 +49,9 @@
                             @if(shiro.hasPermission("/tblOrder/export")){
                             <#button name="导出" icon="fa-cloud-download" clickFun="TblOrder.export()" space="true"/>
                             @}
+                            @if(shiro.hasPermission("/tblOrder/uploadLogisticsPdf")){
+                            <#button name="导入物流面单" icon="fa-upload" clickFun="TblOrder.uploadLogisticsPdf()" space="true"/>
+                            @}
                         </div>
                         <#table id="TblOrderTable"/>
                     </div>

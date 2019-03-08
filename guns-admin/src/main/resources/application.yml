@@ -24,6 +24,10 @@ beetl:
   resource-tagsuffix: tag
   resource-auto-check: true #是否检测文件变化,开发用true合适，但线上要改为false
 
+###################  物流面单存储路径配置配置  ###################
+logistics:
+  pdf-path: F:/ITMan/work/temp
+
 
 ###################  spring配置  ###################
 spring:

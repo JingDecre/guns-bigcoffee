@@ -118,10 +118,16 @@ public class TblOrder extends Model<TblOrder> {
     private Integer createUserId;
 
     /**
-     * 创建者id
+     * 物流编号
      */
     @TableField("logistics_code")
     private String logisticsCode;
+
+    /**
+     * 物流面单
+     */
+    @TableField("logistics_pdf_name")
+    private String logisticsPdfName;
 
 
     public Long getId() {
@@ -292,6 +298,14 @@ public class TblOrder extends Model<TblOrder> {
         this.logisticsCode = logisticsCode;
     }
 
+    public String getLogisticsPdfName() {
+        return logisticsPdfName;
+    }
+
+    public void setLogisticsPdfName(String logisticsPdfName) {
+        this.logisticsPdfName = logisticsPdfName;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -321,6 +335,7 @@ public class TblOrder extends Model<TblOrder> {
                 ", orderAmount=" + orderAmount +
                 ", createUserId=" + createUserId +
                 ", logisticsCode=" + logisticsCode +
+                ", logisticsPdfName=" + logisticsPdfName +
                 '}';
     }
 }

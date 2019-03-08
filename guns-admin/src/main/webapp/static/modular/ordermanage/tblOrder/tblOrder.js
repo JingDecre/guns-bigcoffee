@@ -6,6 +6,7 @@ var TblOrder = {
     seItem: null,		//选中的条目
     table: null,
     layerIndex: -1,
+    uploadType: 'excel',
     queryData: {
         code: '',
         sku: '',
@@ -40,7 +41,7 @@ TblOrder.initColumn = function () {
         {title: '收件人姓名', field: 'recipientName', visible: true, align: 'center', valign: 'middle'},
         {title: '订单时间', field: 'transactionDate', visible: true, align: 'center', valign: 'middle'},
         {title: '国家', field: 'country', visible: true, align: 'center', valign: 'middle'},
-        {title: '州 | 省', field: 'province', visible: true, align: 'center', valign: 'middle'},
+        {title: '州 | 省', field: 'province', visible: false, align: 'center', valign: 'middle'},
         {title: '城市', field: 'city', visible: true, align: 'center', valign: 'middle'},
         {title: '县 | 区 | 市', field: 'county', visible: true, align: 'center', valign: 'middle'},
         {title: '详细地址', field: 'detailAddress', formatter: function(value,row,index){
@@ -52,8 +53,15 @@ TblOrder.initColumn = function () {
             }, visible: true, align: 'center', valign: 'middle'},
         {title: '邮编', field: 'zipcode', visible: false, align: 'center', valign: 'middle'},
         {title: '收件人联系电话', field: 'recipientPhone', visible: true, align: 'center', valign: 'middle'},
-        {title: '物流商', field: 'logisticsName', visible: true, align: 'center', valign: 'middle'},
+        {title: '物流商', field: 'logisticsName', visible: false, align: 'center', valign: 'middle'},
         {title: '物流单号', field: 'logisticsCode', visible: true, align: 'center', valign: 'middle'},
+        {title: '物流面单', field: 'logisticsPdfName',formatter: function(value,row,index){
+                var s = '';
+                if (value) {
+                    s = '<a class = "view" style="" href="javascript:void(0)">'+value+'</a>';
+                }
+                return s;
+            }, events: 'downLogisticsPdf', visible: true, align: 'center', valign: 'middle'},
         {title: '创建人', field: 'createUserName', visible: false, align: 'center', valign: 'middle'}
     ];
 };
@@ -170,6 +178,26 @@ TblOrder.import = function () {
         content: Feng.ctxPath + '/tblOrder/tblOrder_import'
     });
     this.layerIndex = index;
+    this.uploadType = 'excel';
+};
+
+
+/**
+ * 导入货品物流面单
+ */
+TblOrder.uploadLogisticsPdf = function () {
+    if (this.check()) {
+        var index = layer.open({
+            type: 2,
+            title: '物流面单导入',
+            area: ['500px', '420px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/tblOrder/tblOrder_uploadLogisticsPdf'
+        });
+        this.layerIndex = index;
+        this.uploadType = 'pdf';
+    }
 };
 
 /**
@@ -185,6 +213,23 @@ TblOrder.export = function () {
         content: Feng.ctxPath + '/tblOrder/tblOrder_export'
     });
     this.layerIndex = index;
+};
+
+window.downLogisticsPdf = {
+    'click .view': function (e, value, row, index) {
+        var ajax = new $ax(Feng.ctxPath + "/tblOrder/checkLogisticsPdf/" + row.id, function (data) {
+            if (data.code = 200) {
+                window.open(Feng.ctxPath + '/tblOrder/downloadLogisticsPdf', "_blank");
+            } else {
+                Feng.error("下载物流面单失败!");
+            }
+        }, function (data) {
+            Feng.error("程序出错了!");
+        });
+        ajax.async = false;
+        ajax.start();
+    }
+
 };
 
 /**
